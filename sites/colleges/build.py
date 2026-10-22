@@ -211,14 +211,17 @@ def build() -> Site:
         base = slug(c["name"])
         used[base] += 1
         c["url"] = (f"/college/{base}/" if used[base] == 1 else f"/college/{base}-{c['unitid']}/")
-    name_counts = collections.Counter(c["name"] for c in colleges)
+    # Names are compared case-insensitively: "MotoRing Technical Training Institute" and
+    # "Motoring Technical Training Institute" are different IPEDS records but produce the same
+    # <title> once search engines lower-case it, which trips the site validator.
+    name_counts = collections.Counter(c["name"].lower() for c in colleges)
     for c in colleges:
         c["label"] = (f'{c["name"]} ({c["city"]}, {c["state"]})'
-                      if name_counts[c["name"]] > 1 else c["name"])
+                      if name_counts[c["name"].lower()] > 1 else c["name"])
 
-    label_counts = collections.Counter(c["label"] for c in colleges)
+    label_counts = collections.Counter(c["label"].lower() for c in colleges)
     for c in colleges:
-        if label_counts[c["label"]] > 1:
+        if label_counts[c["label"].lower()] > 1:
             c["label"] = f'{c["label"]} — campus {c["unitid"]}'
 
     by_state = collections.defaultdict(list)
