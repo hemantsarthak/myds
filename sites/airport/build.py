@@ -22,6 +22,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice  # noqa: E402
+from engine.affiliate import affiliate_block_for_site  # noqa: E402
 
 SITE = "https://airportcodes.tekify.xyz"
 BRAND = "Airport Codes"
@@ -230,6 +231,9 @@ often only have an ICAO or local code. This directory lists both, plus runway an
         if a["wiki"]:
             links.append(f'<a href="{esc(a["wiki"])}" rel="nofollow noopener" target="_blank">Wikipedia</a>')
         near = nearby(a)
+        aff = affiliate_block_for_site(
+            "airports", kinds=["flight_compensation", "esim", "flights"],
+            limit_per_block=3)
         near_html = cards([(f"/airport/{b['code']}/", f"{esc(b['code'])} — {esc(b['name'])}",
                             f"{d:,.0f} km · {esc(b['city'])}") for d, b in near])
         codes = " and ".join(x for x in [
@@ -246,6 +250,7 @@ often only have an ICAO or local code. This directory lists both, plus runway an
 {'at an elevation of ' + esc(a["elev"]) + ' ft' if a["elev"] else ''}
 {f'in {esc(rname)}' if rname else ''}, {esc(cname)}. The coordinates above can be pasted directly
 into a map service.</p>
+{aff}
 <h2>Nearby airports</h2>
 {near_html or "<p>No other indexed airports within 300 km.</p>"}
 {related([(f'/country/{a["country"]}/', f'All airports in {cname}'), ("/search/", "Search all airport codes")])}

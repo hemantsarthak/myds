@@ -34,7 +34,7 @@ SITE = "https://ifsccodes.tekify.xyz"
 BRAND = "IFSC Codes India"
 JSONLD_BANK_ORGANIZATION = None
 
-BRANCH_LIMIT = 14000        # static branch pages (Pages Free: 20k files/site total)
+BRANCH_LIMIT = 18500        # static branch pages (Pages Free: 20k files/site total)
 CITY_LIMIT = 700            # city pages
 BANK_JSON_MIN = 100         # ship per-bank JSON for banks with at least this many branches
 

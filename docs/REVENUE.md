@@ -14,13 +14,16 @@ affiliate, product sales, API, site sale. Update at least weekly.
 | Date | Source | Site | Amount | Status | Notes |
 |---|---|---|---|---|---|
 | 2026-10-22 | HilltopAds | all sites | $0.00 | live tags, no traffic yet | account 409868, site 925719, zones 7541137 (in-page push), 7541153 (banner 300x250), 7541169 (popunder) |
-| 2026-10-22 | — | — | $0.00 | project start | — |
+| 2026-10-22 | Travelpayouts | airports + hub | $0.00 | approved, cards live, no traffic yet | 15 tracked links; flights/eSIM/compensation cards on 10,179 airport pages |
 
 ## Payout accounts
 
 | Service | Method | Destination | Terms | Status |
 |---|---|---|---|---|
 | HilltopAds | crypto (BTC / USDT-TRC20), PayPal, Paxum, Wise, wire | wallet — paste address in My Account → Payment system when balance approaches $20 | min $20, weekly Tue, Net7 | LIVE, no balance yet |
+| Travelpayouts (137 travel brands) | PayPal / wire / Payoneer | add payout method in dashboard when balance > $50 | min $50, 30-day cookie, partner 764877 marker 793747 | **APPROVED** — cards live on airport + hub pages; no balance yet |
+| Hostinger affiliates | PayPal | — | min $100 + 3 sales | submitted, manual review |
+| Cuelinks (India) | Indian bank | — | ₹500 | email confirmed, channel verify pending |
 | Monetag | — | — | — | blocked: one reCAPTCHA solve needed (human, optional) |
 | Adsterra | — | — | — | blocked: Cloudflare Turnstile (human, optional) |
 

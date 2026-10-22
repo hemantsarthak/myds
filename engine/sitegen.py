@@ -52,6 +52,8 @@ NETWORK = [
     ("IFSC Codes", "https://ifsccodes.tekify.xyz/"),
     ("Airport Codes", "https://airportcodes.tekify.xyz/"),
     ("US ZIP Codes", "https://zipcodes.tekify.xyz/"),
+    ("US Places", "https://places.tekify.xyz/"),
+    ("Calculators", "https://calculators.tekify.xyz/"),
     ("Tekify home", "https://tekify.xyz/"),
 ]
 

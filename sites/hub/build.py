@@ -11,6 +11,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 from engine.sitegen import Site, cards, esc  # noqa: E402
+from engine.affiliate import affiliate_block_for_site  # noqa: E402
 
 PROPERTIES = [
     ("https://pincode.tekify.xyz/", "Pincode India",
@@ -60,6 +61,7 @@ plus the surrounding records so you can navigate without going back to search.</
 <li><strong>Maintained.</strong> Datasets are re-imported when sources publish updates.</li>
 </ul>
 """
+    body += affiliate_block_for_site("hub", kinds=["hosting", "travel"], limit_per_block=3)
     s.add("/", "Tekify — free data directories and calculators", 
           "Free, fast reference data: Indian pincodes, bank IFSC codes, airport codes, US ZIP codes, "
           "dialing codes and practical calculators.", body)

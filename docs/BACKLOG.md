@@ -34,7 +34,7 @@ with the date, and update `docs/STATE.md`.
 
 ## P3 — monetize harder
 
-- [ ] P3-1. Second ad network account (diversify) + affiliate accounts (instant approval ones).
+- [x] P3-1. (2026-10-22) Affiliate: Travelpayouts approved + 15 tracked links live on airport/hub; Hostinger submitted; Cuelinks email-confirmed. Second ad network still needs a human captcha.
 - [ ] P3-2. Affiliate layer: commercial-intent pages get contextual product links.
 - [ ] P3-3. x402 paid dataset API (`api.tekify.xyz`) — USDC on Base to our wallet.
 - [ ] P3-4. AdSense/Ezoic once traffic > 10k visits/mo (needs human Google step).
