@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~22:10 IST (DeepSeek agent, repo `myds`). Round 48 of the goal loop.
+> Last updated: 2026-10-23 ~22:50 IST (DeepSeek agent, repo `myds`). Round 49 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,18 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-49 work (2026-10-23) — two more data analyses (hub 18 pages, 12 insights)
+
+1. **Nursing homes by ownership type** — for-profit, non-profit and government homes compared on CMS
+   overall and staffing ratings, with facility and bed counts. (For-profit is the majority case in the
+   industry, not a niche.)
+2. **US hospitals by type** — acute care, critical access, psychiatric, children's and long-term care
+   compared on average rating and emergency-department coverage; explains why so many hospitals are
+   unrated and why ER access varies.
+3. Both computed at build time from the cached CMS CSVs, with tables, method notes and links into the
+   directories and related analyses. Hub is now **18 pages / 12 original analyses**, deployed and
+   IndexNow-submitted (verified live: 200, 10.8 KB and 11.2 KB).
 
 ## Round-48 work (2026-10-23) — publish-ready Medium drafts and HF dataset cards
 

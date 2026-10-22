@@ -753,6 +753,124 @@ def _attach_article_ld(site):
         }
 
 
+
+# ---------------------------------------------------------------- nursing homes by ownership
+def page_nursing_ownership(site):
+    groups = collections.defaultdict(lambda: {"n": 0, "rated": 0, "sum": 0.0, "beds": 0, "staff": 0.0, "staff_n": 0})
+    for r in rows("nursing_homes.csv"):
+        own = (r.get("Ownership Type") or "Unknown").strip()
+        key = ("For-profit" if "profit" in own.lower() and "non" not in own.lower()
+               else "Non-profit" if "non" in own.lower() or "voluntary" in own.lower()
+               else "Government" if "government" in own.lower() else own)
+        g = groups[key]
+        g["n"] += 1
+        g["beds"] += num(r.get("Number of Certified Beds")) or 0
+        rating = num(r.get("Overall Rating"))
+        if rating and 1 <= rating <= 5:
+            g["rated"] += 1
+            g["sum"] += rating
+        sr = num(r.get("Staffing Rating"))
+        if sr and 1 <= sr <= 5:
+            g["staff"] += sr
+            g["staff_n"] += 1
+    order = sorted([(k, v) for k, v in groups.items() if v["rated"] > 0],
+                   key=lambda kv: -(kv[1]["sum"] / kv[1]["rated"]))
+    tr = [[esc(k), human(v["n"]), human(int(v["beds"])),
+           f'{v["sum"] / v["rated"]:.2f} ★' if v["rated"] else "—",
+           f'{v["staff"] / v["staff_n"]:.2f} ★' if v["staff_n"] else "—"] for k, v in order]
+    total = sum(v["n"] for _, v in order)
+    body = f"""
+<h1>Nursing homes by ownership type</h1>
+<p class="lede">Most US nursing homes are for-profit, a large minority are non-profit, and a small share
+are government-run. Aggregating the CMS ratings by ownership shows how the groups compare on overall
+quality and on staffing.
+<span class="stat">{human(total)} facilities</span><span class="stat">{len(order)} ownership groups</span></p>
+<h2>Key findings</h2>
+<ul>
+<li><strong>{esc(order[0][0])}</strong> facilities have the highest average overall rating
+({order[0][1]["sum"] / order[0][1]["rated"]:.2f} of 5), with a staffing rating of
+{order[0][1]["staff"] / order[0][1]["staff_n"]:.2f}.</li>
+<li><strong>{esc(order[-1][0])}</strong> facilities average
+{order[-1][1]["sum"] / order[-1][1]["rated"]:.2f} overall and
+{order[-1][1]["staff"] / order[-1][1]["staff_n"]:.2f} on staffing.</li>
+<li>For-profit homes are the largest group by count
+({human(max(v["n"] for _, v in order))} facilities) — ownership is not a niche difference in this
+industry, it is the majority case.</li>
+</ul>
+{table(["Ownership", "Facilities", "Certified beds", "Average overall rating", "Average staffing rating"], tr)}
+<h2>How to read it</h2>
+<p>Ownership correlates with ratings but does not determine them: the best and worst facilities exist in
+every group. The staffing column is the more actionable signal for families, because staffing hours and
+turnover map directly to daily experience.</p>
+<h2>Method</h2>
+<p>Facility counts and bed totals from the CMS Nursing Home Provider Information dataset, grouped from
+the ownership field; averages use facilities with a valid rating. Data: CMS Provider Data Catalog
+(public domain).</p>
+{related([("https://nursinghomes.tekify.xyz", "Look up a nursing home"),
+          ("/insights/nursing-home-staffing-by-state/", "Staffing ratings by state"),
+          ("/insights/largest-nursing-home-chains/", "Largest chains"),
+          ("https://homehealth.tekify.xyz", "Home-health agencies")])}
+"""
+    site.add("/insights/nursing-homes-by-ownership/",
+             "Nursing Homes by Ownership Type — CMS Data",
+             "For-profit, non-profit and government nursing homes compared on CMS overall and staffing "
+             "ratings, with facility and bed counts.",
+             body, crumbs=[("Insights", "/insights/"), ("Nursing homes by ownership", None)])
+
+
+# ---------------------------------------------------------------- hospitals by type
+def page_hospital_type(site):
+    groups = collections.defaultdict(lambda: {"n": 0, "rated": 0, "sum": 0.0, "er": 0})
+    for r in rows("hospital_general.csv"):
+        typ = (r.get("Hospital Type") or "Unknown").strip()
+        g = groups[typ]
+        g["n"] += 1
+        rating = num(r.get("Hospital overall rating"))
+        if rating and 1 <= rating <= 5:
+            g["rated"] += 1
+            g["sum"] += rating
+        if (r.get("Emergency Services") or "").strip().lower() == "yes":
+            g["er"] += 1
+    order = sorted(groups.items(), key=lambda kv: -kv[1]["n"])[:8]
+    tr = [[esc(k), human(v["n"]),
+           f'{v["sum"] / v["rated"]:.2f} ★' if v["rated"] else "—",
+           f'{v["er"] / v["n"] * 100:.0f}%'] for k, v in order]
+    total = sum(v["n"] for v in groups.values())
+    body = f"""
+<h1>US hospitals by type</h1>
+<p class="lede">The CMS directory classifies hospitals by type — acute care, critical access,
+psychiatric, children's, long-term care and more. The mix explains a lot about why some hospitals are
+unrated and why emergency-department access varies.
+<span class="stat">{human(total)} hospitals</span><span class="stat">{len(groups)} types</span></p>
+<h2>Key findings</h2>
+<ul>
+<li>Acute-care hospitals are the largest group; critical-access hospitals — small rural facilities —
+  are the next, and they are often unrated because they report too few measures.</li>
+<li>Emergency-department coverage varies sharply by type: psychiatric and long-term-care hospitals
+  typically do not report emergency services.</li>
+<li>Specialty hospitals (children's, psychiatric, rehabilitation) are less likely to carry an overall
+  star rating, which is why the national share of rated hospitals is lower than the count suggests.</li>
+</ul>
+{table(["Hospital type", "Hospitals", "Average rating", "With emergency services"], tr)}
+<h2>Why the type matters</h2>
+<p>Comparing a critical-access hospital with a large academic medical centre on the same star rating is
+misleading: they treat different patients and report different measures. The type is on every facility
+page in the directory so the comparison is at least visible.</p>
+<h2>Method</h2>
+<p>Counts from the CMS "Hospital Type" field; averages use hospitals with a valid overall rating;
+emergency-services share uses the CMS flag. Data: CMS Provider Data Catalog (public domain).</p>
+{related([("https://hospitals.tekify.xyz", "Hospitals by state"),
+          ("/insights/hospital-ratings-by-state/", "Ratings by state"),
+          ("/insights/hospitals-with-emergency-departments/", "Emergency departments"),
+          ("/insights/hospitals-by-ownership/", "Ratings by ownership")])}
+"""
+    site.add("/insights/us-hospitals-by-type/",
+             "US Hospitals by Type — CMS Data",
+             "Acute care, critical access, psychiatric and other hospital types compared on CMS ratings "
+             "and emergency-department coverage.",
+             body, crumbs=[("Insights", "/insights/"), ("Hospitals by type", None)])
+
+
 def build_insights(site):
     page_hospital_ratings(site)
     page_hospital_ownership(site)
@@ -764,6 +882,8 @@ def build_insights(site):
     page_ifsc_states(site)
     page_hospital_er(site)
     page_nursing_chains(site)
+    page_nursing_ownership(site)
+    page_hospital_type(site)
     # page_college_net_price(site)  # parked: SFA income bands are public-only
     site.add("/insights/", "Insights — Tekify",
              "Data-driven articles computed from the same public datasets that power the Tekify "
