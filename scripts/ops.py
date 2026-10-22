@@ -10,6 +10,10 @@ Usage:
   python scripts/ops.py analytics --host pincode.tekify.xyz
   python scripts/ops.py dns --name sub --target foo.pages.dev
   python scripts/ops.py pages-delete --project x
+  python scripts/ops.py inbox --to ads@tekify.xyz [--latest|--json|--addresses]
+  python scripts/ops.py mailbox-deploy            # deploy workers/mailbox + secret
+  python scripts/ops.py mailbox-setup            # Email Routing catch-all -> worker
+  python scripts/ops.py mailbox-selftest --to ads@tekify.xyz
 """
 import argparse
 import json
@@ -19,6 +23,7 @@ import subprocess
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 from xml.etree import ElementTree
@@ -227,6 +232,179 @@ def cmd_indexnow(args):
             time.sleep(2)
 
 
+# ---------------------------------------------------------------- mailbox
+# Self-hosted inbox: workers/mailbox (Email Worker + KV + JSON API).
+# Any address @tekify.xyz is valid (Email Routing catch-all). Read with `inbox`.
+UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/126.0 Safari/537.36"
+
+
+def mailbox_base() -> str:
+    return os.environ.get("MAILBOX_INBOX_URL", "https://mailbox.monetec2.workers.dev").rstrip("/")
+
+
+def mailbox_get(path: str, params=None) -> dict:
+    token = os.environ.get("MAILBOX_INBOX_TOKEN", "")
+    if not token:
+        sys.exit("missing MAILBOX_INBOX_TOKEN (shared/.env)")
+    q = urllib.parse.urlencode({"token": token, **(params or {})})
+    req = urllib.request.Request(f"{mailbox_base()}{path}?{q}")
+    req.add_header("User-Agent", UA)
+    req.add_header("Accept", "application/json")
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            return json.loads(r.read().decode() or "{}")
+    except urllib.error.HTTPError as e:
+        body = e.read().decode(errors="replace")
+        try:
+            data = json.loads(body)
+        except Exception:
+            sys.exit(f"inbox error {e.code}: {body[:400]}")
+        if e.code == 404 and data.get("message") is None:
+            return data
+        sys.exit(f"inbox error {e.code}: {json.dumps(data)[:400]}")
+
+
+def print_message(m: dict, full=False) -> None:
+    print(f"  from:    {m.get('from_name','')} <{m.get('from','')}>")
+    print(f"  to:      {m.get('to','')}")
+    print(f"  subject: {m.get('subject','')}")
+    print(f"  date:    {m.get('received_at','')}")
+    if m.get("links"):
+        print("  links:")
+        for u in m["links"]:
+            print(f"    - {u}")
+    if m.get("attachments"):
+        print("  attachments:", ", ".join(f"{a.get('filename')}({a.get('size')}B)" for a in m["attachments"]))
+    body = m.get("text", "")
+    if body:
+        print("  ---")
+        for line in body[: int(4000 if not full else 20000)].splitlines():
+            print("  " + line)
+
+
+def cmd_inbox(args):
+    if args.addresses:
+        d = mailbox_get("/inbox/addresses")
+        print("\n".join(d.get("addresses", [])) if not args.json else print(json.dumps(d, indent=2)))
+        return
+    params = {}
+    if args.to:
+        params["to"] = args.to
+    if args.latest:
+        d = mailbox_get("/inbox/latest", params)
+        m = d.get("message")
+        if not m:
+            print(f"no mail for {args.to or '*'} yet")
+            return
+        if args.json:
+            print(json.dumps(m, indent=2))
+        else:
+            print("LATEST MESSAGE")
+            print_message(m, full=True)
+        return
+    params["limit"] = str(args.limit)
+    d = mailbox_get("/inbox", params)
+    msgs = d.get("messages", [])
+    if args.json:
+        print(json.dumps(d, indent=2))
+        return
+    print(f"{d.get('count',0)} message(s) for {d.get('address','*')} (newest first)")
+    for m in msgs:
+        print(f"\n[{m['received_at']}] {m.get('from_name','')} <{m.get('from','')}> -> {m.get('subject','')}")
+        if args.full:
+            print_message(m, full=True)
+        elif m.get("links"):
+            for u in m["links"][:5]:
+                print(f"   link: {u}")
+
+
+def cmd_mailbox_setup(args):
+    zid = zone_id()
+    print("enable email routing:", json.dumps(api("POST", f"/zones/{zid}/email/routing/enable", {})))
+    body = {
+        "name": "catch-all to mailbox worker",
+        "enabled": True,
+        "matchers": [{"type": "all"}],
+        "actions": [{"type": "worker", "value": [args.worker]}],
+    }
+    r = api("PUT", f"/zones/{zid}/email/routing/rules/catch_all", body)
+    print("catch_all:", json.dumps(r))
+    print("status:", json.dumps(api("GET", f"/zones/{zid}/email/routing")))
+
+
+def cmd_mailbox_deploy(args):
+    wdir = ROOT / "workers" / "mailbox"
+    if not wdir.exists():
+        sys.exit(f"missing {wdir}")
+    wrangler = ROOT / "node_modules" / ".bin" / ("wrangler.cmd" if os.name == "nt" else "wrangler")
+    env = dict(os.environ)
+    env["CLOUDFLARE_API_TOKEN"] = os.environ["CF_API_TOKEN"]
+    env["CLOUDFLARE_ACCOUNT_ID"] = os.environ["CF_ACCOUNT_ID"]
+    env.setdefault("WRANGLER_SEND_METRICS", "false")
+    p = subprocess.run([str(wrangler), "deploy"], cwd=str(wdir), env=env, capture_output=True,
+                       text=True, shell=(os.name == "nt"))
+    out = (p.stdout or "") + (p.stderr or "")
+    print("\n".join(out.strip().splitlines()[-15:]))
+    if p.returncode != 0:
+        sys.exit(f"wrangler deploy failed (exit {p.returncode})")
+    token = os.environ.get("MAILBOX_INBOX_TOKEN", "")
+    if not token:
+        sys.exit("missing MAILBOX_INBOX_TOKEN (shared/.env) — worker deployed but secret not set")
+    (ROOT / ".cache").mkdir(exist_ok=True)
+    sec = ROOT / ".cache" / "mailbox_secret.json"
+    sec.write_text(json.dumps({"INBOX_TOKEN": token}), encoding="utf-8")
+    try:
+        p = subprocess.run([str(wrangler), "secret", "bulk", str(sec)], cwd=str(wdir), env=env,
+                           capture_output=True, text=True, shell=(os.name == "nt"))
+    finally:
+        sec.unlink(missing_ok=True)
+    tail = ((p.stdout or "") + (p.stderr or "")).strip().splitlines()[-6:]
+    print("\n".join(tail))
+    if p.returncode != 0:
+        sys.exit(f"wrangler secret bulk failed (exit {p.returncode})")
+    print(f"DEPLOYED: {mailbox_base()}")
+
+
+def cmd_mailbox_selftest(args):
+    """Deliver a real test email by SMTP-ing straight to the Cloudflare MX (port 25)."""
+    import smtplib
+    from email.message import EmailMessage
+    token = os.environ.get("MAILBOX_INBOX_TOKEN", "")
+    if not token:
+        sys.exit("missing MAILBOX_INBOX_TOKEN (shared/.env)")
+    msg = EmailMessage()
+    msg["From"] = "Mailbox Selftest <verify@mailbox-test.example>"
+    msg["To"] = args.to
+    msg["Subject"] = f"tekify mailbox selftest {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}"
+    msg.set_content("Selftest: direct SMTP to Cloudflare MX -> Email Routing catch-all -> worker -> KV.\n"
+                    "Read it back with: python scripts/ops.py inbox --to " + args.to + "\n")
+    try:
+        s = smtplib.SMTP(args.smtp_host, args.port, timeout=30)
+        s.ehlo("mailbox-test.example")
+        try:
+            code, resp = s.send_message(msg)
+            print("SMTP accepted:", code, resp)
+        except ValueError as e:
+            # Some Mail Exchange servers answer DATA in a way smtplib mishandles; the
+            # message is normally still accepted, so keep polling instead of failing.
+            print(f"SMTP client warning after DATA (message likely queued): {e}")
+        try:
+            s.quit()
+        except Exception:
+            pass
+    except Exception as e:
+        sys.exit(f"SMTP send failed: {type(e).__name__}: {e}")
+    for _ in range(12):
+        time.sleep(10)
+        d = mailbox_get("/inbox", {"to": args.to, "limit": "1"})
+        if d.get("count"):
+            m = d["messages"][0]
+            print(f"DELIVERED: {m.get('received_at')} from <{m.get('from')}> subject={m.get('subject')!r}")
+            print(json.dumps(m, indent=2)[:2000])
+            return
+    print("sent, but message not visible yet (KV propagation); retry inbox in ~60s")
+
+
 # ---------------------------------------------------------------- analytics
 def cmd_analytics(args):
     for host in args.host:
@@ -271,6 +449,28 @@ def main():
     an = sub.add_parser("analytics")
     an.add_argument("--host", nargs="+", required=True)
     an.set_defaults(func=cmd_analytics)
+
+    ib = sub.add_parser("inbox", help="read mail from the tekify.xyz mailbox worker")
+    ib.add_argument("--to", help="address, e.g. ads@tekify.xyz (omit for all)")
+    ib.add_argument("--limit", type=int, default=10)
+    ib.add_argument("--latest", action="store_true", help="newest message only (full body)")
+    ib.add_argument("--addresses", action="store_true", help="list addresses that received mail")
+    ib.add_argument("--json", action="store_true")
+    ib.add_argument("--full", action="store_true", help="include full text in list mode")
+    ib.set_defaults(func=cmd_inbox)
+
+    ms = sub.add_parser("mailbox-setup", help="enable Email Routing + catch-all -> worker")
+    ms.add_argument("--worker", default="mailbox")
+    ms.set_defaults(func=cmd_mailbox_setup)
+
+    md = sub.add_parser("mailbox-deploy", help="deploy workers/mailbox + set INBOX_TOKEN secret")
+    md.set_defaults(func=cmd_mailbox_deploy)
+
+    mt = sub.add_parser("mailbox-selftest", help="send a real test mail to --to via SMTP to CF MX")
+    mt.add_argument("--to", default="ads@tekify.xyz")
+    mt.add_argument("--smtp-host", default="route1.mx.cloudflare.net")
+    mt.add_argument("--port", type=int, default=25)
+    mt.set_defaults(func=cmd_mailbox_selftest)
 
     args = ap.parse_args()
     if args.cmd == "zones":

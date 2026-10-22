@@ -1,0 +1,16 @@
+name = "mailbox"
+main = "src/index.js"
+compatibility_date = "2026-08-01"
+workers_dev = true
+
+# Inbox storage: one KV namespace, one key per received message.
+# msg:<local-part>@<domain>:<13-digit-ms-timestamp>:<uuid>
+[[kv_namespaces]]
+binding = "INBOX"
+id = "61f00187381f46fd9c7821f03c302ed4"
+
+# Non-secret config. The API token (INBOX_TOKEN) is a Worker secret:
+#   wrangler secret put INBOX_TOKEN     (or: python scripts/ops.py mailbox-deploy)
+[vars]
+MAIL_DOMAIN = "tekify.xyz"
+RETENTION_DAYS = "30"

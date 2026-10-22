@@ -1,0 +1,10 @@
+{
+  "name": "tekify-mailbox-worker",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Self-hosted inbox for *@tekify.xyz: Email Worker + KV + JSON read API",
+  "type": "module",
+  "dependencies": {
+    "postal-mime": "^2.4.3"
+  }
+}
