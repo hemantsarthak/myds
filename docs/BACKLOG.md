@@ -5,9 +5,9 @@ with the date, and update `docs/STATE.md`.
 
 ## P0 — NOW
 
-- [ ] P0-1. Verify all five sites return 200 after the ZIP deploy; attach `zipcodes.tekify.xyz`.
+- [x] P0-1. (2026-10-22) All five sites live on their subdomains with certificates.
 - [ ] P0-2. Submit IndexNow for every site (pincode, ifsc, airport, zip, hub).
-- [ ] P0-3. Integrate the ad account from teammate `ads` (check `docs/ADS.md`, `engine/ads.py`):
+- [x] P0-3. (2026-10-22) HilltopAds tags live in engine/ads.py; pincode legacy template patched; full rebuild+deploy done.
       rebuild hub/ifsc/airport/zip → redeploy → patch pincode legacy template → verify tags
       render and `ads.txt` served. Record account in `shared/creds.md` + `docs/REVENUE.md`.
 - [ ] P0-4. Commit everything, push, update STATE.

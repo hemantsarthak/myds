@@ -24,6 +24,25 @@ import argparse
 import pathlib
 import datetime
 import collections
+import sys
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
+try:  # monetization + analytics are centralised in the engine
+    from engine import ads as _ads
+    from engine.analytics import analytics_tag as _analytics_tag
+    AD_HEAD = _ads.AD_HEAD if _ads.MONETIZATION_ON else ""
+    AD_SLOT = _ads.AD_SLOT_1 if _ads.MONETIZATION_ON else ""
+    AD_SLOT_2 = _ads.AD_SLOT_2 if _ads.MONETIZATION_ON else ""
+    ANALYTICS = _analytics_tag("pincode")
+except Exception:
+    AD_HEAD = AD_SLOT = AD_SLOT_2 = ANALYTICS = ""
+NETWORK = [
+    ("Tekify", "https://tekify.xyz/"),
+    ("IFSC Codes", "https://ifsccodes.tekify.xyz/"),
+    ("Airport Codes", "https://airportcodes.tekify.xyz/"),
+    ("US ZIP Codes", "https://zipcodes.tekify.xyz/"),
+]
+NETWORK_HTML = " ".join(f'<a href="{u}">{t}</a>' for t, u in NETWORK)
 
 ROOT = pathlib.Path(__file__).resolve().parent                 # .../sites/pincode-india
 DATA = ROOT / "data" / "indiapicodedata.json"                  # dataset lives with the project
@@ -154,6 +173,8 @@ def page(title, desc, body, canonical, crumbs=None, jsonld=None):
 <meta property="og:type" content="website">
 <meta property="og:url" content="{canonical}">
 <style>{CSS}</style>
+{AD_HEAD}
+{ANALYTICS}
 {ld}
 </head>
 <body>
@@ -164,10 +185,12 @@ def page(title, desc, body, canonical, crumbs=None, jsonld=None):
 <main class="wrap">
 {crumb_html}
 {body}
-<div class="adslot" id="ad-slot-1"></div>
+<div class="adslot" id="ad-slot-1">{AD_SLOT}</div>
+<div class="adslot" id="ad-slot-2">{AD_SLOT_2}</div>
 </main>
 <footer><div class="wrap">
   <a href="/about/">About</a><a href="/privacy/">Privacy</a><a href="/contact/">Contact</a>
+  <span style="color:#8b93a1">{NETWORK_HTML}</span>
   <p style="margin-top:14px">Data compiled from India Post post-office listings. {BRAND}, {datetime.date.today().year}.</p>
 </div></footer>
 </body>

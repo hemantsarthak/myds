@@ -37,6 +37,12 @@ try:  # optional, kept in one place
 except Exception:  # pragma: no cover - ads not provisioned yet
     AD_HEAD, AD_SLOT_1, AD_SLOT_2, ADS_TXT, MONETIZATION_ON = "", "", "", "", False
 
+try:  # self-hosted cookie-free pageview counter (workers/analytics)
+    from engine.analytics import analytics_tag  # type: ignore
+except Exception:  # pragma: no cover
+    def analytics_tag(slug: str) -> str:
+        return ""
+
 DEFAULT_INDEXNOW_KEY = "moneyds7f3a9c2e5b1d4f8a6c0e2d9b5a7f1c3e"
 CF_ANALYTICS_TOKEN = ""  # set by scripts/ops.py analytics, then rebuild: cookie-free RUM
 
@@ -210,10 +216,7 @@ class Site:
     def _head(self, title, desc, canonical, noindex, og_type, extra_head) -> str:
         robots = '<meta name="robots" content="noindex,follow">' if noindex else '<meta name="robots" content="index,follow,max-image-preview:large">'
         ads_head = AD_HEAD if MONETIZATION_ON else ""
-        an = ""
-        if self.analytics_token:
-            an = ('<script defer src="https://static.cloudflareinsights.com/beacon.min.js" '
-                  f'data-cf-beacon=\'{{"token": "{self.analytics_token}"}}\'></script>')
+        an = analytics_tag(self.slug)
         return f"""<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{esc(title)}</title>
@@ -269,6 +272,8 @@ class Site:
 <main class="wrap">
 {self._crumbs_html(page['crumbs'])}
 {page['body']}
+{ad(1)}
+{ad(2)}
 </main>
 <footer><div class="wrap">
   {footer_links}
