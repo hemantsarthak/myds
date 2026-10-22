@@ -1,11 +1,11 @@
 # STATE — current status
 
-> Last updated: 2026-10-22 ~15:55 IST (DeepSeek agent, repo `myds`). Round 2 of the goal loop.
+> Last updated: 2026-10-22 ~16:20 IST (DeepSeek agent, repo `myds`). Round 2 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
 
-**6 properties live (~81.8k pages) with HilltopAds + self-hosted analytics; all sitemaps submitted to
+**6 properties live (~86.7k pages) with HilltopAds + self-hosted analytics; all sitemaps submitted to
 IndexNow; Bing indexes within an hour but ranking is not there yet (new domain). Revenue $0;
 traffic is the only missing input and it is a matter of indexing time. Affiliate signups in
 progress (teammate `affiliate`).**
@@ -15,13 +15,13 @@ progress (teammate `affiliate`).**
 | Site | Project | URL | Pages | Ads | Analytics |
 |---|---|---|---|---|---|
 | Hub | `hub` | https://tekify.xyz | 5 | ✅ | ✅ |
-| IFSC Codes India | `ifsc` | https://ifsccodes.tekify.xyz | 19,507 | ✅ | ✅ |
-| Airport Codes | `myds-airport` | https://airportcodes.tekify.xyz | 10,179 | ✅ | ✅ |
-| US ZIP Codes | `myds-zip` | https://zipcodes.tekify.xyz | 17,757 | ✅ | ✅ |
-| US Places & Counties | `myds-places` | https://places.tekify.xyz | 19,200 | ✅ | ✅ |
-| Calculators | `myds-calculators` | https://calculators.tekify.xyz | 60 | ✅ | ✅ |
+| IFSC Codes India | `ifsc` | https://ifsccodes.tekify.xyz | 19,511 | ✅ | ✅ |
+| Airport Codes | `myds-airport` | https://airportcodes.tekify.xyz | 10,181 | ✅ | ✅ |
+| US ZIP Codes | `myds-zip` | https://zipcodes.tekify.xyz | 17,759 | ✅ | ✅ |
+| US Places & Counties | `myds-places` | https://places.tekify.xyz | 19,203 | ✅ | ✅ |
+| Calculators | `myds-calculators` | https://calculators.tekify.xyz | 62 | ✅ | ✅ |
 
-≈ **81,800 pages** ours. Every page: canonical, JSON-LD, breadcrumbs, sitemap, robots, IndexNow
+≈ **86,700 pages** ours. Every page: canonical, JSON-LD, breadcrumbs, sitemap, robots, IndexNow
 key, network cross-links, ad slots, analytics beacon.
 
 NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (project
@@ -59,7 +59,10 @@ those. `scripts/build_all.py` deploys only our six projects.
    long-tail coverage of India's bank-branch lookups on the domain that already has history.
 3. IndexNow: places site fully accepted (19,200 URLs after the per-host verification settled);
    IFSC re-submitted after expansion.
-4. Affiliate program signups delegated and running.
+'4. Affiliate: Travelpayouts approved; 15 tracked links wired into airport pages + hub.
+5. Guide content: 10 hand-written explainers live under `/guides/` on all five data sites
+   (`engine/guides.py`), linked from the nav, to lift site quality and capture informational
+   queries. IndexNow re-submitted for all five (86.7k URLs accepted).'
 
 ## Verified facts
 
