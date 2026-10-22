@@ -57,6 +57,8 @@ NETWORK = [
     ("US Hospitals", "https://hospitals.tekify.xyz/"),
     ("US Nursing Homes", "https://nursinghomes.tekify.xyz/"),
     ("US Home Health", "https://homehealth.tekify.xyz/"),
+    ("US Dialysis", "https://dialysis.tekify.xyz/"),
+
 
 
 

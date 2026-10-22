@@ -1,11 +1,11 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~00:40 IST (DeepSeek agent, repo `myds`). Round 16 of the goal loop.
+> Last updated: 2026-10-23 ~01:30 IST (DeepSeek agent, repo `myds`). Round 17 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
 
-**11 properties live (~113,500 pages) with HilltopAds display ads, Travelpayouts affiliate cards,
+**12 properties live (~121,300 pages) with HilltopAds display ads, Travelpayouts affiliate cards,
 self-hosted analytics and an autonomous inbox. IndexNow: every URL accepted; crawlers are
 rendering pages (99 bot hits on airport, 72 on zip, 59 on ifsc in 3 days). Revenue still $0 —
 the domain is 2 days old and ranking is the bottleneck, not infrastructure.**
@@ -26,7 +26,7 @@ the domain is 2 days old and ranking is the bottleneck, not infrastructure.**
 | **US Nursing Homes** | `myds-nursinghomes` | https://nursinghomes.tekify.xyz | 15,056 | ✅ | ✅ |
 | **US Home Health** | `myds-homehealth` | https://homehealth.tekify.xyz | 12,777 | ✅ | ✅ |
 
-≈ **113,500 pages** ours. Every property: canonical URLs, JSON-LD, breadcrumbs, sitemaps, robots,
+≈ **121,300 pages** ours. Every property: canonical URLs, JSON-LD, breadcrumbs, sitemaps, robots,
 IndexNow key, network cross-links (footer), ad slots, analytics beacon; five have a `/guides/`
 section of hand-written explainers.
 
@@ -47,6 +47,28 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-17 work (2026-10-23) — dialysis site + analytics quota fix
+
+1. **New property `dialysis.tekify.xyz`** — 7,809 pages from the CMS Dialysis Facility listing
+   (public domain): 7,490 Medicare-certified facilities with CMS **five-star rating**, patient
+   survival / hospitalisation / readmission / transfusion / ED-visit measures (each with the CMS
+   better/as-expected/worse category and rate), transplant-waitlist percentage, operator and chain,
+   number of dialysis stations, late-shift flag, services offered (in-centre HD, peritoneal, home HD
+   training), address/phone, nearest facilities; plus 52 state pages, 250 city pages, rating pages
+   1–5, two guides ("how the five-star rating works", "in-centre vs home dialysis") and local search.
+   Verified live; IndexNow accepted 7,809 URLs; wired into hub, footer network, build_all, health
+   check and `audit_sites.py`. Audit of all 12 properties: **0 failures, 0 warnings**; hub links 12.
+2. **Analytics quota bug fixed:** `ops.py stats` was hammering the Worker's KV `list()` calls
+   (free tier: 1,000/day) and crashed when exhausted. Added a local TTL cache (20 min) plus a
+   `--refresh` flag and a graceful "quota exhausted, try after 00:00 UTC" message. Deeper fix
+   (D1-backed analytics) noted as future work if query volume grows.
+3. Dialysis data quirk fixed: some CMS rows prefix the facility name with the CCN ("032314 PHOENIX
+   CHILDRENS…"); the build strips it. Duplicate-name facilities get CCN-disambiguated titles
+   (124 duplicate titles caught by the validator before deploy).
+4. Note: the other 11 sites' footers will include the new "US Dialysis" link on the next full
+   rebuild (hub already does); the old cached URLs for renamed dialysis pages are edge-cache only
+   (cache-busted requests return 404 correctly).
 
 ## Round-16 work (2026-10-23) — full code + live-site audit, fixes, and tooling
 

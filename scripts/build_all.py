@@ -30,6 +30,7 @@ SITES = [
     ("hospitals", ["python", "sites/hospitals/build.py"], "myds-hospitals", "hospitals.tekify.xyz"),
     ("nursinghomes", ["python", "sites/nursinghomes/build.py"], "myds-nursinghomes", "nursinghomes.tekify.xyz"),
     ("homehealth", ["python", "sites/homehealth/build.py"], "myds-homehealth", "homehealth.tekify.xyz"),
+    ("dialysis", ["python", "sites/dialysis/build.py"], "myds-dialysis", "dialysis.tekify.xyz"),
 ]
 
 SITE_DIR = {
@@ -45,6 +46,7 @@ SITE_DIR = {
     "hospitals": "sites/hospitals/site",
     "nursinghomes": "sites/nursinghomes/site",
     "homehealth": "sites/homehealth/site",
+    "dialysis": "sites/dialysis/site",
 }
 
 

@@ -29,6 +29,7 @@ SITES = {
     "hospitals.tekify.xyz": dict(kind="data", data="/data/hospitals.json", guides=True),
     "nursinghomes.tekify.xyz": dict(kind="data", data="/data/nursinghomes.json", guides=True),
     "homehealth.tekify.xyz": dict(kind="data", data="/data/homehealth.json", guides=True),
+    "dialysis.tekify.xyz": dict(kind="data", data="/data/dialysis.json", guides=True),
     "calculators.tekify.xyz": dict(kind="tools", data=None, guides=True),
 }
 
