@@ -143,6 +143,48 @@ def load():
     return states, counties, out, fips_to_usps
 
 
+def load_area_codes():
+    """(USPS state, lowercase city) -> sorted list of NANP area codes.
+
+    The source CSV carries the full state name ("New Jersey"), so map it back to the
+    two-letter code used everywhere else in this build.
+    """
+    name_to_usps = {v.lower(): k for k, v in STATE_NAMES.items()}
+    out = collections.defaultdict(set)
+    f = CACHE / "us-area-code-cities.csv"
+    if not f.exists():
+        return {}
+    with f.open(encoding="utf-8-sig", newline="") as fh:
+        for r in csv.reader(fh):
+            if len(r) < 4:
+                continue
+            code, city, state = r[0].strip(), r[1].strip(), r[2].strip()
+            if not (code.isdigit() and city):
+                continue
+            usps = name_to_usps.get(state.lower(), "")
+            if not usps:
+                continue
+            out[(usps, city.lower())].add(code)
+    return {k: sorted(v) for k, v in out.items()}
+
+
+def load_zips():
+    """(USPS state, lowercase city) -> list of ZIP codes (from the GeoNames postal file)."""
+    out = collections.defaultdict(list)
+    f = CACHE / "geonames-us" / "US.txt"
+    if not f.exists():
+        return {}
+    with f.open(encoding="utf-8") as fh:
+        for line in fh:
+            parts = line.rstrip("\n").split("\t")
+            if len(parts) < 11:
+                continue
+            zipc, place, state = parts[1], parts[2], parts[4].upper()
+            if zipc.isdigit() and len(zipc) == 5 and place:
+                out[(state, place.lower())].append(zipc)
+    return {k: sorted(set(v)) for k, v in out.items()}
+
+
 def distance_km(a, b) -> float:
     p1, p2 = math.radians(a["lat"]), math.radians(b["lat"])
     dp, dl = p2 - p1, math.radians(b["lon"] - a["lon"])
@@ -185,6 +227,9 @@ def build() -> Site:
                         res.append((d, b))
         res.sort(key=lambda x: x[0])
         return res[:limit]
+
+    area_by_city = load_area_codes()
+    zips_by_city = load_zips()
 
     county_url = {(st, co): f"/county/{fips_to_usps.get(st, st).lower()}-{slug(c['name'])}/"
                   for (st, co), c in counties.items()}
@@ -292,7 +337,7 @@ estimates, which are updated annually.</p>
         near = nearby(p)
         same_county = [x for x in county_places.get((p["state"], p["county_fips"]), [])
                        if x["key"] != p["key"]][:10]
-        rows = table(["Field", "Value"], [
+        row_list = [
             ["Place name", f'<strong>{esc(p["name"])}</strong>'],
             ["Type", esc(p["kind"])],
             ["State", f'<a href="{state_url[p["usps"]]}">{esc(sname)} ({esc(p["usps"])})</a>'],
@@ -301,11 +346,29 @@ estimates, which are updated annually.</p>
             ["Land area", f'{p["area"]:,.2f} sq mi ({p["area"] * 2.58999:,.2f} km²)'],
             ["Coordinates", f'{p["lat"]:.4f}, {p["lon"]:.4f}'],
             ["Time zone", esc(p["tz"] or "—")],
-        ])
+        ]
+        zips = zips_by_city.get((p["usps"], p["name"].lower()), [])[:12]
+        areas = area_by_city.get((p["usps"], p["name"].lower()), [])
+        if zips:
+            row_list.append(["ZIP codes", ", ".join(zips)])
+        if areas:
+            row_list.append(["Telephone area codes", ", ".join(areas)])
+        rows = table(["Field", "Value"], row_list)
         others = ""
         if len(p["counties"]) > 1:
             others = ("<p class=\"mut\">This place also extends into " +
                       ", ".join(esc(n) for n, _c in p["counties"][1:]) + ".</p>")
+        zip_section = ""
+        if zips:
+            zip_section = (
+                f'<h2>ZIP codes and area codes for {esc(p["name"])}</h2>'
+                f'<p>{esc(p["name"])} covers {len(zips)} ZIP code' + ('' if len(zips) == 1 else 's')
+                + ': ' + ', '.join(zips) + '. '
+                + (('Telephone area codes serving the area: ' + ', '.join(areas) + '. ')
+                   if areas else '')
+                + 'Browse <a href="https://zipcodes.tekify.xyz/state/'
+                + p["usps"].lower() + '/">all ZIP codes in ' + esc(sname) + '</a> for the full list.'
+                + '</p>')
         body = f"""
 <h1>{esc(p["name"])}{(' (' + esc(p["kind"]) + ')') if name_counts[(p["name"], p["usps"])] > 1 else ''}, {esc(sname)}</h1>
 <p class="lede">{esc(p["name"])} is a {esc(p["kind"])} in
@@ -314,6 +377,7 @@ estimates, which are updated annually.</p>
 {('in the ' + esc(p["tz"]) + ' time zone') if p["tz"] else ''}.</p>
 {rows}
 {others}
+{zip_section}
 <h2>Where is {esc(p["name"])}?</h2>
 <p>{esc(p["name"])} is located in {esc(sname)}{', in ' + esc(county) if county else ''}.
 The coordinates above can be pasted directly into any map service. The nearest indexed places are
