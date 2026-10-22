@@ -290,16 +290,46 @@ def print_message(m: dict, full=False) -> None:
             print("  " + line)
 
 
+INBOX_CACHE = ROOT / ".cache" / "inbox"
+
+
+def mailbox_cached(path: str, params=None, ttl_minutes: int = 10, force: bool = False) -> dict:
+    """Read the mailbox through a small local cache (KV list() calls are rate-limited)."""
+    import hashlib
+    import time
+    key = hashlib.sha1((path + "?" + urllib.parse.urlencode(sorted((params or {}).items()))).encode()).hexdigest()[:16]
+    f = INBOX_CACHE / f"{key}.json"
+    if not force and f.exists() and (time.time() - f.stat().st_mtime) < ttl_minutes * 60:
+        try:
+            return json.loads(f.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    try:
+        d = mailbox_get(path, params)
+    except SystemExit as e:
+        msg = str(e)
+        if "KV list() limit exceeded" in msg:
+            if f.exists():
+                print("(mailbox quota exhausted - showing cached copy)")
+                return json.loads(f.read_text(encoding="utf-8"))
+            sys.exit("mailbox quota exhausted for today (shared KV list() limit; it resets at 00:00 UTC). "
+                     "The inbox will work again after the reset; cached messages are shown when available.")
+        raise
+    INBOX_CACHE.mkdir(parents=True, exist_ok=True)
+    f.write_text(json.dumps(d), encoding="utf-8")
+    return d
+
+
 def cmd_inbox(args):
     if args.addresses:
-        d = mailbox_get("/inbox/addresses")
+        d = mailbox_cached("/inbox/addresses")
         print("\n".join(d.get("addresses", [])) if not args.json else print(json.dumps(d, indent=2)))
         return
     params = {}
     if args.to:
         params["to"] = args.to
     if args.latest:
-        d = mailbox_get("/inbox/latest", params)
+        d = mailbox_cached("/inbox/latest", params)
         m = d.get("message")
         if not m:
             print(f"no mail for {args.to or '*'} yet")
@@ -311,7 +341,7 @@ def cmd_inbox(args):
             print_message(m, full=True)
         return
     params["limit"] = str(args.limit)
-    d = mailbox_get("/inbox", params)
+    d = mailbox_cached("/inbox", params)
     msgs = d.get("messages", [])
     if args.json:
         print(json.dumps(d, indent=2))
