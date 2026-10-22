@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~17:30 IST (DeepSeek agent, repo `myds`). Round 41 of the goal loop.
+> Last updated: 2026-10-23 ~18:10 IST (DeepSeek agent, repo `myds`). Round 42 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,19 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-42 work (2026-10-23) — 52 state hospital-rating pages on the crawl target
+
+1. **Per-state hospital-rating pages generated on GitHub Pages** (`docs/hospitals/`, generator
+   `scripts/build_ghpages_states.py`): for each of 51 states + DC, the number of hospitals, how many
+   carry a CMS overall rating, the state average, and a table of the top-rated hospitals — plus links to
+   the matching state page on the live directory and to the hospital-ratings insight. These target
+   long-tail "<state> hospital ratings" queries on the domain a crawler has been told to visit.
+2. GitHub Pages is now a **93-URL site** (52 state pages + 10 guides + 12 directory pages + 4 dataset
+   cards + 10 analyses + indexes + landing), all interlinked and with the analytics beacon.
+3. **All 93 URLs resubmitted to IndexNow** — accepted (HTTP 200 from both endpoints).
+4. Verified live after the Pages build: `/hospitals/` (8.7 KB), `/hospitals/ca.html` and `tx.html` 200
+   with 5 links each, sitemap 93 URLs.
 
 ## Round-41 work (2026-10-23) — 70,406 pages.dev URLs accepted by Bing
 
