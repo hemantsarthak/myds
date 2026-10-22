@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~14:30 IST (DeepSeek agent, repo `myds`). Round 37 of the goal loop.
+> Last updated: 2026-10-23 ~15:10 IST (DeepSeek agent, repo `myds`). Round 38 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,20 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-38 work (2026-10-23) — original guides on the crawl-target site
+
+1. **Six original explainer guides added to GitHub Pages** (`docs/guides/`, generator
+   `scripts/build_ghpages_guides.py`): how to find an IFSC code, what a ZIP code is and is not, how CMS
+   hospital star ratings work, choosing a nursing home, dialysis ratings explained, and IATA vs ICAO
+   airport codes. Each is 400-600 words of unique content (not duplicated on tekify.xyz), carries
+   Article JSON-LD, and links to the matching directory plus related guides.
+2. GitHub Pages is now a **37-URL site** (landing, 12 directory pages, 4 dataset cards, 10 analysis
+   pages, 6 guides, indexes) with a 37-URL sitemap; the landing page links the guides section.
+3. **Re-submitted all 37 URLs to IndexNow** — accepted (HTTP 200 from both endpoints), so Bing, Yandex
+   and Seznam have been told to crawl the whole site, guides included.
+4. Verified live after the Pages build: `/guides/` and the guide pages return 200 with 5 links each to
+   the properties.
 
 ## Round-37 work (2026-10-23) — BREAKTHROUGH: IndexNow accepted the GitHub Pages URLs
 
