@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to find an IFSC code (and what each part means) — Tekify guides</title>
+<meta name="description" content="What an IFSC code is, how the eleven characters break down, and how to look up any Indian bank branch&#x27;s code safely before a transfer.">
+<link rel="canonical" href="https://hemantsarthak.github.io/myds/guides/how-to-find-an-ifsc-code.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to find an IFSC code (and what each part means)","description":"What an IFSC code is, how the eleven characters break down, and how to look up any Indian bank branch&#x27;s code safely before a transfer.","url":"https://hemantsarthak.github.io/myds/guides/how-to-find-an-ifsc-code.html","author":{"@type":"Organization","name":"Tekify"},"publisher":{"@type":"Organization","name":"Tekify"},"datePublished":"2026-10-22","dateModified":"2026-10-22"}</script>
+<style>
+:root{--bg:#fff;--fg:#0f172a;--mut:#475569;--line:#e2e8f0;--accent:#2563eb}
+@media(prefers-color-scheme:dark){:root{--bg:#0b1220;--fg:#e2e8f0;--mut:#94a3b8;--line:#1e293b;--accent:#60a5fa}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.7 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:780px;margin:0 auto;padding:36px 20px}
+a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+h1{font-size:1.75rem;line-height:1.25;margin:0 0 .4em}
+h2{font-size:1.2rem;margin:1.8em 0 .4em}
+.lede{color:var(--mut);font-size:1.05rem}
+.crumbs{font-size:.9rem;color:var(--mut);margin-bottom:1em}
+code{background:rgba(127,127,127,.12);padding:1px 4px;border-radius:4px}
+footer{margin-top:2.5em;border-top:1px solid var(--line);padding-top:1em;color:var(--mut);font-size:.9rem}
+.related{border-top:1px solid var(--line);margin-top:2em;padding-top:1em}
+</style>
+</head>
+<body><div class="wrap">
+<div class="crumbs"><a href="https://hemantsarthak.github.io/myds/">Tekify</a> / <a href="https://hemantsarthak.github.io/myds/guides/">guides</a> / How to find an IFSC code (and what each part means)</div>
+<h1>How to find an IFSC code (and what each part means)</h1>
+<p class="lede">What an IFSC code is, how the eleven characters break down, and how to look up any Indian bank branch&#x27;s code safely before a transfer.</p>
+
+<p>An IFSC (Indian Financial System Code) identifies one specific bank branch. It is eleven characters:
+four letters for the bank, a zero, and six characters for the branch. NEFT, RTGS and IMPS transfers
+all need it, and it is printed on cheque books and account statements.</p>
+<h2>Reading the code</h2>
+<p>Take <code>HDFC0000001</code>: <code>HDFC</code> is the bank, the fifth character is always
+<code>0</code>, and <code>000001</code> identifies the branch. Because the bank part is repeated across
+every branch, a code that starts with the right letters can still point at the wrong branch.</p>
+<h2>Look it up before you transfer</h2>
+<p>Check the code against the branch record — bank, branch name, address, district and MICR code —
+rather than trusting a code copied from a message. The free directory at
+<a href="https://ifsccodes.tekify.xyz">IFSC Codes India</a> lists 19,511 branches with those fields,
+searchable by code, bank, city or district.</p>
+<h2>Common mistakes</h2>
+<ul>
+<li><strong>Confusing the MICR code with the IFSC code.</strong> MICR is a nine-digit cheque-clearing
+code; IFSC is eleven characters and used for electronic transfers.</li>
+<li><strong>Using a closed branch's code.</strong> Merged banks keep old codes active for a while but
+transfers may be redirected; check the branch is still open.</li>
+<li><strong>Typing the code by hand.</strong> Copy it, then verify the branch name on the record.</li>
+</ul>
+<p><a href="https://ifsccodes.tekify.xyz/search/">Search the IFSC directory</a> ·
+<a href="https://ifsccodes.tekify.xyz/guides/">more IFSC explainers</a></p>
+
+<div class="related"><p><strong>Related guides:</strong> <a href="https://hemantsarthak.github.io/myds/guides/what-is-a-zip-code.html">What a US ZIP code is (and what it is not)</a> · <a href="https://hemantsarthak.github.io/myds/guides/how-cms-hospital-ratings-work.html">How CMS hospital star ratings work</a></p>
+<p>All Tekify directories are free, source-stated and built from public datasets:
+<a href="https://tekify.xyz/">tekify.xyz</a>.</p></div>
+<footer>Tekify — free data directories built from public datasets. <a href="https://github.com/hemantsarthak/myds">source</a></footer>
+</div></body></html>
