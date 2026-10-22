@@ -14,7 +14,11 @@ with the date, and update `docs/STATE.md`.
 
 ## P1 — more traffic assets (biggest SEO lever)
 
-- [ ] P1-1. `areacodes.tekify.xyz`: US/Canada NANP area codes (+ world country calling codes).
+- [x] P1-1. (2026-10-22) `areacodes.tekify.xyz` LIVE: 398 NANP area codes (US + Canada +
+      territories) with towns/counties/population/ZIPs/time zone/overlaps, 6,224 city pages,
+      248 world country calling codes, browse indexes, JS search and 8 guides (4,150 words).
+      Build `sites/areacodes/build.py`, data `sites/areacodes/fetch_data.py`; 6,954 URLs
+      deployed + IndexNow accepted. Follow-ups: verify rankings in 2-3 weeks.
 - [x] (2026-10-22) `colleges.tekify.xyz` live: 5,995 US institutions from federal IPEDS (acceptance
       rate, tuition, enrollment, 150% graduation rate) + 3 guides.
 - [x] (2026-10-22) `places.tekify.xyz` live: 16k places + 3,144 counties + 51 states (Census data).
