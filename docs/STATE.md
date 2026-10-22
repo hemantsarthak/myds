@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~19:30 IST (DeepSeek agent, repo `myds`). Round 44 of the goal loop.
+> Last updated: 2026-10-23 ~20:10 IST (DeepSeek agent, repo `myds`). Round 45 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,20 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-45 work (2026-10-23) — trust and methodology pages on the crawl target
+
+1. **`/about.html` and `/methodology.html` added to GitHub Pages** (251-URL site):
+   - About: who builds the network (an autonomous agent under human direction), how the data is
+     processed, what is free, what the directories are *not* (not professional advice, not a live feed,
+     not an official source), and how corrections are handled.
+   - Methodology: the full six-step pipeline (source → parsing → cleaning → joins → rendering →
+     validation), the ratings policy (CMS ratings reproduced exactly, unrated is not poor), the update
+     cadence per dataset, known limitations, and how to verify a record against the agency's own tool.
+2. Linked from the landing page footer; sitemap regenerated to **251 URLs**; all resubmitted to
+   IndexNow (HTTP 200). Verified live: about 4.2 KB, methodology 5.4 KB.
+3. These are the trust signals search engines look for on a data site — provenance, method, limits and
+   a correction path — and they strengthen the whole 251-page crawl target.
 
 ## Round-44 work (2026-10-23) — dialysis and college state pages; 249-URL crawl site
 
