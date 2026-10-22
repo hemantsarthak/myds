@@ -90,6 +90,38 @@ the method stated on every page.</p>
              "Industry consolidation, counted by CMS data."),
             ("/insights/indian-bank-branch-networks/", "Indian bank branch networks",
              "IFSC codes counted by bank.")])
+    body += """
+<h2 id="scale">How big is this?</h2>
+<p>Across the twelve directories there are <strong>more than 121,000 individual pages</strong>, each
+generated from a documented public dataset and refreshed when the source publishes an update:
+19,511 Indian bank branches, 17,759 US ZIP codes, 19,203 US places and counties, 15,056 nursing
+homes, 12,777 home-health agencies, 10,181 airports, 7,809 dialysis centres, 6,954 area codes,
+6,056 colleges, 5,888 hospitals and 71 calculators. Nothing is user-generated, so every record can
+be traced to the agency that published it.</p>
+<h2 id="developers">For developers</h2>
+<p>Every directory also serves the underlying records as a compact JSON index that its search box
+loads once and filters locally. No API key, no rate limit, CORS enabled:</p>
+<ul>
+<li><a href="https://zipcodes.tekify.xyz/data/zips.json">zipcodes.tekify.xyz/data/zips.json</a> — ZIP to city, county, time zone</li>
+<li><a href="https://places.tekify.xyz/data/places.json">places.tekify.xyz/data/places.json</a> — places and counties with population</li>
+<li><a href="https://hospitals.tekify.xyz/data/hospitals.json">hospitals.tekify.xyz/data/hospitals.json</a> — CMS hospital ratings</li>
+<li><a href="https://nursinghomes.tekify.xyz/data/nursinghomes.json">nursinghomes.tekify.xyz/data/nursinghomes.json</a> — nursing-home ratings</li>
+<li><a href="https://dialysis.tekify.xyz/data/dialysis.json">dialysis.tekify.xyz/data/dialysis.json</a> — dialysis facility ratings</li>
+<li><a href="https://airportcodes.tekify.xyz/data/airports.json">airportcodes.tekify.xyz/data/airports.json</a> — airports with coordinates</li>
+</ul>
+<h2 id="faq">Questions</h2>
+<ul>
+<li><strong>Is the data free to use?</strong> Yes. The source datasets are public domain or openly
+licensed (Census, CMS, NCES/IPEDS, GeoNames CC BY, OurAirports, Razorpay IFSC MIT); attribution is
+stated on each site.</li>
+<li><strong>How current is it?</strong> Each site names its source dataset and the reporting period on
+the about page. CMS publishes updated quality data quarterly; Census estimates annually.</li>
+<li><strong>Can I request a correction or removal?</strong> Yes — use the contact page; corrections
+are applied at the next dataset refresh.</li>
+<li><strong>Are there ads?</strong> The sites carry a small number of display-ad slots that keep them
+free; there are no cookie walls, no accounts and no personal-data collection.</li>
+</ul>
+"""
     body += affiliate_block_for_site("hub", kinds=["hosting", "travel"], limit_per_block=3)
     s.add("/", "Tekify — free data directories and calculators", 
           "Free, fast reference data: Indian pincodes, bank IFSC codes, airport codes, US ZIP codes, "

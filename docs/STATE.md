@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~05:50 IST (DeepSeek agent, repo `myds`). Round 23 of the goal loop.
+> Last updated: 2026-10-23 ~06:20 IST (DeepSeek agent, repo `myds`). Round 24 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,22 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-24 work (2026-10-23) — hub home page turned into a proper landing page
+
+1. **Hub home page enriched** (the page Google would rank first): added a "How big is this?" section
+   with the real scale (121,000+ pages across the twelve directories, listed per property), a
+   **"For developers"** section documenting the free JSON endpoints (`/data/*.json`, no key, CORS),
+   and a **FAQ** (licensing, freshness, corrections, ads). Live at <https://tekify.xyz/> (15.9 KB),
+   sitemap + IndexNow updated.
+2. Fixed a build break introduced while inserting that content (a triple-quoted block was left
+   unterminated; the hub build failed and a stale deploy went out — caught by checking the live page,
+   fixed, rebuilt and redeployed). Lesson repeated: **verify the live page after every deploy**.
+3. **Bing index re-checked properly** with Bing's RSS output (`?format=rss&q=site:...`): the `site:`
+   operator returns unrelated results for our hosts, i.e. **Bing has not indexed our pages either**
+   (the earlier "Bing has a sample indexed" belief was wrong — that was a search-result artefact).
+   So both major engines are still at zero; IndexNow submissions are queued but not yet processed
+   for this new domain.
 
 ## Round-23 work (2026-10-23) — insights extended to seven, syndicated externally
 
