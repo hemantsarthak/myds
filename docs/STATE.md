@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~04:50 IST (DeepSeek agent, repo `myds`). Round 21 of the goal loop.
+> Last updated: 2026-10-23 ~05:15 IST (DeepSeek agent, repo `myds`). Round 22 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,26 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-22 work (2026-10-23) — data-driven insight articles on the hub (the link-earning layer)
+
+1. **New `/insights/` section on tekify.xyz** with five original, data-computed articles — the kind of
+   page that can attract links on its own, unlike a single record page:
+   - **Which US states have the best-rated hospitals?** — Utah 79.3% of rated hospitals at 4+ stars,
+     Mississippi 13.5%; full state table (42 states with >=20 rated hospitals), method documented.
+   - **Hospital star ratings by ownership type** — non-profit vs for-profit vs government averages.
+   - **Nursing-home staffing ratings by state** — average staffing + overall ratings, facility counts,
+     certified beds.
+   - **US dialysis facilities: the national rating picture** — distribution of the CMS five-star
+     ratings and the states with the highest share of 4-5 star facilities.
+   - **Which Indian banks have the most branches?** — the IFSC dataset counted by bank, with shares.
+   Each article states its method and links into the matching directory (including specific state
+   pages), so the numbers are verifiable and the pages pass readers into the data.
+2. Every insight is computed at build time from the same cached public datasets (CMS, Razorpay IFSC)
+   by `sites/hub/insights.py`; no manual numbers. Hub is now **11 pages**, linked from the home page
+   ("Insights from the data" section) and from the nav, sitemap updated and IndexNow submitted.
+3. Bug fixed while wiring: ownership grouping divided by zero for categories with no rated hospitals
+   (only groups with a rated hospital are ranked now).
 
 ## Round-21 work (2026-10-23) — internal link cluster across the health properties
 

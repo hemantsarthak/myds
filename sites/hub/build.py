@@ -10,6 +10,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
+from insights import build_insights
 from engine.sitegen import Site, cards, esc  # noqa: E402
 from engine.affiliate import affiliate_block_for_site  # noqa: E402
 
@@ -47,7 +48,7 @@ def build() -> Site:
         "Free data directories and calculators, built to be fast and ad-light.",
         "Tekify publishes free reference directories — pincodes, IFSC bank codes, airport codes, "
         "ZIP codes, dialing codes — and practical calculators. No signups, no paywalls.",
-        nav=[("Directories", "/#directories"), ("Press", "/press/"), ("About", "/about/"), ("Contact", "/contact/")],
+        nav=[("Directories", "/#directories"), ("Insights", "/insights/"), ("Press", "/press/"), ("About", "/about/"), ("Contact", "/contact/")],
         source_note="Tekify is a network of independent reference sites funded by advertising.",
     )
     items = [(u, n, d) for u, n, d in PROPERTIES]
@@ -71,6 +72,20 @@ plus the surrounding records so you can navigate without going back to search.</
 <li><strong>Maintained.</strong> Datasets are re-imported when sources publish updates.</li>
 </ul>
 """
+    body += """
+<h2 id="insights">Insights from the data</h2>
+<p>Short analyses computed from the same public datasets as the directories - useful numbers, with
+the method stated on every page.</p>
+""" + cards([("/insights/hospital-ratings-by-state/", "Best-rated hospitals by state",
+             "CMS star ratings aggregated by state."),
+            ("/insights/hospitals-by-ownership/", "Hospital ratings by ownership",
+             "Non-profit vs for-profit vs government."),
+            ("/insights/nursing-home-staffing-by-state/", "Nursing-home staffing by state",
+             "Where facilities are most consistently well staffed."),
+            ("/insights/dialysis-ratings-nationally/", "Dialysis ratings nationally",
+             "Distribution of the CMS five-star ratings."),
+            ("/insights/indian-bank-branch-networks/", "Indian bank branch networks",
+             "IFSC codes counted by bank.")])
     body += affiliate_block_for_site("hub", kinds=["hosting", "travel"], limit_per_block=3)
     s.add("/", "Tekify — free data directories and calculators", 
           "Free, fast reference data: Indian pincodes, bank IFSC codes, airport codes, US ZIP codes, "
@@ -119,6 +134,7 @@ plus the surrounding records so you can navigate without going back to search.</
     s.add("/press/", "Press and publications — Tekify",
           "Tekify explainers published on open platforms, plus the public datasets behind each directory.",
           press_body, crumbs=[("Press", None)])
+    build_insights(s)
     s.add_standard_pages(
         extra_about="<h2>Properties</h2>" + cards([(u, n, d) for u, n, d in PROPERTIES]))
     return s
