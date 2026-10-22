@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~15:10 IST (DeepSeek agent, repo `myds`). Round 38 of the goal loop.
+> Last updated: 2026-10-23 ~15:50 IST (DeepSeek agent, repo `myds`). Round 39 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,20 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-39 work (2026-10-23) — 41-URL crawl site with analytics
+
+1. **Four more guides** on the GitHub Pages site (10 total): comparing colleges on net price, the money
+   calculators worth bookmarking, North American area codes (overlays/splits), and places vs counties vs
+   ZIP codes. GitHub Pages is now a **41-URL site** (10 guides, 12 directories, 4 dataset cards,
+   10 analyses, 4 indexes + landing), all interlinked and linking to the properties.
+2. **Analytics beacon added to every generated page** (`?site=ghpages`) so visits from Bing results or
+   AI assistants are measurable in the same self-hosted counter as the rest of the portfolio.
+3. **All 41 URLs resubmitted to IndexNow** — accepted (HTTP 200), so Bing/Yandex/Seznam have the full
+   site queued for crawling.
+4. Index checks this round: Google and Bing have not yet indexed the github.io site (published hours
+   ago; IndexNow submissions for a new host typically take days). The followed links from these pages to
+   the tekify.xyz properties are the mechanism that will carry discovery forward.
 
 ## Round-38 work (2026-10-23) — original guides on the crawl-target site
 
