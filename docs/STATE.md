@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~07:00 IST (DeepSeek agent, repo `myds`). Round 25 of the goal loop.
+> Last updated: 2026-10-23 ~07:40 IST (DeepSeek agent, repo `myds`). Round 26 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,20 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-26 work (2026-10-23) — four more calculators (75 pages)
+
+1. **New calculators** in `sites/calculators/calcs_money4.py` (site now **75 pages**):
+   - **Dividend income** — annual/monthly income, yield on cost, capital needed for a monthly target
+     ($20k at 6% → $1,200/yr, $100/mo; $100k needed for $500/mo).
+   - **Rent affordability** — 30% rule plus a stricter 25% check and what is left after other debts.
+   - **Down payment** — cash needed, loan amount, monthly P&I and whether PMI applies
+     ($400k at 10% down, 6.5%/30y → $40k down, $360k loan, $2,275.44/mo).
+   - **Self-employment tax (US 2024)** — 92.35% base, 12.4% Social Security up to the $168,600 wage
+     base (reduced by W-2 wages), 2.9% Medicare, deductible half; $80k profit → $11,303.64 (14.13%).
+   Every calculator verified twice: Python vs JavaScript agreement at defaults, then live recompute in
+   the browser (profit 80k → 120k gave $11,304 → $16,955, no page errors). Deployed + IndexNow.
+2. Verified live: all four pages 200, sitemap 75 URLs.
 
 ## Round-25 work (2026-10-23) — external publications audited: most are noindex
 

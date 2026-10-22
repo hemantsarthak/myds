@@ -7,6 +7,7 @@ import calcs_investing
 import calcs_loans
 import calcs_money2
 import calcs_money3
+import calcs_money4
 import calcs_salary
 
 CATS = [
@@ -78,7 +79,7 @@ rather than these rounded results.</p>"""),
 CAT_BY = {c["id"]: c for c in CATS}
 CALCS = (calcs_loans.CALCS + calcs_investing.CALCS + calcs_salary.CALCS
          + calcs_health.CALCS + calcs_dates.CALCS + calcs_conv.CALCS
-         + calcs_money2.CALCS + calcs_money3.CALCS)
+         + calcs_money2.CALCS + calcs_money3.CALCS + calcs_money4.CALCS)
 BY = {c["slug"]: c for c in CALCS}
 assert len(BY) == len(CALCS), "duplicate calculator slug"
 # Sanitise cross-links: drop unknown slugs, then top up from the same category so every

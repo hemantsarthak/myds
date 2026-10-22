@@ -1,0 +1,20 @@
+﻿import { getBrowser, release } from "../agentbrowser.mjs";
+const h = await getBrowser();
+const page = h.context.pages()[0] || (await h.context.newPage());
+const errors = [];
+page.on("pageerror", (e) => errors.push(String(e).slice(0, 100)));
+await page.goto("https://calculators.tekify.xyz/self-employment-tax-calculator/", { waitUntil: "domcontentloaded", timeout: 40000 });
+await page.waitForTimeout(1500);
+const read = () => page.evaluate(() => {
+  const el = document.querySelector("#calcout");
+  return el ? el.innerText.replace(/\s+/g, " ").slice(0, 130) : "(none)";
+});
+const before = await read();
+await page.locator('input[name="profit"]').first().fill("120000");
+await page.waitForTimeout(900);
+const after = await read();
+console.log("before:", before);
+console.log("after :", after);
+console.log("changed:", before !== after, "| errors:", errors.slice(0, 3));
+await release(h);
+process.exit(0);
