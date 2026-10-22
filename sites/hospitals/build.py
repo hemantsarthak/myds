@@ -320,6 +320,7 @@ services and contact details.</p>
               body, crumbs=[("States", "/#states"), (sname, state_url[st]), (city, None)])
 
     # ---- hospital pages
+    titles_used = set()
     for h in hospitals:
         sname = STATE_NAMES.get(h["state"], h["state"])
         near = nearby(h)
@@ -378,7 +379,13 @@ appointments and general enquiries{'; emergency services are available' if h['em
      f'It is {esc(tarticle)} {esc(tlabel)} with {esc(h["owner"].lower())} ownership.'),
 ])}
 """
-        s.add(h["url"], seo_title(h["label"], " — CMS Rating & Services"),
+        title = seo_title(h["label"], f' — {h["city"]}, {h["state"]}')
+        if title in titles_used:
+            title = seo_title(f'{h["label"]} ({h["id"]})', f' — {h["city"]}')
+        if title in titles_used:
+            title = f'{h["label"][:40].rstrip()} — {h["id"]}'
+        titles_used.add(title)
+        s.add(h["url"], title,
               f'{h["name"]} in {h["city"]}, {h["state"]}: CMS rating {stars(h["rating"])}, '
               f'{h["type"].lower()}, emergency services, address and phone.',
               body, crumbs=[("States", "/#states"), (sname, state_url[h["state"]]), (h["name"], None)])

@@ -322,6 +322,7 @@ aide) before choosing.</p>
               body, crumbs=[("States", "/#states"), (sname, state_url[st]), (city, None)])
 
     # ---- agency pages
+    titles_used = set()
     for a in agencies:
         sname = STATE_NAMES.get(a["state"], a["state"])
         near = nearby(a)
@@ -374,7 +375,13 @@ Call <strong>{esc(a["phone"])}</strong> for referrals and eligibility questions.
      'need and the patient is homebound. Confirm coverage with the agency and your plan.'),
 ])}
 """
-        s.add(a["url"], seo_title(a["label"], " — CMS Rating & Services"),
+        title = seo_title(a["label"], f' — {a["city"]}, {a["state"]}')
+        if title in titles_used:
+            title = seo_title(f'{a["label"]} ({a["ccn"]})', f' — {a["city"]}')
+        if title in titles_used:
+            title = f'{a["label"][:40].rstrip()} — {a["ccn"]}'
+        titles_used.add(title)
+        s.add(a["url"], title,
               f'{a["label"]} in {a["city"]}, {a["state"]}: CMS star rating '
               f'{stars(a["rating"])}, services, quality measures and phone number.',
               body, crumbs=[("States", "/#states"), (sname, state_url[a["state"]]), (a["label"], None)])

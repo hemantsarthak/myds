@@ -338,6 +338,7 @@ stability.</p>
               body, crumbs=[("States", "/#states"), (sname, state_url[st]), (city, None)])
 
     # ---- facility pages
+    titles_used = set()
     for h in homes:
         sname = STATE_NAMES.get(h["state"], h["state"])
         near = nearby(h)
@@ -427,7 +428,13 @@ admissions and visits.</p>
      + (f', part of the {esc(h["chain"])} chain' if h["chain"] else '') + '.'),
 ])}
 """
-        s.add(h["url"], seo_title(h["label"], " — CMS Rating & Staffing"),
+        title = seo_title(h["label"], f' — {h["city"]}, {h["state"]}')
+        if title in titles_used:
+            title = seo_title(f'{h["label"]} ({h["ccn"]})', f' — {h["city"]}')
+        if title in titles_used:
+            title = f'{h["label"][:40].rstrip()} — {h["ccn"]}'
+        titles_used.add(title)
+        s.add(h["url"], title,
               f'{h["label"]} in {h["city"]}, {h["state"]}: CMS overall rating '
               f'{stars(h["ratings"]["Overall rating"])}, staffing hours, ownership, beds and phone.',
               body, crumbs=[("States", "/#states"), (sname, state_url[h["state"]]), (h["label"], None)])
