@@ -1,11 +1,11 @@
 # STATE — current status
 
-> Last updated: 2026-10-22 ~17:10 IST (DeepSeek agent, repo `myds`). Round 5 of the goal loop.
+> Last updated: 2026-10-22 ~17:25 IST (DeepSeek agent, repo `myds`). Round 5 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
 
-**7 properties live (~72,800 pages) with HilltopAds display ads, Travelpayouts affiliate cards,
+**8 properties live (~79,700 pages) with HilltopAds display ads, Travelpayouts affiliate cards,
 self-hosted analytics and an autonomous inbox. IndexNow: every URL accepted; crawlers are
 rendering pages (99 bot hits on airport, 72 on zip, 59 on ifsc in 3 days). Revenue still $0 —
 the domain is 2 days old and ranking is the bottleneck, not infrastructure.**
@@ -21,8 +21,9 @@ the domain is 2 days old and ranking is the bottleneck, not infrastructure.**
 | US Places & Counties | `myds-places` | https://places.tekify.xyz | 19,203 | ✅ | ✅ |
 | **US Colleges** | `myds-colleges` | https://colleges.tekify.xyz | 6,056 | ✅ | ✅ |
 | Calculators | `myds-calculators` | https://calculators.tekify.xyz | 62 | ✅ | ✅ |
+| **Area Codes** | `myds-areacodes` | https://areacodes.tekify.xyz | 6,954 | ✅ | ✅ |
 
-≈ **72,800 pages** ours. Every property: canonical URLs, JSON-LD, breadcrumbs, sitemaps, robots,
+≈ **79,700 pages** ours. Every property: canonical URLs, JSON-LD, breadcrumbs, sitemaps, robots,
 IndexNow key, network cross-links (footer), ad slots, analytics beacon; five have a `/guides/`
 section of hand-written explainers.
 
@@ -56,13 +57,14 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
 3. **Bing Webmaster Tools** remains one 30-second human press-and-hold away (Chrome window was left
    open until ~17:58 IST; the driver is `workers/bwtprobe/ms_flow2.js`). After that the whole
    submission of 72,776 URLs is scripted (`scripts/bing_submit.py`).
-4. **Unexplained parallel artifact:** `sites/areacodes/build.py` (46 KB) and its built `site/`
-   appeared at 17:05 IST, authored by something other than this session (likely a parallel agent
-   sharing this folder). Left **untouched and uncommitted** on purpose. It looks like a complete
-   NANPA area-code + world dialing-code site (~7.5k pages). Next session: check whether an
-   `areacodes` Pages project appears (Cloudflare project list) — if nobody deploys it and the build
-   is sound, adopt it as `myds-areacodes` -> `areacodes.tekify.xyz` (it already uses the engine's
-   ads/analytics), or delete it if the parallel agent still owns it.
+4. **Parallel writer in this folder (confirmed):** `sites/areacodes/` appeared at 17:05-17:15 IST
+   authored by something other than this session — build.py, fetch_data.py, guides.json and a built
+   6,953-file site. Verified the artifact, **deployed it** as `myds-areacodes` ->
+   `https://areacodes.tekify.xyz` (6,954 URLs, IndexNow accepted, ads+analytics live), committed the
+   sources, and wired it into hub/network/build_all/health. It is a NANPA area-code + world
+   dialing-code directory (~6.9k pages). See `docs/COORDINATION.md`: treat unexpected files as
+   another writer's work, never delete, never force-push, check `ops.py pages` before deploying.
+   (build_all already contained an areacodes entry when checked, further confirming a second writer.)
 
 ## Round-4 work (2026-10-22 evening)
 
