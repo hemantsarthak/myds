@@ -17,7 +17,10 @@ with the date, and update `docs/STATE.md`.
 - [ ] P1-1. `areacodes.tekify.xyz`: US/Canada NANP area codes (+ world country calling codes).
 - [ ] P1-2. `calculators.tekify.xyz`: 35–50 client-side calculators (loan, mortgage, tax,
       salary, BMI, dates) — high-intent US traffic, better ad RPM than data pages.
-- [ ] P1-3. `swift.tekify.xyz`: SWIFT/BIC codes by bank/country (find a clean dataset).
+- [ ] P1-3. `swift.tekify.xyz`: SWIFT/BIC codes by bank/country. Dataset leads (research 2026-10-22):
+      https://github.com/lobax/banknames (bank names by BIC from SWIFT registry),
+      https://github.com/zapjur/swift-api, https://github.com/abdalrhman-alajlouni/BanksDataWorldWide.
+      Check licences before shipping.
 - [ ] P1-4. Expand airport site to small airports with ICAO codes (chunked subdomains if needed).
 - [ ] P1-5. Expand pincode site: all 23,913 pincodes (shard across subdomain or paginate).
 
