@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~09:55 IST (DeepSeek agent, repo `myds`). Round 30 of the goal loop.
+> Last updated: 2026-10-23 ~10:30 IST (DeepSeek agent, repo `myds`). Round 31 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,21 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-31 work (2026-10-23) — machine-readable layer for AI crawlers and data catalogues
+
+1. **`llms.txt` published** on the hub (2,385 bytes) and calculators site (1,388 bytes): plain-text
+   summaries listing every directory with its URL and scale, all ten data analyses, the JSON data
+   access paths and the dataset sources. This is the emerging convention for making a site legible to
+   AI agents and crawlers — and GPTBot is already crawling the portfolio, so it is the one discovery
+   channel we know is active.
+2. **Rich JSON-LD on the hub home:** an `@graph` with **Organization** (with sameAs GitHub + Substack),
+   **Dataset** (name, licence CC0, description, and seven `DataDownload` distributions pointing at the
+   `/data/*.json` endpoints) and an **ItemList** of all twelve properties. This is what Google Dataset
+   Search and other catalogues consume, and it costs nothing to have in place before indexing.
+3. Verified `robots.txt` is permissive for all user agents (including AI crawlers) and references the
+   sitemap. Both files deployed and confirmed live (200, correct sizes).
+4. Search-engine status unchanged: Google and Bing still index zero pages for the domain.
 
 ## Round-30 work (2026-10-23) — health automation verified; dataset publisher ready
 

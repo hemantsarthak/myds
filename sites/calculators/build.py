@@ -102,6 +102,14 @@ worked example with the default inputs, so you can see exactly what is included.
              "interest, retirement, take-home pay, BMI, pregnancy dates and unit conversions.",
              home, extra_head='<link rel="stylesheet" href="/assets/calc.css">'
                              f'<script defer src="/assets/home.js?v={home_js_hash}"></script>')
+    llms = ("# Tekify calculators\n> 75 free calculators with formulas, worked examples and live results.\n\n"
+            "## Categories\n- Loans: " + ", ".join(c["slug"] for c in calcs if c["cat"] == "loans") + "\n"
+            "- Investing: " + ", ".join(c["slug"] for c in calcs if c["cat"] == "investing") + "\n"
+            "- Salary: " + ", ".join(c["slug"] for c in calcs if c["cat"] == "salary") + "\n"
+            "- Health: " + ", ".join(c["slug"] for c in calcs if c["cat"] == "health") + "\n"
+            "- Dates: " + ", ".join(c["slug"] for c in calcs if c["cat"] == "dates") + "\n"
+            "- Conversions: " + ", ".join(c["slug"] for c in calcs if c["cat"] == "conversions") + "\n")
+    site.add_file("/llms.txt", llms)
     site.add_file("/assets/home.js", HOME_JS)
 
     # ---------------------------------------------------------------- categories

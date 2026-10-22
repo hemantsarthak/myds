@@ -129,9 +129,30 @@ free; there are no cookie walls, no accounts and no personal-data collection.</l
 </ul>
 """
     body += affiliate_block_for_site("hub", kinds=["hosting", "travel"], limit_per_block=3)
+    catalog_ld = {"@context": "https://schema.org", "@graph": [
+        {"@type": "Organization", "name": "Tekify", "url": "https://tekify.xyz/",
+         "sameAs": ["https://github.com/hemantsarthak/myds", "https://substack.com/@tekifydata"]},
+        {"@type": "Dataset", "name": "Tekify open data directories",
+         "description": "Record-level reference data generated from US Census, CMS, NCES/IPEDS, "
+                        "GeoNames, OurAirports and Razorpay IFSC public datasets.",
+         "url": "https://tekify.xyz/", "creator": {"@type": "Organization", "name": "Tekify"},
+         "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+         "distribution": [
+             {"@type": "DataDownload", "encodingFormat": "application/json",
+              "contentUrl": f"{u.rstrip('/')}/data/{d}"} for u, d in [
+                  ("https://zipcodes.tekify.xyz", "zips.json"),
+                  ("https://places.tekify.xyz", "places.json"),
+                  ("https://colleges.tekify.xyz", "colleges.json"),
+                  ("https://hospitals.tekify.xyz", "hospitals.json"),
+                  ("https://nursinghomes.tekify.xyz", "nursinghomes.json"),
+                  ("https://dialysis.tekify.xyz", "dialysis.json"),
+                  ("https://airportcodes.tekify.xyz", "airports.json")]]},
+        {"@type": "ItemList", "name": "Tekify directories",
+         "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": u, "name": n}
+                             for i, (u, n, _d) in enumerate(PROPERTIES)]}]}
     s.add("/", "Tekify — free data directories and calculators", 
           "Free, fast reference data: Indian pincodes, bank IFSC codes, airport codes, US ZIP codes, "
-          "dialing codes and practical calculators.", body)
+          "dialing codes and practical calculators.", body, jsonld=catalog_ld)
     press_articles = [
         ("Open data directories: IFSC codes, ZIP codes, colleges, hospitals, nursing homes and more",
          "https://telegra.ph/Open-data-directories-IFSC-codes-ZIP-codes-colleges-hospitals-nursing-homes-and-more-10-22-2"),
@@ -176,6 +197,43 @@ free; there are no cookie walls, no accounts and no personal-data collection.</l
     s.add("/press/", "Press and publications — Tekify",
           "Tekify explainers published on open platforms, plus the public datasets behind each directory.",
           press_body, crumbs=[("Press", None)])
+    # machine-readable summary for AI crawlers and agents
+    llms = """# Tekify
+> Free reference directories built from public datasets, plus calculators.
+
+## Directories
+- [IFSC Codes India](https://ifsccodes.tekify.xyz): Indian bank branch codes, address, MICR (19,511 pages)
+- [US ZIP Codes](https://zipcodes.tekify.xyz): ZIP to city, county, time zone (17,759 pages)
+- [US Places & Counties](https://places.tekify.xyz): 2023 Census population estimates (19,203 pages)
+- [US Colleges](https://colleges.tekify.xyz): admissions, tuition, net price, graduation rates (6,056 pages)
+- [US Hospitals](https://hospitals.tekify.xyz): CMS star ratings and quality measures (5,888 pages)
+- [US Nursing Homes](https://nursinghomes.tekify.xyz): CMS ratings, staffing, turnover (15,056 pages)
+- [US Home Health](https://homehealth.tekify.xyz): CMS ratings and services (12,777 pages)
+- [US Dialysis Centers](https://dialysis.tekify.xyz): CMS five-star ratings (7,809 pages)
+- [Area Codes](https://areacodes.tekify.xyz): NANP and world dialing codes (6,954 pages)
+- [Airport Codes](https://airportcodes.tekify.xyz): IATA/ICAO, runways, nearby airports (10,181 pages)
+- [Calculators](https://calculators.tekify.xyz): 75 free money, health, date and unit calculators
+
+## Data analyses
+- [Hospital ratings by state](https://tekify.xyz/insights/hospital-ratings-by-state/)
+- [Hospital ratings by ownership](https://tekify.xyz/insights/hospitals-by-ownership/)
+- [Hospitals with emergency departments](https://tekify.xyz/insights/hospitals-with-emergency-departments/)
+- [Nursing-home staffing by state](https://tekify.xyz/insights/nursing-home-staffing-by-state/)
+- [Largest nursing-home chains](https://tekify.xyz/insights/largest-nursing-home-chains/)
+- [Dialysis ratings nationally](https://tekify.xyz/insights/dialysis-ratings-nationally/)
+- [Indian bank branch networks](https://tekify.xyz/insights/indian-bank-branch-networks/)
+- [Indian bank branches by state](https://tekify.xyz/insights/indian-bank-branches-by-state/)
+- [US ZIP codes by state](https://tekify.xyz/insights/us-zip-codes-by-state/)
+- [Airports by country](https://tekify.xyz/insights/airports-by-country/)
+
+## Data access
+JSON indexes at each site's /data/ path (no key, CORS enabled). Samples and dataset cards in
+https://github.com/hemantsarthak/myds/tree/main/datasets
+
+## Sources
+US Census Bureau, CMS, NCES/IPEDS, GeoNames, OurAirports, Razorpay IFSC (MIT).
+"""
+    s.add_file("/llms.txt", llms)
     build_insights(s)
     s.add_standard_pages(
         extra_about="<h2>Properties</h2>" + cards([(u, n, d) for u, n, d in PROPERTIES]))
