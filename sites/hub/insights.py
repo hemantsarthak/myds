@@ -732,6 +732,27 @@ the RBI branch list. Data snapshot 2026.</p>
              body, crumbs=[("Insights", "/insights/"), ("Bank branches by state", None)])
 
 
+
+def _attach_article_ld(site):
+    """Give every insight page Article structured data (headline, description, publisher, dates)."""
+    for path, page in site.pages.items():
+        if not path.startswith("insights/") or page.get("jsonld"):
+            continue
+        url = site.base + "/" + (path[:-len("index.html")] if path.endswith("index.html") else path)
+        page["jsonld"] = {
+            "@context": "https://schema.org", "@type": "Article",
+            "headline": page["title"],
+            "description": page["desc"],
+            "url": url,
+            "mainEntityOfPage": {"@type": "WebPage", "@id": url},
+            "author": {"@type": "Organization", "name": "Tekify", "url": site.base + "/"},
+            "publisher": {"@type": "Organization", "name": "Tekify", "url": site.base + "/"},
+            "datePublished": "2026-10-23",
+            "dateModified": "2026-10-23",
+            "isAccessibleForFree": True,
+        }
+
+
 def build_insights(site):
     page_hospital_ratings(site)
     page_hospital_ownership(site)
@@ -769,3 +790,4 @@ where you can look up an individual record.</p>"""
                       ("/insights/indian-bank-branches-by-state/", "Indian bank branches by state",
                         "The banking network, state by state.")]),
              crumbs=[("Insights", None)])
+    _attach_article_ld(site)
