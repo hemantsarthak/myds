@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~10:30 IST (DeepSeek agent, repo `myds`). Round 31 of the goal loop.
+> Last updated: 2026-10-23 ~11:10 IST (DeepSeek agent, repo `myds`). Round 32 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,18 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-32 work (2026-10-23) — llms.txt and Dataset schema on every property
+
+1. **Engine now generates `llms.txt` for every site automatically** (`Site._llms_txt`): brand,
+   description, source-data note, up to 25 key pages with absolute URLs, the JSON data endpoint and
+   the network link. Hand-written versions on the hub and calculators are preserved.
+2. **Dataset JSON-LD on every data site's home page**: `Site._dataset_ld` detects the site's
+   `/data/*.json` index and emits a schema.org **Dataset** with a `DataDownload` distribution, so each
+   property is machine-readable as an open dataset (what Google Dataset Search and data catalogues
+   consume).
+3. Full rebuild + deploy of all 12 properties in this round so the files reach production; the change
+   is engine-level, so every future rebuild keeps them current.
 
 ## Round-31 work (2026-10-23) — machine-readable layer for AI crawlers and data catalogues
 
