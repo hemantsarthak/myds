@@ -30,6 +30,13 @@ search-performance data. This is the single biggest lever for traffic and theref
 2. Publishing -> **Start a Substack** -> solve the captcha.
 3. Tell the agent; it creates the publication and publishes articles linking every directory.
 
+## 4. (Optional, 1 minute) GitHub token scope for the root host
+
+The agent created the repo `hemantsarthak/hemantsarthak.github.io` but the fine-grained GitHub token
+cannot write to it (403). If you add that repo to the token's *Repository access* (or set access to
+"All repositories"), the agent can publish a root landing page and host the IndexNow key file at the
+host root — which unlocks IndexNow submission for the whole `hemantsarthak.github.io` host.
+
 ---
 
 Everything else runs itself: daily GitHub Actions health check (08:47 IST), IndexNow submissions,
