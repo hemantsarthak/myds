@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~11:10 IST (DeepSeek agent, repo `myds`). Round 32 of the goal loop.
+> Last updated: 2026-10-23 ~11:50 IST (DeepSeek agent, repo `myds`). Round 33 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,21 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-33 work (2026-10-23) — Article schema on insights; HF/Zenodo signup ready
+
+1. **Article JSON-LD on every insight page** (`_attach_article_ld` in `sites/hub/insights.py`):
+   headline, description, canonical URL, author/publisher Organization, publication and modification
+   dates, `isAccessibleForFree`. Verified: each insight page now carries three structured-data blocks
+   (Article + BreadcrumbList + WebSite). Deployed and IndexNow-submitted.
+2. **Hugging Face and Zenodo signup automation written** (`scripts/browser/hf-signup.mjs`,
+   `scripts/browser/zenodo-signup.mjs`): they create the account with a dedicated @tekify.xyz inbox
+   address, poll the autonomous inbox for the confirmation mail, open the verification link, and walk
+   to the token-creation screen. Both parse cleanly; they can run the moment the mailbox KV quota
+   resets (00:00 UTC / 05:30 IST) — then `scripts/publish_datasets.py --hf/--zenodo` publishes the
+   four datasets with cards linking the live directories.
+3. Inbox and analytics confirmed still quota-exhausted today (both fail gracefully with cached data /
+   a clear message).
 
 ## Round-32 work (2026-10-23) — llms.txt and Dataset schema on every property
 
