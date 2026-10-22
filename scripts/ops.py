@@ -130,10 +130,15 @@ def cmd_deploy(args):
         print("DEPLOYED (url not parsed)")
 
 
+def project_subdomain(name: str) -> str:
+    r = api("GET", f"/accounts/{acct()}/pages/projects/{name}")
+    return r.get("subdomain") or f"{name}.pages.dev"
+
+
 def cmd_attach(args):
-    # 1) DNS CNAME -> project.pages.dev (proxied)
+    # 1) DNS CNAME -> the project's ACTUAL pages.dev subdomain (Cloudflare may suffix it)
     rec_name = args.domain
-    target = f"{args.project}.pages.dev"
+    target = project_subdomain(args.project)
     existing = api("GET", f"/zones/{zone_id()}/dns_records?name={rec_name}")
     if existing:
         rec = existing[0]
