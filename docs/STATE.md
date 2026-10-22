@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~13:10 IST (DeepSeek agent, repo `myds`). Round 35 of the goal loop.
+> Last updated: 2026-10-23 ~13:50 IST (DeepSeek agent, repo `myds`). Round 36 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,18 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-36 work (2026-10-23) — GitHub Pages now a 30-URL site
+
+1. **Twelve directory detail pages added** to the GitHub Pages site (`docs/directories/`, generator
+   `scripts/build_ghpages_dirs.py`): one per property with scale (pages and dataset records), what is
+   inside, what it is for, live-site link, search link, guides link and JSON index where one exists.
+   The landing page now links the directory index, and the sitemap is regenerated from every HTML file
+   — **30 URLs** on github.io.
+2. Verified after the Pages build: `/directories/` (200, 3.9 KB), `/directories/us-hospitals.html`
+   (200, 8 links to the live site), `sitemap.xml` (3.7 KB, 30 URLs), landing page 8.3 KB.
+3. This is the crawl surface we were missing: 30 interlinked pages on a domain search engines already
+   crawl, each describing one directory and linking to it.
 
 ## Round-35 work (2026-10-23) — GitHub Pages expanded to 17 interlinked pages
 
