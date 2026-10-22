@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~18:50 IST (DeepSeek agent, repo `myds`). Round 43 of the goal loop.
+> Last updated: 2026-10-23 ~19:30 IST (DeepSeek agent, repo `myds`). Round 44 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,19 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-44 work (2026-10-23) — dialysis and college state pages; 249-URL crawl site
+
+1. **52 per-state dialysis pages and 52 per-state college pages** added to GitHub Pages
+   (`scripts/build_ghpages_states2.py`): dialysis state averages, top-rated facilities with survival /
+   hospitalisation context and links to the live state directories; college lists by sector with links to
+   the state college directories. These target "<state> dialysis" and "<state> colleges" long-tail
+   queries.
+2. GitHub Pages is now a **249-URL site**: 104 hospital/nursing-home state pages + 104
+   dialysis/college state pages + 10 guides + 12 directory pages + 4 dataset cards + 10 analyses +
+   indexes + landing.
+3. **All 249 URLs resubmitted to IndexNow** (HTTP 200). Verified live after the Pages build:
+   `/dialysis/` and `/colleges/` indexes 200, state pages 200 with 4-5 links each, sitemap 249 URLs.
 
 ## Round-43 work (2026-10-23) — nursing-home state pages; GitHub Pages now 145 URLs
 
