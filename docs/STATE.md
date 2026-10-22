@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~04:00 IST (DeepSeek agent, repo `myds`). Round 20 of the goal loop.
+> Last updated: 2026-10-23 ~04:50 IST (DeepSeek agent, repo `myds`). Round 21 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,24 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-21 work (2026-10-23) — internal link cluster across the health properties
+
+1. **Health cluster cross-linking.** Every hospital, nursing-home, home-health and dialysis facility
+   page now ends with a "Related care in <state>" block linking to the other three directories' state
+   pages. That is ~44,500 new contextual internal links within one topical cluster (hospital ← →
+   nursing home ← → dialysis ← → home health), which helps crawl depth and topical relevance once
+   the domain is indexed. Helper: `engine.health_cross_links()`; deployed for all four sites with
+   IndexNow resubmission.
+2. **Indexing status re-checked (Google + DuckDuckGo):**
+   - Google still indexes **0** pages on tekify.xyz, and has also not yet indexed the Telegraph
+     articles (`site:telegra.ph Tekify` → no match) or the Substack profile (`site:substack.com
+     tekifydata` → no match). The external publications are younger than a day and themselves have no
+     inbound links, so this is expected — but it confirms that the discovery chain still needs time
+     (or a Search Console submission) before it can pass authority to our subdomains.
+   - DuckDuckGo/Bing queries for our target content (hospital CMS rating, IFSC code, dialysis centre)
+     do not surface our pages yet.
+3. Analytics/mailbox stay quota-limited until 00:00 UTC (05:30 IST), both cached and graceful now.
 
 ## Round-20 work (2026-10-23) — new calculators, press page, and a deploy bug that hid deploys
 

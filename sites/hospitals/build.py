@@ -27,7 +27,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice, seo_title  # noqa: E402
+from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice, seo_title, health_cross_links  # noqa: E402
 
 CACHE = ROOT / ".cache"
 STATE_NAMES = {
@@ -365,6 +365,7 @@ appointments and general enquiries{'; emergency services are available' if h['em
 {related([(state_url[h["state"]], f"All hospitals in {sname}"),
           (city_url.get((h["state"], h["city"])), f"Hospitals in {h['city']}") if (h["state"], h["city"]) in city_pages else ("/search/", "Search hospitals"),
           ("/guides/what-is-the-cms-hospital-rating/", "How the CMS rating works")])}
+{health_cross_links(h["state"], "hospitals")}
 {faq([
     (f'What is the CMS rating of {h["name"]}?',
      (f'{esc(h["name"])} has an overall CMS rating of {stars(h["rating"])}. The rating summarises '

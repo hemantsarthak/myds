@@ -81,6 +81,22 @@ def slug(s) -> str:
     return s or "x"
 
 
+HEALTH_SITES = [
+    ("hospitals", "Hospitals"),
+    ("nursinghomes", "Nursing homes"),
+    ("homehealth", "Home health agencies"),
+    ("dialysis", "Dialysis centres"),
+]
+
+
+def health_cross_links(state: str, current: str) -> str:
+    """Links to the other health directories' state pages (same state, same cluster)."""
+    items = [(name, f"https://{slug}.tekify.xyz/state/{state.lower()}/")
+             for slug, name in HEALTH_SITES if slug != current]
+    body = "".join(f'<li><a href="{u}">{name} in {esc(state)}</a></li>' for name, u in items)
+    return f'<h2>Related care in {esc(state)}</h2><ul class="links">{body}</ul>'
+
+
 def seo_title(label: str, suffix: str, limit: int = 62) -> str:
     """Compose '<label><suffix>' and keep it inside `limit` characters (SERP truncation).
 

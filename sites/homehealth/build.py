@@ -26,7 +26,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice, seo_title  # noqa: E402
+from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice, seo_title, health_cross_links  # noqa: E402
 
 CACHE = ROOT / ".cache"
 STATE_NAMES = {
@@ -361,6 +361,7 @@ Call <strong>{esc(a["phone"])}</strong> for referrals and eligibility questions.
 {related([(state_url[a["state"]], f"All agencies in {sname}"),
           (city_url.get((a["state"], a["city"])), f"Agencies in {a['city']}") if (a["state"], a["city"]) in city_pages else ("/search/", "Search agencies"),
           ("/guides/how-home-health-works/", "How home health works")])}
+{health_cross_links(a["state"], "homehealth")}
 {faq([
     (f'What is the CMS rating of {a["label"]}?',
      (f'{esc(a["label"])} has a quality-of-patient-care star rating of {stars(a["rating"])}, based on '
