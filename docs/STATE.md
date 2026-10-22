@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~07:40 IST (DeepSeek agent, repo `myds`). Round 26 of the goal loop.
+> Last updated: 2026-10-23 ~08:10 IST (DeepSeek agent, repo `myds`). Round 27 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,17 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-27 work (2026-10-23) — charts on the insight articles
+
+1. **Inline SVG bar charts added** to three of the seven insight articles (no JavaScript, no external
+   assets, ~680px wide, accessible `role="img"`): top 12 states by share of four/five-star hospitals,
+   top 12 states by nursing-home staffing rating, and the national dialysis rating distribution.
+   These are the pages most likely to be shared or cited, so a readable chart raises their quality.
+   Verified live in the browser (SVG renders at 680px, 12 bars).
+2. **Monetisation status re-checked:** HilltopAds site approval still "Pending" while all three ad
+   zones are "Approved" and serving (verified earlier via network capture); Travelpayouts approved.
+   Both at $0 because there is no traffic yet. No action possible until indexing starts.
 
 ## Round-26 work (2026-10-23) — four more calculators (75 pages)
 

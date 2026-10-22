@@ -42,6 +42,25 @@ def num(x):
         return None
 
 
+
+def bar_chart(items, fmt, width=680, bar_h=24, label_w=190):
+    """Inline SVG horizontal bar chart (no JavaScript, no external assets)."""
+    maxv = max((v for _, v in items), default=1) or 1
+    rows = []
+    for i, (label, v) in enumerate(items):
+        w = max(2, int(v / maxv * (width - label_w - 90)))
+        y = i * (bar_h + 6)
+        rows.append(
+            f'<text x="0" y="{y + 16}" font-size="13" fill="#334155">{esc(label)}</text>'
+            f'<rect x="{label_w}" y="{y + 3}" width="{w}" height="{bar_h - 8}" fill="#2563eb" rx="2"/>'
+            f'<text x="{label_w + w + 8}" y="{y + 16}" font-size="12" fill="#334155">{fmt(v)}</text>'
+        )
+    height = len(items) * (bar_h + 6) + 8
+    return (f'<svg viewBox="0 0 {width} {height}" width="100%" height="{height}" role="img" '
+            f'aria-label="bar chart" style="max-width:680px;height:auto;margin:12px 0">'
+            + "".join(rows) + "</svg>")
+
+
 def fmt_pct(part, whole):
     return f"{part / whole * 100:.1f}%" if whole else "—"
 
@@ -77,6 +96,7 @@ def page_hospital_ratings(site):
     top = [d for d in data if d[0] not in ("PR", "VI", "GU", "AS")]
     table_rows = [[esc(STATE_NAMES[st]), human(n), human(rated), f"{avg:.2f} ★", f"{pct:.0f}%"]
                   for st, n, rated, avg, pct in data[:15]]
+    chart = bar_chart([(STATE_NAMES[st], pct) for st, n, rated, avg, pct in data[:12]], lambda v: f"{v:.0f}%")
     body = f"""
 <h1>Which US states have the best-rated hospitals?</h1>
 <p class="lede">CMS gives every hospital an overall star rating from one to five. Aggregating the
@@ -94,6 +114,7 @@ hospitals at four stars or better.</li>
 in states where at least half the rated hospitals are four-star or better.</li>
 </ul>
 <h2>States ranked by share of four- and five-star hospitals</h2>
+{chart}
 {table(["State", "Hospitals", "Rated", "Average rating", "Four stars or better"], table_rows)}
 <p class="mut">States with fewer than 20 rated hospitals are excluded from the ranking.</p>
 <h2>How to read this</h2>
@@ -199,6 +220,8 @@ def page_nursing_staffing(site):
     out.sort(key=lambda x: -x[3])
     tr = [[esc(STATE_NAMES[st]), human(n), f"{staff:.2f} ★", f"{overall:.2f} ★", human(beds)]
           for st, n, overall, staff, beds in out[:15]]
+    chart = bar_chart([(STATE_NAMES[st], staff) for st, n, overall, staff, beds in out[:12]],
+                      lambda v: f"{v:.2f} of 5")
     body = f"""
 <h1>Nursing-home staffing ratings by state</h1>
 <p class="lede">CMS rates nursing homes on staffing as well as inspections and quality measures.
@@ -215,6 +238,7 @@ well-staffed relative to their residents.
 <li>Overall ratings do not always follow staffing: in some states the average overall rating is lower
 than the staffing rating, meaning inspection or quality results drag the overall score down.</li>
 </ul>
+{chart}
 {table(["State", "Facilities", "Staffing rating", "Overall rating", "Certified beds"], tr)}
 <p class="mut">States with fewer than 30 rated facilities are excluded.</p>
 <h2>What the staffing rating measures</h2>
@@ -259,6 +283,8 @@ def page_dialysis(site):
     tr = [[esc(STATE_NAMES[st]), human(v["n"]), human(v["rated"]), f'{v["top"] / v["rated"] * 100:.0f}%']
           for st, v in best]
     dist_rows = [[f"{n} stars", human(dist[n]), fmt_pct(dist[n], rated)] for n in (5, 4, 3, 2, 1)]
+    dist_chart = bar_chart([(f"{n} stars", dist[n]) for n in (5, 4, 3, 2, 1)],
+                           lambda v: human(int(v)))
     body = f"""
 <h1>US dialysis facilities: the national rating picture</h1>
 <p class="lede">CMS publishes a five-star rating for dialysis facilities based on patient survival,
@@ -266,6 +292,7 @@ hospitalisation, readmission, transfusion, emergency-department visits and trans
 Across the country, most rated facilities land in three stars — but the spread between states is wide.
 <span class="stat">{human(total)} facilities</span><span class="stat">{human(rated)} rated</span></p>
 <h2>Ratings distribution</h2>
+{dist_chart}
 {table(["Rating", "Facilities", "Share of rated"], dist_rows)}
 <h2>States with the highest share of four- and five-star facilities</h2>
 {table(["State", "Facilities", "Rated", "Four stars or better"], tr)}
