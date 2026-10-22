@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~06:20 IST (DeepSeek agent, repo `myds`). Round 24 of the goal loop.
+> Last updated: 2026-10-23 ~07:00 IST (DeepSeek agent, repo `myds`). Round 25 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,24 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-25 work (2026-10-23) — external publications audited: most are noindex
+
+1. **Indexability audit of everything we published off-site:**
+   - **Substack notes and the Substack profile carry `meta robots: noindex`** — they cannot help
+     Google discovery at all. (Only useful as a public profile, not as a link source.)
+   - **Telegraph articles are indexable** (`index, follow`) but have no inbound links and telegra.ph
+     publishes no sitemap/listing, so they are orphan pages until something links to them.
+   - **GitHub repo `hemantsarthak/myds` is indexable** (no noindex) but nothing links to it.
+   Conclusion: **no autonomous off-site publication we can create is currently feeding discovery.**
+   The domain needs either a Search Console/Bing Webmaster submission or a link from an
+   already-crawled page — both of which need the human (or money).
+2. **`HUMAN_TODO.md` added at the repo root** — the three one-minute actions (GSC domain property,
+   Bing WMT press-and-hold, Substack publication captcha) with exact steps and what each unlocks.
+3. **College net-price insight parked:** the IPEDS SFA file only populates the income-band fields
+   (NPIS412 etc.) for public institutions — 769 colleges instead of ~2,800 — so the analysis would
+   have been misleading. Disabled with a comment rather than shipped; needs a better source
+   (College Scorecard has net price by income for all institutions).
 
 ## Round-24 work (2026-10-23) — hub home page turned into a proper landing page
 
