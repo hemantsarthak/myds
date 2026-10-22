@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://hemantsarthak.github.io/myds/</loc>
-    <lastmod>2026-10-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
+  <url><loc>https://hemantsarthak.github.io/myds/</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://hemantsarthak.github.io/myds/datasets/index.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://hemantsarthak.github.io/myds/datasets/ifsc-codes.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://hemantsarthak.github.io/myds/datasets/us-zip-codes.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://hemantsarthak.github.io/myds/datasets/cms-hospital-ratings.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://hemantsarthak.github.io/myds/datasets/us-dialysis-facilities.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://hemantsarthak.github.io/myds/insights/index.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://hemantsarthak.github.io/myds/insights/hospital-ratings-by-state.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://hemantsarthak.github.io/myds/insights/hospitals-by-ownership.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://hemantsarthak.github.io/myds/insights/hospitals-with-emergency-departments.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://hemantsarthak.github.io/myds/insights/nursing-home-staffing-by-state.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://hemantsarthak.github.io/myds/insights/largest-nursing-home-chains.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://hemantsarthak.github.io/myds/insights/dialysis-ratings-nationally.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://hemantsarthak.github.io/myds/insights/indian-bank-branch-networks.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://hemantsarthak.github.io/myds/insights/indian-bank-branches-by-state.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://hemantsarthak.github.io/myds/insights/us-zip-codes-by-state.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://hemantsarthak.github.io/myds/insights/airports-by-country.html</loc><lastmod>2026-10-22</lastmod></url>
 </urlset>
