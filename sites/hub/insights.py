@@ -4,7 +4,9 @@ directories. These are the pages most likely to earn links: unique numbers, clea
 path into the underlying directory pages."""
 import collections
 import csv
+import io
 import pathlib
+import zipfile
 
 from engine.sitegen import cards, esc, human, notice, related, table
 
@@ -437,6 +439,115 @@ Data Catalog, Nursing Home Provider Information (public domain).</p>
              body, crumbs=[("Insights", "/insights/"), ("Nursing-home chains", None)])
 
 
+
+# ---------------------------------------------------------------- college net price (IPEDS)
+SECTOR_LABEL = {"1": "Public 4-year", "2": "Private non-profit 4-year", "3": "For-profit 4-year"}
+
+
+def load_college_net_price():
+    hd = {}
+    with zipfile.ZipFile(CACHE / "ipeds" / "HD2023.zip") as z:
+        with z.open("HD2023.csv") as f:
+            for r in csv.DictReader(io.TextIOWrapper(f, encoding="utf-8-sig", errors="replace")):
+                if (r.get("SECTOR") or "") in SECTOR_LABEL:
+                    hd[r["UNITID"]] = (r.get("INSTNM") or "", (r.get("STABBR") or "").strip(), r["SECTOR"])
+    out = []
+    rows_src = None
+    unzipped = next((CACHE / "SFA2223").glob("*.csv"), None) if (CACHE / "SFA2223").exists() else None
+    if unzipped:
+        with unzipped.open(encoding="utf-8-sig", errors="replace") as f:
+            rows_src = list(csv.DictReader(f))
+    else:
+        with zipfile.ZipFile(CACHE / "ipeds" / "SFA2223.zip") as z:
+            with z.open("sfa2223.csv") as f:
+                rows_src = list(csv.DictReader(io.TextIOWrapper(f, encoding="utf-8-sig", errors="replace")))
+    for r in rows_src:
+        uid = r.get("UNITID")
+        if uid not in hd:
+            continue
+        v = num(r.get("NPIS412"))   # net price, families earning under $30,000
+        if v is None or v <= 0 or v > 80000:
+            continue
+        name, st, sector = hd[uid]
+        out.append((name, st, sector, v))
+    return out
+
+
+def page_college_net_price(site):
+    data = load_college_net_price()
+    data.sort(key=lambda x: x[3])
+    cheapest = data[:20]
+    median = sorted(d[3] for d in data)[len(data) // 2]
+    by_state = collections.defaultdict(list)
+    for name, st, sector, v in data:
+        if st in STATE_NAMES:
+            by_state[st].append(v)
+    states = [(st, sorted(v)[len(v) // 2], len(v)) for st, v in by_state.items() if len(v) >= 8]
+    states.sort(key=lambda x: x[1])
+    low = states[:10]
+    high = states[-10:][::-1]
+    by_sector = collections.defaultdict(list)
+    for name, st, sector, v in data:
+        by_sector[sector].append(v)
+    sector_rows = []
+    for sector, vals in sorted(by_sector.items()):
+        vals.sort()
+        sector_rows.append([esc(SECTOR_LABEL[sector]), human(len(vals)),
+                            "$" + human(round(vals[len(vals) // 2]))])
+    tr = [[str(i + 1), esc(name), esc(st), "$" + human(round(v))]
+          for i, (name, st, sector, v) in enumerate(cheapest)]
+    tr_low = [[esc(STATE_NAMES[st]), "$" + human(round(v)), human(n)] for st, v, n in low]
+    tr_high = [[esc(STATE_NAMES[st]), "$" + human(round(v)), human(n)] for st, v, n in high]
+    body = f"""
+<h1>Which US colleges cost least for low-income students?</h1>
+<p class="lede">Sticker price says little about what students actually pay. Federal data reports the
+average net price — tuition, fees, books and living costs minus grant aid — for students from families
+earning under $30,000 a year. The range is enormous.
+<span class="stat">{human(len(data))} four-year colleges</span>
+<span class="stat">national median ${human(round(median))}</span></p>
+<h2>Key findings</h2>
+<ul>
+<li>The national median net price for students from families earning under $30,000 is
+<strong>${human(round(median))}</strong> a year across the four-year colleges in this analysis.</li>
+<li>The cheapest state median is <strong>{esc(STATE_NAMES[low[0][0]])}</strong> at
+${human(round(low[0][1]))}, against ${human(round(high[0][1]))} in
+{esc(STATE_NAMES[high[0][0]])} — a difference of
+${human(round(high[0][1] - low[0][1]))} a year for the same income band.</li>
+<li>Public four-year colleges have a median net price of
+${human(round(sorted(by_sector["1"])[len(by_sector["1"]) // 2]))}, versus
+${human(round(sorted(by_sector["2"])[len(by_sector["2"]) // 2]))} at private non-profit four-year
+colleges — before institutional aid is applied at the top end.</li>
+</ul>
+<h2>Cheapest colleges for students from families earning under $30,000</h2>
+{table(["#", "Institution", "State", "Average net price"], tr)}
+<h2>State medians: lowest ten</h2>
+{table(["State", "Median net price", "Colleges"], tr_low)}
+<h2>State medians: highest ten</h2>
+{table(["State", "Median net price", "Colleges"], tr_high)}
+<h2>Net price by type of college</h2>
+{table(["Sector", "Colleges", "Median net price"], sector_rows)}
+<h2>How to read this</h2>
+<p>Net price is what a student actually pays after grant and scholarship aid, not after loans. It
+includes living costs for students living on campus, which is why some urban commuter colleges look
+cheap: no room and board. Compare a college's net price with its graduation rate before drawing
+conclusions — a cheap college that students do not finish is expensive in the end.</p>
+<h2>Method</h2>
+<p>Net price for the $0-$30,000 family-income band (IPEDS SFA 2022-23, field NPIS412) for four-year
+degree-granting institutions (IPEDS sectors 1-3), joined to the IPEDS directory (HD2023) for name and
+state. State medians use states with at least eight reporting colleges. Data: NCES/IPEDS, public
+domain.</p>
+{related([("https://colleges.tekify.xyz", "Look up a college"),
+          ("https://colleges.tekify.xyz/state/ca/", "California colleges"),
+          ("https://colleges.tekify.xyz/state/tx/", "Texas colleges"),
+          ("/insights/hospital-ratings-by-state/", "Hospital ratings by state")])}
+"""
+    site.add("/insights/college-net-price-by-income/",
+             "Which US Colleges Cost Least for Low-Income Students? — IPEDS Data",
+             "Average net price for students from families earning under $30,000 at four-year US "
+             "colleges, with state medians and comparisons by sector.",
+             body, crumbs=[("Insights", "/insights/"), ("College net price", None)])
+
+
 def build_insights(site):
     page_hospital_ratings(site)
     page_hospital_ownership(site)
@@ -445,6 +556,7 @@ def build_insights(site):
     page_ifsc(site)
     page_hospital_er(site)
     page_nursing_chains(site)
+    # page_college_net_price(site)  # parked: SFA income bands are public-only
     site.add("/insights/", "Insights — Tekify",
              "Data-driven articles computed from the same public datasets that power the Tekify "
              "directories: hospital ratings by state, nursing-home staffing, dialysis ratings and "
