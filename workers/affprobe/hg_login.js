@@ -1,0 +1,21 @@
+﻿const path=require("path"), fs=require("fs");
+const { chromium } = require("playwright");
+const SHARED = path.resolve(__dirname,"..","..","shared");
+(async()=>{
+  const att = JSON.parse(fs.readFileSync(path.join(SHARED,"hostinger_signup_attempt.json"),"utf8"));
+  const b = await chromium.launch({headless:true, channel:"chrome", args:["--disable-blink-features=AutomationControlled"]});
+  const c = await b.newContext({userAgent:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36", viewport:{width:1366,height:900}, locale:"en-IN"});
+  const p = await c.newPage();
+  await p.goto("https://affiliates.hostinger.com/",{waitUntil:"domcontentloaded",timeout:60000});
+  await p.waitForTimeout(2000);
+  await p.fill("#UserEmail", att.email);
+  await p.fill("#UserPassword", att.password);
+  await Promise.all([p.waitForLoadState("domcontentloaded").catch(()=>{}), p.click("#loginButton")]);
+  await p.waitForTimeout(4000);
+  console.log("URL", p.url(), "|", await p.title());
+  const t=(await p.evaluate(()=>document.body.innerText)).replace(/\n{3,}/g,"\n\n");
+  console.log(t.slice(0,1800));
+  fs.writeFileSync(path.join(SHARED,"hostinger_pw_state.json"), JSON.stringify(await c.storageState(),null,1));
+  await p.screenshot({path:path.join(__dirname,"hostinger_login.png")});
+  await b.close();
+})().catch(e=>{console.error("FATAL",e.message);process.exit(1)});

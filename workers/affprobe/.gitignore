@@ -1,0 +1,7 @@
+﻿.pwprofile-*/
+__pycache__/
+*.png
+tp_js/
+*.html
+tp_gql_bodies.json
+tp_js_urls.json
