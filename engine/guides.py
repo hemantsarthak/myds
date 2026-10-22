@@ -419,6 +419,127 @@ payment suggests.</p>
              rel=[("Loan payment calculator", "/loan-payment/"),
                   ("Mortgage amortisation", "/mortgage-amortization/")]),
     ],
+    # ------------------------------------------------------------------ colleges
+    "colleges": [
+        dict(slug="how-to-read-acceptance-rates",
+             title="How to Read a College Acceptance Rate (And What It Does Not Tell You)",
+             desc="What acceptance rate measures, why a low rate is not the same as a good college, "
+                  "how yield and test-optional policies distort it, and what to compare instead.",
+             h1="How to read an acceptance rate",
+             lede="The acceptance rate is admitted ÷ applicants. It measures selectivity, not quality.",
+             body="""
+<h2>The arithmetic</h2>
+<p>If 20,000 students apply and 5,000 are admitted, the acceptance rate is 25%. The figure is
+reported by the institution to IPEDS and covers first-time, degree-seeking applicants for the fall
+term. It says nothing about the quality of teaching, class size or outcomes — only how many
+applicants the admissions office turned away.</p>
+<h2>Why it can mislead</h2>
+<p>Three distortions matter. First, <em>free applications</em>: when a college drops its fee or
+supplemental essay, applications rise, the rate falls, and the college looks more selective without
+changing who it admits. Second, <em>marketing-driven applications</em>: schools that buy names and
+recruit widely lower their rate the same way. Third, <em>yield</em> — the share of admitted students
+who enrol — varies hugely, so two colleges with identical acceptance rates can have very different
+student bodies.</p>
+<h2>What to compare instead</h2>
+<p>Look at the admitted-student profile (test score middle 50%, high-school GPA), the graduation
+rate, and the net price after aid. A college that admits 70% of applicants but graduates 80% of its
+students is usually a better bet than one that admits 30% and graduates 45%. The pages here show all
+four numbers side by side so the comparison is possible in one place.</p>
+""",
+             faq=[("Is a lower acceptance rate better?",
+                   "Not necessarily. Acceptance rate measures selectivity only; graduation rate, net "
+                   "price and the admitted-student profile say more about the outcome."),
+                  ("Does the acceptance rate include transfer students?",
+                   "The IPEDS rate covers first-time, degree-seeking freshmen, not transfer applicants."),
+                  ("Why is my college's rate different from the website?",
+                   "Colleges often quote a rate for a specific term or application cycle; IPEDS uses a "
+                   "standard fall cohort so institutions can be compared.")],
+             rel=[("Search colleges", "/search/"), ("All states", "/#states")]),
+
+        dict(slug="in-state-vs-out-of-state-tuition",
+             title="In-State vs Out-of-State Tuition — How Public College Pricing Works",
+             desc="Why public universities charge residents less, what counts as residency, how "
+                  "reciprocity programmes work, and why private college sticker prices are the same "
+                  "for everyone.",
+             h1="In-state vs out-of-state tuition",
+             lede="At public universities the price depends on where you live; at private colleges the "
+                  "sticker price does not.",
+             body="""
+<h2>Public universities</h2>
+<p>State legislatures subsidise public institutions on the understanding that residents pay less.
+In-state students are charged a lower tuition rate; out-of-state and international students pay the
+full cost of instruction plus a margin. The gap is large — often two to three times the in-state
+price at flagship universities, and it is the single biggest pricing difference in American higher
+education.</p>
+<h2>Establishing residency</h2>
+<p>Residency is defined by state law, not by the university. Typical requirements: twelve months of
+physical presence, a state driver's licence, voter registration, tax returns and financial
+independence from parents who live elsewhere. Moving to a state mainly to attend college usually
+does not qualify, and petitions are audited.</p>
+<h2>Reciprocity and waivers</h2>
+<p>Many states belong to regional exchange programmes (WICHE in the West, the Midwest Student
+Exchange, the Academic Common Market in the South) that let residents of one state pay near-in-state
+rates at partner institutions in another. Some universities also offer automatic merit scholarships
+that reduce the out-of-state price to roughly the in-state level.</p>
+<h2>Private colleges</h2>
+<p>Private institutions publish one tuition figure for all students, but almost nobody pays the
+sticker price: institutional aid, need-based grants and merit scholarships reduce the net price. That
+is why the IPEDS net-price figure for a private college is often half its published tuition — and
+why comparing sticker prices across sectors is misleading.</p>
+""",
+             faq=[("Can I get in-state tuition after one year?",
+                   "Only if you meet the state's residency rules — usually a year of physical presence "
+                   "plus independence and documentation. Attending college is not by itself enough."),
+                  ("Do private colleges charge out-of-state students more?",
+                   "No. Private colleges publish the same tuition for everyone; aid packages vary by "
+                   "student, not by residence."),
+                  ("What is a tuition reciprocity programme?",
+                   "A regional agreement that lets residents of one state attend partner institutions "
+                   "in another at a reduced, near-in-state rate.")],
+             rel=[("Search colleges", "/search/"), ("All states", "/#states")]),
+
+        dict(slug="graduation-rate-explained",
+             title="Graduation Rate Explained — What the 150% Cohort Number Means",
+             desc="How the federal 150% graduation rate is calculated, who is excluded from the "
+                  "cohort, why transfer-out matters, and how to compare colleges fairly.",
+             h1="What the graduation rate actually measures",
+             lede="The headline rate counts first-time, full-time students who finish within 150% of "
+                  "normal time — six years for a bachelor's degree, three for an associate's.",
+             body="""
+<h2>The cohort</h2>
+<p>Each institution tracks the first-time, full-time students who started in a given fall. Students
+who transfer in, part-time students and students who started in another term are not in that cohort.
+The rate is the share of the cohort who completed a degree or certificate within 150% of the
+published programme length.</p>
+<h2>Exclusions</h2>
+<p>IPEDS allows institutions to exclude a small number of students — those who died, became
+permanently disabled, joined the military, or left to serve a religious mission. Those exclusions are
+reported separately, so the adjusted cohort used as the denominator is slightly smaller than the raw
+cohort.</p>
+<h2>Why transfer-out matters</h2>
+<p>A student who transfers to another college and graduates there counts as a non-completer for the
+first institution. Community colleges and regional universities therefore publish a transfer-out rate
+alongside the graduation rate; reading both together gives a fairer picture. A college with a 30%
+graduation rate and a 40% transfer-out rate is not losing 70% of its students — many are continuing
+elsewhere.</p>
+<h2>Comparing fairly</h2>
+<p>Compare institutions with similar cohorts and missions. A selective four-year college and an
+open-admission community college serve different populations, and their rates are not a like-for-like
+quality score. The pages here show the rate, the cohort size and the transfer-out rate together so
+the context is visible.</p>
+""",
+             faq=[("Is 150% graduation rate the same as four-year graduation rate?",
+                   "No. It is the share who finish within six years for a bachelor's degree (three "
+                   "years for an associate's), not four."),
+                  ("Why do community colleges have low graduation rates?",
+                   "Many students transfer, study part-time or take a few courses rather than complete "
+                   "a credential; the first-time full-time cohort excludes those patterns."),
+                  ("Do transfer students count against a college?",
+                   "Yes — a student who transfers out counts as a non-completer for the institution "
+                   "they left, which is why transfer-out rates are reported too.")],
+             rel=[("Search colleges", "/search/"), ("All states", "/#states")]),
+    ],
+
 }
 
 

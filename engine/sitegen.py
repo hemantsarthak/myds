@@ -53,6 +53,7 @@ NETWORK = [
     ("Airport Codes", "https://airportcodes.tekify.xyz/"),
     ("US ZIP Codes", "https://zipcodes.tekify.xyz/"),
     ("US Places", "https://places.tekify.xyz/"),
+    ("US Colleges", "https://colleges.tekify.xyz/"),
     ("Calculators", "https://calculators.tekify.xyz/"),
     ("Tekify home", "https://tekify.xyz/"),
 ]

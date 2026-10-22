@@ -26,6 +26,8 @@ PROPERTIES = [
      "Telephone area and country dialing codes with coverage maps of cities."),
     ("https://places.tekify.xyz/", "US Places",
      "US cities, towns and counties with 2023 population estimates and county assignment."),
+    ("https://colleges.tekify.xyz/", "US Colleges",
+     "Acceptance rates, tuition, enrollment and graduation rates for 6,000 US institutions."),
     ("https://calculators.tekify.xyz/", "Calculators",
      "Loan, mortgage, tax, salary, health and date calculators."),
 ]
