@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-22 ~20:40 IST (DeepSeek agent, repo `myds`). Round 12 of the goal loop.
+> Last updated: 2026-10-22 ~21:20 IST (DeepSeek agent, repo `myds`). Round 13 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,29 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-13 work (2026-10-22 late evening) — first external citation live
+
+1. **Substack account, public profile and first Note are live.**
+   - Profile: <https://substack.com/@tekifydata> ("Tekify Data", handle `tekifydata`, bio set).
+   - **Note published** with a link to <https://tekify.xyz>: verified public at
+     `https://substack.com/profile/562668962-tekify-data/note/c-367410106` (HTTP 200, anchor to
+     tekify.xyz present, `rel="nofollow noopener ugc"`).
+   - Nofollow still matters for **discovery**: Google crawls UGC links on high-authority pages even
+     when they are nofollow, which is the step we are missing (Google currently indexes 0 pages).
+   - Login is a magic link to `substack@tekify.xyz` (read from our own inbox); the session lives in
+     the shared AI Agent Chrome profile, so future sessions are already logged in.
+2. **Substack publication creation is captcha-gated** ("Please complete the captcha to continue" at
+   the *Claim your URL* step). Not defeated, per policy. **Human action (~30 s):** open
+   `https://substack.com/settings` → Publishing → "Start a Substack", solve the captcha; the agent
+   can then create `tekifyopendata.substack.com` and publish articles that link to every directory.
+3. Also probed this round: WordPress.com rejects `@tekify.xyz` ("email provider blocks some of our
+   emails") even after SPF/DMARC; Substack's API endpoints require the app session (cookie-only fetch
+   returns 403 — use the UI or the in-page flow, not `/api/v1/*`).
+4. Scripts kept for reuse: `scripts/browser/substack-onboard.mjs` (onboarding),
+   `scripts/browser/substack-create-publication.mjs` (publication, stops at captcha),
+   `scripts/browser/substack-note.mjs` (profile + single note), `scripts/browser/substack-notes.mjs`
+   (batch notes — editor detection needs a small fix: wait longer for the composer).
 
 ## Round-12 work (2026-10-22 evening) — READ THIS: Google has not indexed anything yet
 
