@@ -36,7 +36,7 @@ param(
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $PSScriptRoot
 $ProfileDir = Join-Path $Root "shared\chrome-agent-profile"
-$Shortcut = Join-Path $Root "shared\AIProfile - Chrome.lnk"
+$Shortcut = Join-Path $Root "shared\AI Agent - Chrome.lnk"
 
 $Chrome = @(
   (Join-Path $env:ProgramFiles "Google\Chrome\Application\chrome.exe"),
@@ -134,7 +134,7 @@ if ($CreateShortcut) {
   $s.WorkingDirectory = $Root
   $s.IconLocation = "$Chrome,0"
   $s.WindowStyle = 7
-  $s.Description = "AIProfile - Tekify agent Chrome (visible window; automation attaches via CDP)"
+  $s.Description = "AI Agent - Tekify Chrome (separate data dir, automation attaches via CDP)"
   $s.Save()
   Write-Host "Created $Shortcut"
   Write-Host "Right-click it -> Pin to taskbar (Windows blocks scripted taskbar pinning)."

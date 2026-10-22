@@ -43,9 +43,9 @@ almost entirely without the human. Everything runs from this folder + Cloudflare
   The harness `web_search` tool needs `DEEPSEEK_API_KEY` and does not work in this profile;
   `web_fetch` still fetches a known URL (public IPs only, no JS rendering).
 - **Browser automation must stay invisible.** ONE persistent Chrome profile, display name
-  **AIProfile**: `shared/chrome-agent-profile` (gitignored; holds the Travelpayouts, Cuelinks,
+  **AI Agent**: `shared/chrome-agent-profile` (gitignored; holds the Travelpayouts, Cuelinks,
   HilltopAds and future logins). Two launch modes:
-  * pinned shortcut `shared\AIProfile - Chrome.lnk` (`-CreateShortcut`) opens a VISIBLE window for
+  * pinned shortcut `shared\AI Agent - Chrome.lnk` (`-CreateShortcut`) opens a VISIBLE window for
     the human, with DevTools on so automation can attach to it;
   * `scripts/chrome-agent.ps1` (no flags) launches it off-screen/minimized for unattended runs.
   Scripts take a browser from `scripts/agentbrowser.mjs`, which ATTACHES to that running browser
@@ -53,10 +53,12 @@ almost entirely without the human. Everything runs from this folder + Cloudflare
   Never launch headful Chrome on-screen: `-Visible` / `AGENT_VISIBLE=1` is only for a
   captcha/KYC step the human must physically solve.
   `node scripts/session-import.mjs [--report]` re-injects the saved service sessions
-  (storageState/cookie dumps in `shared/`) into AIProfile and verifies which ones are logged in.
-  Note: the human's own `AIProfile` inside the main Chrome User Data (Profile 4) CANNOT be driven
-  by automation — Chrome 155 refuses DevTools on the default user-data dir and the running Chrome
-  holds its singleton lock. Use this separate AIProfile instead.
+  (storageState/cookie dumps in `shared/`) into the AI Agent profile and verifies login state.
+  Note: the human's own `AIProfile` inside the main Chrome User Data (`Profile 4`) CANNOT be
+  driven by automation — since Chrome 136 the remote-debugging switches are ignored on the
+  DEFAULT data directory (developer.chrome.com/blog/remote-debugging-port), and their running
+  Chrome holds its singleton lock anyway. That profile stays theirs for normal browsing; the
+  agent's separate data dir is the only automatable option.
 
 ## Repo layout
 

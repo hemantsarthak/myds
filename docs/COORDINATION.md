@@ -5,9 +5,9 @@
 The human asked that browser automation never appear on screen, and that the agent use ONE
 profile they can also open themselves.
 
-- ONE persistent profile: `shared/chrome-agent-profile`, display name **AIProfile**
+- ONE persistent profile: `shared/chrome-agent-profile`, display name **AI Agent**
   (gitignored). Do NOT create more throwaway profiles.
-- Pinned shortcut `shared\AIProfile - Chrome.lnk` (`chrome-agent.ps1 -CreateShortcut`) opens a
+- Pinned shortcut `shared\AI Agent - Chrome.lnk` (`chrome-agent.ps1 -CreateShortcut`) opens a
   VISIBLE AIProfile window with DevTools on `127.0.0.1:9222` — that is the window the human uses
   and automation attaches to.
 - `scripts/chrome-agent.ps1` with no flags launches the same profile OFF-SCREEN for unattended
@@ -18,7 +18,7 @@ profile they can also open themselves.
   into AIProfile and verifies login state. Current: Travelpayouts / Cuelinks / HilltopAds
   logged-in; Hostinger login rejected with the stored credentials (human); Microsoft/BWT still
   needs the press-and-hold signup (human).
-- The human's own AIProfile inside the main Chrome User Data (`Profile 4`) cannot be automated:
+- The human's own AIProfile inside the main Chrome User Data (`Profile 4`) cannot be automated (Chrome 136+ ignores debug switches on the default data dir):
   Chrome 155 blocks DevTools on the default user-data dir and the running Chrome holds the lock.
   `workers/bwtprobe/ms_flow2.js` uses `shared/chrome-agent-profile` and stays off-screen unless
   `AGENT_VISIBLE=1`.
