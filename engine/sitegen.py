@@ -281,6 +281,49 @@ class Site:
 {an}
 {extra_head}"""
 
+    def _data_file(self):
+        """The JSON data index this site ships, if any (used for Dataset JSON-LD and llms.txt)."""
+        for key in sorted(self.extra_files):
+            if key.startswith("data/") and key.endswith(".json"):
+                return key
+        return None
+
+    def _dataset_ld(self):
+        data = self._data_file()
+        if not data:
+            return None
+        return {
+            "@context": "https://schema.org", "@type": "Dataset",
+            "name": f"{self.brand} dataset",
+            "description": self.description,
+            "url": self.base + "/",
+            "creator": {"@type": "Organization", "name": self.brand, "url": self.base + "/"},
+            "distribution": [{"@type": "DataDownload", "encodingFormat": "application/json",
+                              "contentUrl": self.base + "/" + data}],
+        }
+
+    def _llms_txt(self) -> str:
+        data = self._data_file()
+        lines = [f"# {self.brand}", f"> {self.description}", "",
+                 f"Site: {self.base}/", f"Source data: {self.source_note or 'public datasets'}",
+                 "", "## Key pages"]
+        seen = set()
+        for path, page in self.pages.items():
+            if path == "index.html":
+                continue
+            url = self.base + "/" + (path[:-len("index.html")] if path.endswith("index.html") else path)
+            if url in seen or page.get("noindex"):
+                continue
+            seen.add(url)
+            lines.append(f"- [{page['title']}]({url})")
+            if len(seen) >= 25:
+                break
+        if data:
+            lines += ["", "## Data access",
+                      f"- JSON index: {self.base}/{data} (no API key, CORS enabled)"]
+        lines += ["", "## Network", "- Tekify: https://tekify.xyz/ (12 free data directories and 75 calculators)", ""]
+        return "\n".join(lines)
+
     def _page_html(self, path, page) -> str:
         rel = path[:-len("index.html")] if path.endswith("index.html") else path
         canonical = self.base + "/" + rel
@@ -288,6 +331,10 @@ class Site:
         blocks = []
         if page["jsonld"]:
             blocks.append(page["jsonld"])
+        if path == "index.html" and not page["jsonld"]:
+            ds = self._dataset_ld()
+            if ds:
+                blocks.append(ds)
         if page["crumbs"]:
             blocks.append({"@context": "https://schema.org", "@type": "BreadcrumbList",
                            "itemListElement": [
@@ -395,6 +442,8 @@ class Site:
                     else:
                         time.sleep(1.5 * (attempt + 1))
         out.mkdir(parents=True, exist_ok=True)
+        if "llms.txt" not in self.extra_files:
+            self.extra_files["llms.txt"] = self._llms_txt()
         for path, page in self.pages.items():
             p = out / path
             p.parent.mkdir(parents=True, exist_ok=True)
