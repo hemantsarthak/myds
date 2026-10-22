@@ -1,0 +1,9 @@
+{
+  "name": "moneyds",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Autonomous revenue portfolio on tekify.xyz (Cloudflare Pages)",
+  "devDependencies": {
+    "wrangler": "^4.151.3"
+  }
+}

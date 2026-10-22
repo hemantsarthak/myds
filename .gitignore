@@ -1,0 +1,26 @@
+# ---- local-only / secrets: NEVER commit ----
+shared/
+.env
+.env.*
+*.pem
+*.key
+wallet*.json
+!shared/README.md
+
+# ---- generated / build output ----
+site/
+dist/
+build/
+out/
+.cache/
+.wrangler/
+tmp/
+logs/
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+*.log
+*.sqlite
+*.db
+_ref_*/
