@@ -10,6 +10,11 @@ identity step. To resume work, just say **"continue"**.
 - Strategy: `docs/STRATEGY.md` · Sites: `docs/SITES.md` · Money: `docs/REVENUE.md`
 - Credentials/notes (not in git): `shared/`
 
+## Landing page (GitHub Pages)
+
+<https://hemantsarthak.github.io/myds/> — a single page linking all twelve directories, the ten data
+analyses, the datasets and the JSON data access paths. Built from `docs/` on `main`.
+
 ## Open datasets
 
 Samples and dataset cards for the public data behind the directories live in [`datasets/`](datasets/README.md):

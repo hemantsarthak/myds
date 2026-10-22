@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~11:50 IST (DeepSeek agent, repo `myds`). Round 33 of the goal loop.
+> Last updated: 2026-10-23 ~12:30 IST (DeepSeek agent, repo `myds`). Round 34 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,26 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-34 work (2026-10-23) — GitHub Pages landing page LIVE (first indexable page on a crawled domain)
+
+1. **Enabled GitHub Pages for the repo** (`POST /repos/.../pages`, source `main` `/docs`) — this had
+   been blocked earlier when the token could not write to a new repo, but it works on this repo.
+   Live at **<https://hemantsarthak.github.io/myds/>** (verified 200, 8.2 KB, **43 links to the
+   properties**), with `robots.txt`, `sitemap.xml` and the IndexNow key file also served from that
+   path. `docs/index.html` is a standalone landing page: 12 directories, 10 data analyses, the
+   datasets, JSON data access, Organization + ItemList JSON-LD, no JavaScript.
+2. **GitHub repo metadata upgraded:** description, homepage (`tekify.xyz`) and 12 topics
+   (open-data, datasets, ifsc, zip-codes, cms, healthcare-data, airport-codes, area-codes,
+   calculators, static-site, cloudflare-pages, seo) — makes the repo discoverable in GitHub search.
+3. **First GitHub Release published:** <https://github.com/hemantsarthak/myds/releases/tag/datasets-v1>
+   with the four dataset sample CSVs as downloadable assets and links to every directory in the
+   release body (verified: page is indexable, 12 tekify links). Repo page itself has 49 tekify links
+   and no noindex.
+4. Why it matters: github.com and github.io are high-authority, heavily crawled domains. This is the
+   first time the portfolio has an indexable page **on a domain search engines already crawl** — the
+   missing discovery link. IndexNow cannot be used for the github.io project path (the key file must
+   sit at the host root), so discovery relies on GitHub's own crawl.
 
 ## Round-33 work (2026-10-23) — Article schema on insights; HF/Zenodo signup ready
 
