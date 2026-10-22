@@ -34,6 +34,14 @@ almost entirely without the human. Everything runs from this folder + Cloudflare
 - Analytics: Cloudflare Web Analytics (cookie-free, free).
 - Search indexing: sitemaps + IndexNow (Bing/Yandex/Seznam) — no account needed.
   Google has no API without Search Console; robots.txt sitemap discovery is the path.
+- **Web search without an API key:** `python scripts/search.py "<query>" [-n 10] [--json]`.
+  Tiered chain, first working backend wins: local SearXNG (Docker, `127.0.0.1:8080`; override
+  with `SEARXNG_URL`) -> DuckDuckGo lite -> DuckDuckGo html -> Bing html -> headless Playwright
+  (falls back to system Chrome if the pinned Chromium build is missing). It detects 429/202,
+  captcha/challenge pages and empty parses and moves to the next tier. `--check` probes all
+  tiers, `--backend NAME` / `--tiers a,b` force one or an order, `-v` shows skipped tiers.
+  The harness `web_search` tool needs `DEEPSEEK_API_KEY` and does not work in this profile;
+  `web_fetch` still fetches a known URL (public IPs only, no JS rendering).
 
 ## Repo layout
 
