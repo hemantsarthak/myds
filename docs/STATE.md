@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~22:50 IST (DeepSeek agent, repo `myds`). Round 49 of the goal loop.
+> Last updated: 2026-10-23 ~23:30 IST (DeepSeek agent, repo `myds`). Round 50 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,19 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-50 work (2026-10-23) — full maintenance verification
+
+1. **Full audit across all 12 properties**: 0 failures, 0 warnings (homepages, robots, IndexNow key
+   files, sitemaps, canonicals, titles/descriptions, JSON-LD, internal links, data endpoints, hub links).
+2. **Health check**: all 12 properties return 200; **121,287 URLs** total (2 new hub insight URLs
+   detected). Report and sitemap baseline committed.
+3. **Git state clean** apart from one new tool script (committed with this round). Repo is in a
+   resumable state: `docs/STATE.md` has the full history, `shared/` holds credentials and notes,
+   `HUMAN_TODO.md` lists the human actions, and every payload for the email-gated publishing push is
+   committed under `datasets/`, `packages/` and `content/`.
+4. Index checks continue to show zero indexed pages on Google and Bing — the IndexNow queues (121,287
+   custom-domain URLs, 70,406 pages.dev URLs, 252 github.io URLs) are still being processed.
 
 ## Round-49 work (2026-10-23) — two more data analyses (hub 18 pages, 12 insights)
 
