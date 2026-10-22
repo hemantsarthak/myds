@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-22 ~19:05 IST (DeepSeek agent, repo `myds`). Round 9 of the goal loop.
+> Last updated: 2026-10-22 ~19:35 IST (DeepSeek agent, repo `myds`). Round 10 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,20 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-10 work (2026-10-22 evening)
+
+1. **Per-bot crawl visibility.** The self-hosted analytics worker now records which bot made each
+   hit (Googlebot, Bingbot, DuckDuckBot, YandexBot, Applebot, Ahrefs, GPTBot, …) and
+   `python scripts/ops.py stats --site <slug>` prints the breakdown. Verified with synthetic
+   Googlebot/Bingbot hits. This is the only way to see whether Googlebot is actually crawling us,
+   since we have no Search Console.
+2. **Full network refresh.** Rebuilt and redeployed all 10 of our sites so that **every page's
+   footer links to all 11 properties** (hospitals, nursing homes and home health were missing from
+   the older sites' footers, which slowed discovery of the newest properties). Verified live: 11
+   network links on airport and hospital pages.
+3. Added `scripts/ad-check.mjs` — loads a page in the shared browser and reports ad-script
+   responses + injected ad iframes (used last round to prove HilltopAds serves despite "Pending").
 
 ## Round-9 work (2026-10-22 evening)
 
