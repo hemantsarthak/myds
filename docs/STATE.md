@@ -54,6 +54,13 @@ Everything that can be built without search-engine access is built, deployed, ve
 The portfolio is complete; the only open variable is indexing, which is queued with every engine that
 accepts anonymous submissions.
 
+> **2026-10-23 03:40 IST — income re-verification (human asked).** Still **$0.00**: HilltopAds
+> publisher balance `0.00 USD` (site 925719 approval still Pending; zones active, no traffic),
+> Travelpayouts balance `0` / no actions / no payments (finance API), 0 human sessions in 2 days of
+> edge logs. Ad tags are serving; the gate is still search indexing. Details + exact read methods:
+> `docs/REVENUE.md` → "Live verification". The ANALYTICS/MAILBOX KV quota is exhausted until
+> 00:00 UTC (05:30 IST), so `ops.py stats` / `inbox` only work after that.
+
 ### Final verified numbers
 
 | Item | State |

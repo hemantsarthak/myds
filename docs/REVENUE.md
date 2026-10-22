@@ -27,6 +27,21 @@ affiliate, product sales, API, site sale. Update at least weekly.
 | Monetag | — | — | — | blocked: one reCAPTCHA solve needed (human, optional) |
 | Adsterra | — | — | — | blocked: Cloudflare Turnstile (human, optional) |
 
+## Live verification — 2026-10-23 03:40 IST (human asked "any income yet?")
+
+Both money sources were read **directly from their dashboards/APIs**, not inferred:
+
+| Source | Live reading | Method |
+|---|---|---|
+| HilltopAds (account 409868) | **Publisher Balance 0.00 USD**; all 5 zones `STATUS_ACTIVE`, `trafficStatus: unknown` (no traffic delivered yet); website `tekify.xyz` (925719) approval still `STATUS_APPROVAL_PENDING` | panel HTML (session cookies) + GraphQL `zones(siteId: 925719)` |
+| Travelpayouts (partner 764877) | **balance usd `0`**, next payout `0`, payments `[]`, actions `count 0` | `GET https://api.travelpayouts.com/finance/v2/get_user_balance` with header `X-Access-Token: <api_token>` (also `get_user_next_payout`, `get_user_payments`, `get_user_actions_affecting_balance`) |
+| Edge traffic (2 days) | 55,092 requests, **0 human sessions**: ClaudeBot 27,684 + Anthropic 340 (~51%), UA-rotating crawler 20,700 (~38%), scanners 3,664; Googlebot **6**, Bingbot **30** | `python scripts/traffic.py --days 2` |
+
+**Conclusion: total income to date = $0.00.** Not a setup failure — the ad tags are live and serving
+(`unfoldedtrade.com` scripts on pages), but display ads need human impressions and affiliate needs
+human clicks, and there is still no human traffic. First dollar depends on search indexing.
+Re-check cadence: Hilltop website moderation 24–48 h from 2026-10-22; re-read both balances weekly.
+
 ## Milestones
 
 - [ ] $1 first revenue
