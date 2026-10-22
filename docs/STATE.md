@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-24 ~02:30 IST (DeepSeek agent, repo `myds`). Round 54 of the goal loop.
+> Last updated: 2026-10-24 ~03:30 IST (DeepSeek agent, repo `myds`). **PAUSED by the human at round 54 — portfolio in a complete, verified, resumable state.**
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,62 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## PAUSED — 2026-10-24 (human requested a wrap-up)
+
+Everything that can be built without search-engine access is built, deployed, verified and committed.
+The portfolio is complete; the only open variable is indexing, which is queued with every engine that
+accepts anonymous submissions.
+
+### Final verified numbers
+
+| Item | State |
+|---|---|
+| Properties | **12**, all returning 200 |
+| URLs | **121,287** across the twelve sites (sitemaps) |
+| Audit | **0 failures, 0 warnings** (homepages, robots, IndexNow keys, sitemaps, canonicals, titles/descriptions, JSON-LD, internal links, data endpoints, hub links) |
+| Hub | 18 pages, **12 original data analyses**, Organization + Dataset + ItemList + FAQPage + WebSite JSON-LD |
+| Calculators | 75 tools, every formula cross-checked (Python vs JavaScript) and live-tested |
+| GitHub Pages | **304 URLs** live on hemantsarthak.github.io/myds (state data pages, guides, directories, datasets, analyses, about, methodology, data APIs) |
+| pages.dev crawl entries | **70,406 URLs** submitted to IndexNow (7 hosts accepted, 5 queued) |
+| github.io crawl entries | 304 URLs submitted to IndexNow |
+| Custom-domain crawl entries | 121,287 URLs in the daily IndexNow feed (GitHub Action, 08:47 IST) |
+| Ads | HilltopAds serving (8 requests / 3 scripts / ad iframe verified); site validation file published |
+| Affiliates | Travelpayouts approved, 15 tracked links on airport + hub pages |
+| Analytics | self-hosted, cookie-free, per-site + bot breakdown (KV quota-limited daily) |
+| Search engines | **0 indexed** on Google and Bing — the one remaining blocker |
+| Revenue | **$0.00** |
+
+### Prepared but not published (needs email accounts)
+
+All payloads are committed and ready; account creation is scripted and needs only the autonomous inbox
+(KV quota resets at 00:00 UTC / 05:30 IST):
+
+- `datasets/` + `packages/hf/` → Hugging Face dataset repos (4)
+- `scripts/publish_datasets.py --zenodo` → Zenodo DOI depositions (4)
+- `packages/npm/` → npm package `tekify-data`
+- `packages/pypi/` → PyPI package `tekify-data`
+- `content/medium/` → 3 article drafts
+- `scripts/browser/hf-signup.mjs`, `zenodo-signup.mjs` → account-creation flows
+
+### To resume
+
+1. Say **"continue"** — the agent reads this file, `docs/READINESS.md` and `docs/BACKLOG.md` and picks up.
+2. If the inbox quota has reset, run the publishing push (Hugging Face, Zenodo, npm, PyPI, Medium).
+3. Check Bing/Google indexing (`site:` queries); first indexed page = the signal to start monitoring
+   traffic and optimising the pages that get impressions.
+4. Human actions, in order of value (see `HUMAN_TODO.md`): **Google Search Console** (1 min, highest
+   value), Bing Webmaster Tools (30 s), Substack publication captcha (30 s), optional GitHub token scope.
+
+### Known constraints / gotchas for the next session
+
+- The analytics and mailbox share one KV namespace; `list()` is capped at 1,000/day. Both `ops.py stats`
+  and `ops.py inbox` now cache and fail softly. Quota resets at 00:00 UTC (05:30 IST).
+- `/assets/*` is served immutable; script URLs carry a content hash (`?v=`) so changes propagate.
+- Deploys must be verified against the live sitemap page count — `ops.py deploy` now maps bare slugs to
+  the existing `myds-*` project, but always confirm.
+- `areacodes` was adopted from the parallel writer; do not delete their other properties
+  (`pincode-india`, `ifsc-india`, `solarcalc-tekify`) in the shared Cloudflare account.
 
 ## Round-54 work (2026-10-24) — HilltopAds site validation published
 

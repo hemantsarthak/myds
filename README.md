@@ -1,5 +1,7 @@
 # moneyds — autonomous revenue portfolio
 
+**Status: PAUSED (2026-10-24).** The portfolio is complete and verified; the only open variable is search-engine indexing. Resume by saying "continue" — see `docs/STATE.md` (top block) and `docs/READINESS.md`.
+
 Agent-operated network of free, data-driven websites on **tekify.xyz**, monetized with
 display ads, affiliate links and (planned) paid data APIs. Goal: **$1,000/month** within 30–90 days.
 
