@@ -26,7 +26,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice  # noqa: E402
+from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice, seo_title  # noqa: E402
 
 CACHE = ROOT / ".cache"
 STATE_NAMES = {
@@ -427,7 +427,7 @@ admissions and visits.</p>
      + (f', part of the {esc(h["chain"])} chain' if h["chain"] else '') + '.'),
 ])}
 """
-        s.add(h["url"], f'{h["label"]} — {h["city"]}, {h["state"]} | Ratings, Staffing & Contact',
+        s.add(h["url"], seo_title(h["label"], " — CMS Rating & Staffing"),
               f'{h["label"]} in {h["city"]}, {h["state"]}: CMS overall rating '
               f'{stars(h["ratings"]["Overall rating"])}, staffing hours, ownership, beds and phone.',
               body, crumbs=[("States", "/#states"), (sname, state_url[h["state"]]), (h["label"], None)])

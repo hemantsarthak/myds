@@ -27,7 +27,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice  # noqa: E402
+from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice, seo_title  # noqa: E402
 
 CACHE = ROOT / ".cache"
 STATE_NAMES = {
@@ -378,7 +378,7 @@ appointments and general enquiries{'; emergency services are available' if h['em
      f'It is {esc(tarticle)} {esc(tlabel)} with {esc(h["owner"].lower())} ownership.'),
 ])}
 """
-        s.add(h["url"], f'{h["label"]} — {h["city"]}, {h["state"]} | Rating, Services & Contact',
+        s.add(h["url"], seo_title(h["label"], " — CMS Rating & Services"),
               f'{h["name"]} in {h["city"]}, {h["state"]}: CMS rating {stars(h["rating"])}, '
               f'{h["type"].lower()}, emergency services, address and phone.',
               body, crumbs=[("States", "/#states"), (sname, state_url[h["state"]]), (h["name"], None)])

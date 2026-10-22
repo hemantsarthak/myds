@@ -27,7 +27,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice  # noqa: E402
+from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice, seo_title  # noqa: E402
 from engine.guides import add_guides  # noqa: E402
 
 PROJ = pathlib.Path(__file__).resolve().parent
@@ -323,8 +323,13 @@ transfers to this branch.</p>
       else 'The dataset does not list transfer rails for this branch; confirm with the bank.')),
 ])}
 """
+        base = f'{r["ifsc"]} — '
+        room = 62 - len(base)
+        branch_txt = r["branch"] or r["city"]
+        branch_txt = (branch_txt if len(branch_txt) <= room
+                      else branch_txt[: room - 1].rstrip(" -,") + "…")
         s.add(f'/ifsc/{r["ifsc"]}/',
-              f'{r["ifsc"]} — {r["bank"]} {r["branch"]} IFSC Code, {r["city"]}',
+              base + branch_txt,
               f'{r["ifsc"]} is the IFSC code of the {r["bank"]} {r["branch"] or r["city"]} branch in '
               f'{r["city"]}, {r["state"]}. Address: {r["address"][:80]}. MICR {r["micr"] or "n/a"}.',
               body, crumbs=[("Banks", "/#banks"), (r["bank"], f'/bank/{r["bank_code"]}/'),

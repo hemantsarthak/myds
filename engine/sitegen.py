@@ -79,6 +79,22 @@ def slug(s) -> str:
     return s or "x"
 
 
+def seo_title(label: str, suffix: str, limit: int = 62) -> str:
+    """Compose '<label><suffix>' and keep it inside `limit` characters (SERP truncation).
+
+    The label is shortened with an ellipsis so the informative suffix survives; if the suffix
+    leaves no useful room, the full label is kept and the suffix is trimmed instead (never
+    produce an empty or duplicate label).
+    """
+    label, suffix = str(label).strip(), str(suffix)
+    if len(label) + len(suffix) <= limit:
+        return label + suffix
+    room = limit - len(suffix) - 1
+    if room >= 12:
+        return label[: room - 1].rstrip(" -,.") + "…" + suffix
+    return (label + suffix)[: limit - 1].rstrip(" -,.") + "…"
+
+
 def truncate(s, n) -> str:
     s = re.sub(r"\s+", " ", str(s)).strip()
     return s if len(s) <= n else s[: n - 1].rsplit(" ", 1)[0] + "…"
@@ -332,7 +348,8 @@ class Site:
                  "<h2>Contact</h2><p>Questions: see the <a href=\"/contact/\">contact page</a>.</p>",
                  crumbs=[("Privacy", None)])
         self.add("/contact/", f"Contact {self.brand}",
-                 f"How to reach the team behind {self.brand}.",
+                 f"How to reach the team behind {self.brand}: data corrections, removal requests, "
+                 f"advertising and partnership enquiries.",
                  f"<h1>Contact</h1><p>Email: <strong>hello@{esc(self.domain)}</strong></p>"
                  "<p>We read everything. Data corrections and removal requests are prioritised and are usually "
                  "handled within a week.</p>"

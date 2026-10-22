@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-22 ~23:40 IST (DeepSeek agent, repo `myds`). Round 15 of the goal loop.
+> Last updated: 2026-10-23 ~00:40 IST (DeepSeek agent, repo `myds`). Round 16 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,32 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-16 work (2026-10-23) — full code + live-site audit, fixes, and tooling
+
+**Code audit:** every Python file compiles, every `.js/.mjs` parses, no stale cross-agent domains in
+generated output (only the intentional footer link to `pincode.tekify.xyz` and the retained pincode
+sources), no placeholder/TODO text in shipped pages, no mixed `http://` content, calculators formula
+checks pass 11/11.
+
+**Live-site audit (new tool `scripts/audit_sites.py`, run with 4–6 samples per site):** for all 11
+properties it checks homepage status/title/description/canonical/viewport/ads/analytics/network
+footer, robots.txt sitemap line, IndexNow key file, sitemap validity + host correctness + lastmod,
+sampled pages (self-canonical, title 10–80 chars, description 40–200, h1, JSON-LD, lang, no noindex,
+ads, analytics, page size, internal links resolve), `/search/` wiring, `/guides/`, data endpoint
+status + JSON validity, security headers, and that the hub links every property and every link
+resolves. **Final state: 0 failures, 0 warnings.**
+
+Fixes made as a result:
+1. **Long SEO titles** (84–92 chars) on colleges/hospitals/nursinghomes/homehealth — new
+   `seo_title()` helper in the engine truncates the label (never the identifying part) to ≤ ~62
+   chars; IFSC branch titles rebuilt so the IFSC code always survives truncation (a first attempt
+   produced 944 duplicate titles — caught by the build validator, fixed).
+2. **Short contact-page description** (36 chars) lengthened to ~110 chars.
+3. **Broken `/cdn-cgi/l/email-protection` links**: Cloudflare's email obfuscation rewrites addresses
+   on static Pages and its decoder link 404s. Disabled zone-level `email_obfuscation` via the API —
+   emails now render as plain text, no broken links.
+4. Untracked scratch files removed; audit + browser test scripts kept for every future round.
 
 ## Round-15 work (2026-10-22 late evening) — FUNCTIONAL BUG FIX: search was dead everywhere
 

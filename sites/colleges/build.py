@@ -24,7 +24,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice  # noqa: E402
+from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice, seo_title  # noqa: E402
 from engine.guides import add_guides  # noqa: E402
 
 CACHE = ROOT / ".cache" / "ipeds"
@@ -439,7 +439,7 @@ though most students receive institutional aid that lowers the actual net price.
           ("/guides/", "Guides to reading these numbers")])}
 {faq(faq_pairs)}
 """
-        s.add(c["url"], f'{c["label"]} — Acceptance Rate, Tuition & Enrollment',
+        s.add(c["url"], seo_title(c["label"], " — College Data"),
               f'{c["name"]} in {loc}: acceptance rate {pct(c.get("accept"))}, in-state tuition '
               f'{money(c["tuition_in"])}, enrollment {human(c["enrollment"] or 0)}, graduation rate '
               f'{pct(c.get("grad_rate"))}. Federal IPEDS data.',

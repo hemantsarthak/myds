@@ -26,7 +26,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice  # noqa: E402
+from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice, seo_title  # noqa: E402
 
 CACHE = ROOT / ".cache"
 STATE_NAMES = {
@@ -374,7 +374,7 @@ Call <strong>{esc(a["phone"])}</strong> for referrals and eligibility questions.
      'need and the patient is homebound. Confirm coverage with the agency and your plan.'),
 ])}
 """
-        s.add(a["url"], f'{a["label"]} — {a["city"]}, {a["state"]} | CMS Rating & Services',
+        s.add(a["url"], seo_title(a["label"], " — CMS Rating & Services"),
               f'{a["label"]} in {a["city"]}, {a["state"]}: CMS star rating '
               f'{stars(a["rating"])}, services, quality measures and phone number.',
               body, crumbs=[("States", "/#states"), (sname, state_url[a["state"]]), (a["label"], None)])
