@@ -32,6 +32,8 @@ PROPERTIES = [
      "CMS star ratings, quality measures, services and contact details for 5,400 hospitals."),
     ("https://nursinghomes.tekify.xyz/", "US Nursing Homes",
      "CMS star ratings, staffing and inspections for 14,700 nursing homes."),
+    ("https://homehealth.tekify.xyz/", "US Home Health",
+     "CMS star ratings, services and quality measures for 12,400 home-health agencies."),
     ("https://calculators.tekify.xyz/", "Calculators",
      "Loan, mortgage, tax, salary, health and date calculators."),
 ]

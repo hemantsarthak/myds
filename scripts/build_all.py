@@ -29,6 +29,7 @@ SITES = [
     ("areacodes", ["python", "sites/areacodes/build.py"], "myds-areacodes", "areacodes.tekify.xyz"),
     ("hospitals", ["python", "sites/hospitals/build.py"], "myds-hospitals", "hospitals.tekify.xyz"),
     ("nursinghomes", ["python", "sites/nursinghomes/build.py"], "myds-nursinghomes", "nursinghomes.tekify.xyz"),
+    ("homehealth", ["python", "sites/homehealth/build.py"], "myds-homehealth", "homehealth.tekify.xyz"),
 ]
 
 SITE_DIR = {
@@ -43,6 +44,7 @@ SITE_DIR = {
     "areacodes": "sites/areacodes/site",
     "hospitals": "sites/hospitals/site",
     "nursinghomes": "sites/nursinghomes/site",
+    "homehealth": "sites/homehealth/site",
 }
 
 
