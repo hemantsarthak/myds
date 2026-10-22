@@ -13,11 +13,13 @@
 - Data quality is real: ZIP 90210 (pop, county, area codes, nearby ZIPs), WGU (net price,
   retention, tuition), nursing homes (CMS stars), all sourced from public datasets.
 - Revenue: $0.00. Human traffic: ~0 (the counters' "views" are our own test loads).
-- Indexing evidence: Google `site:` = 0 (round 12, real Chrome); DuckDuckGo `site:tekify.xyz` =
-  "No results found" for the apex (this audit, 19:15 IST). **Caveat:** the repo's own index-check
-  tooling is broken (see Technical findings #3), so "0 indexed" is the only credible data point
-  (round 12) and there is no reliable way to re-measure without Search Console. IndexNow
-  accepted URLs is only an acknowledgement, not an index.
+- Indexing evidence (updated 19:30 IST): the **Cloudflare edge census** now in `docs/TRAFFIC.md`
+  (33,264 requests / 48 h) shows **Googlebot 0, GPTBot 0, Bingbot 15, Applebot 4, ClaudeBot
+  14,207**. Google's only touch on the domain is a Safe Browsing check — it has not fetched the
+  pages at all. This is a **discovery** problem, not a ranking problem. Round-12's `site:` = 0
+  is consistent with that. The JS analytics "bot" counts in `ops.py stats` are polluted by
+  synthetic test hits and must not be used as crawl evidence (the JS counter reported GPTBot
+  hits while the edge saw zero GPTBot requests). IndexNow "accepted" is only an acknowledgement.
 - The self-hosted analytics is JS-only, so it **cannot** see a plain Googlebot/Bingbot fetch.
   Bot counts in `ops.py stats` are JS-executing agents plus synthetic tests — do not treat them
   as proof of crawl coverage. Only Search Console / Bing Webmaster Tools can prove indexing.
@@ -69,7 +71,8 @@ bottleneck, per-page completeness and authority are.
 Verified good: all hosts 200, brotli, correct 301 http→https (path preserved), real 404s,
 canonical host, `index,follow`, one `h1`, `lang`, viewport; robots.txt + sitemaps fine on all;
 sitemap counts match the deployed pages (they do **not** match `docs/SITES.md` — see below);
-IndexNow key file live. Sitemaps are single `<urlset>`s, all < 20k URLs.
+IndexNow key file live. Sitemaps are single `<urlset>`s, all < 20k URLs. The edge census also
+confirms scanners probing `/.env*`, `/.git/*`, `config.json` get 404/403 — nothing exposed.
 
 Critical:
 
@@ -131,9 +134,15 @@ Promising the human otherwise is setting up a false failure.
 113k near-template pages on a **2-day-old .xyz** domain, with a popunder ad on every page, is
 exactly the profile Google's *scaled content abuse* policy targets. Indexing is selective, not
 proportional: adding 400k pages does not add 400k indexed pages — it adds crawl load and lowers
-the average quality signal. Evidence in the repo: Google has indexed zero pages after 2 days,
-and 11 subdomains split whatever authority the apex earns (subdomains are separate sites to
-Google).
+the average quality signal. And Google is not even at the starting line: **zero Googlebot
+requests in 48 h of edge logs** while ClaudeBot pulled 14.2k requests. Discovery and trust must
+be earned before indexing can begin; 11 subdomains also split whatever authority the apex earns
+(subdomains are separate sites to Google).
+
+*Opportunity worth noting:* ClaudeBot is the only crawler ingesting the content, which means the
+pages are candidates for AI-answer citations. Keep them factual, dated and citeable (and add an
+`llms.txt` + a clean data page on the hub) — referral traffic from AI answers is a plausible
+2026 channel even though it is not a revenue line yet.
 
 What actually moves this: **Search Console** (measurement + URL inspection), **backlinks/real
 citations**, and **visible quality** on a small set of pages. None of those were the focus of
@@ -173,12 +182,13 @@ AI Overviews is eating exactly those lookup clicks. The fix is not more ad netwo
    (c) publish 2–3 genuine data studies (e.g. *"US nursing-home staffing by state, 2026"*) and
    pitch local outlets/newsletters; (d) publish articles on Substack once the publication
    exists.
-6. **Instrument before scaling — and fix the tooling.** Add GSC + BWT, then a weekly report:
-   indexed pages, impressions, clicks, CTR, avg position, revenue/site. Make "pages shipped"
-   stop being a KPI. Also repair or retire `scripts/search.py`: its SearXNG tier ignores the
-   `site:` operator and returns unrelated results while reporting success — any session that
-   trusts it will draw false conclusions about indexing and competition. Until GSC/BWT exist,
-   treat "indexed" as unknown rather than measured.
+6. **Instrument before scaling — and fix the tooling.** Add GSC + BWT for indexing/impressions,
+   keep `scripts/traffic.py` (edge census) as the crawl log — it already answers "who is actually
+   fetching us" — and publish a weekly report: requests by crawler, indexed pages, impressions,
+   clicks, CTR, avg position, revenue/site. Make "pages shipped" stop being a KPI. Also repair or
+   retire `scripts/search.py`: its SearXNG tier ignores the `site:` operator and returns
+   unrelated results while reporting success — any session that trusts it will draw false
+   conclusions about indexing and competition. Until GSC/BWT exist, treat "indexed" as unknown.
 7. **Kill the popunder** (and set HilltopAds to mainstream-only inventory). Popunder is
    UX-hostile, hurts Core Web Vitals and AdSense eligibility later, and unknown creatives can
    get the domain flagged by Safe Browsing — the one failure mode that kills the whole asset.
