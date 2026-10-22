@@ -1,11 +1,11 @@
 # STATE — current status
 
-> Last updated: 2026-10-22 ~17:45 IST (DeepSeek agent, repo `myds`). Round 6 of the goal loop.
+> Last updated: 2026-10-22 ~17:55 IST (DeepSeek agent, repo `myds`). Round 7 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
 
-**8 properties live (~79,700 pages) with HilltopAds display ads, Travelpayouts affiliate cards,
+**9 properties live (~85,600 pages) with HilltopAds display ads, Travelpayouts affiliate cards,
 self-hosted analytics and an autonomous inbox. IndexNow: every URL accepted; crawlers are
 rendering pages (99 bot hits on airport, 72 on zip, 59 on ifsc in 3 days). Revenue still $0 —
 the domain is 2 days old and ranking is the bottleneck, not infrastructure.**
@@ -22,8 +22,9 @@ the domain is 2 days old and ranking is the bottleneck, not infrastructure.**
 | **US Colleges** | `myds-colleges` | https://colleges.tekify.xyz | 6,056 | ✅ | ✅ |
 | Calculators | `myds-calculators` | https://calculators.tekify.xyz | 62 | ✅ | ✅ |
 | **Area Codes** | `myds-areacodes` | https://areacodes.tekify.xyz | 6,954 | ✅ | ✅ |
+| **US Hospitals** | `myds-hospitals` | https://hospitals.tekify.xyz | 5,888 | ✅ | ✅ |
 
-≈ **79,700 pages** ours. Every property: canonical URLs, JSON-LD, breadcrumbs, sitemaps, robots,
+≈ **85,600 pages** ours. Every property: canonical URLs, JSON-LD, breadcrumbs, sitemaps, robots,
 IndexNow key, network cross-links (footer), ad slots, analytics beacon; five have a `/guides/`
 section of hand-written explainers.
 
@@ -44,6 +45,22 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-7 work (2026-10-22 evening)
+
+1. **New property `hospitals.tekify.xyz`** — 5,888 pages from CMS Provider Data (Hospital General
+   Information, public domain): 5,419 hospitals with address/phone, hospital type, ownership,
+   emergency services, birthing-friendly designation, **CMS overall star rating**, and quality
+   measure counts by group (mortality, safety, readmission, patient experience, timely care);
+   plus state pages (52), city pages (400), rating pages (1–5), two guides and local search.
+   Verified live (AdventHealth Castle Rock: 5 stars, measures table, phone, emergency services).
+   IndexNow accepted 5,888 URLs; wired into hub, footer network, build_all and the daily health job
+   (baseline now **85,618 URLs across 9 properties**).
+2. **Social/backlink channel probe (blocked):** Hacker News account creation is disabled
+   ("Sorry, account creation disabled"); dev.to signup is OAuth-only (Apple/Facebook/GitHub/Google/
+   Twitter — we only hold a GitHub PAT, not account credentials); DuckDuckGo lite returns no results
+   for our domains yet. Conclusion: traffic must come from search indexing (IndexNow + Bing WMT once
+   the human check is done), not from free social posting without human credentials.
 
 ## Round-6 work (2026-10-22 evening)
 
