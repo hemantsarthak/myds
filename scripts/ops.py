@@ -455,6 +455,8 @@ def print_stats(d: dict) -> None:
     print(f"site {d.get('site')}  {rng.get('from')} .. {rng.get('to')} UTC")
     print(f"pageviews: {t.get('views', 0)}   bots: {t.get('bots', 0)}   "
           f"shards: {d.get('shards', 0)}   distinct paths: {d.get('distinct_paths', 0)}")
+    if t.get("bots_by"):
+        print("  bots: " + ", ".join(f"{b['bot']}={b['hits']}" for b in t["bots_by"]))
     days = d.get("days") or []
     if len(days) > 1:
         for x in days:

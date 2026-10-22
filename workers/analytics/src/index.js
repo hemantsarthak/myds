@@ -35,6 +35,28 @@ const DAY_RE = /^\d{4}-\d{2}-\d{2}$/;
 const BOT_RE =
   /bot|crawl|spider|slurp|headless|phantom|preview|monitor|uptime|curl|wget|python-requests|python-urllib|httpclient|go-http|java\/|axios|node-fetch|facebookexternalhit|bingpreview|scanner|probe|okhttp|libwww|ahrefs|semrush/i;
 
+const BOT_NAMES = [
+  [/googlebot|google-inspectiontool|googleother|storebot-google/i, "Googlebot"],
+  [/bingbot|adidxbot|bingpreview/i, "Bingbot"],
+  [/duckduckbot/i, "DuckDuckBot"],
+  [/yandex/i, "YandexBot"],
+  [/applebot/i, "Applebot"],
+  [/ahrefs/i, "AhrefsBot"],
+  [/semrush/i, "SemrushBot"],
+  [/gptbot|chatgpt/i, "GPTBot"],
+  [/claudebot|anthropic/i, "ClaudeBot"],
+  [/perplexity/i, "PerplexityBot"],
+  [/petalbot/i, "PetalBot"],
+  [/baiduspider/i, "BaiduSpider"],
+  [/seznam/i, "SeznamBot"],
+  [/uptime|monitor|pingdom|statuscake/i, "monitor"],
+  [/curl|wget|python|go-http|java\/|okhttp|node-fetch|axios|headless/i, "script"],
+];
+function botName(ua) {
+  for (const [re, name] of BOT_NAMES) if (re.test(ua)) return name;
+  return "other";
+}
+
 const MAX_PATHS = 200; // distinct paths per shard (overflow -> "(other)")
 const MAX_REFS = 100; // distinct referrer hosts per shard (overflow -> "(other)")
 const MAX_SCAN_KEYS = 5000; // per stats query safety cap on shards read
@@ -150,6 +172,8 @@ function recordHit(env, ctx, { site, path, ref, ua }) {
   const isBot = !ua || BOT_RE.test(ua);
   if (isBot) {
     e.bots++;
+    if (!e.botUas) e.botUas = {};
+    addCount(e.botUas, botName(ua || ""), 12);
   } else {
     e.views++;
     addCount(e.paths, path, MAX_PATHS);
@@ -247,6 +271,7 @@ async function sumShards(env, site, days, withTop, topN) {
   const totals = { views: 0, bots: 0 };
   const paths = {};
   const refs = {};
+  const botsBy = {};
   let shards = 0;
   for (const day of days) {
     const keys = await listKeys(env, `s:${site}:${day}:`);
@@ -258,7 +283,7 @@ async function sumShards(env, site, days, withTop, topN) {
         dayTotals.bots += Number(k.metadata.bots || 0);
       }
     }
-    if (withTop && keys.length) {
+    if (keys.length) {
       const values = await Promise.all(
         keys.map((k) => env.ANALYTICS.get(k.name, "json").catch(() => null))
       );
@@ -266,6 +291,7 @@ async function sumShards(env, site, days, withTop, topN) {
         if (!v) continue;
         for (const [p, n] of Object.entries(v.paths || {})) paths[p] = (paths[p] || 0) + n;
         for (const [r, n] of Object.entries(v.refs || {})) refs[r] = (refs[r] || 0) + n;
+        for (const [b, n] of Object.entries(v.botUas || {})) botsBy[b] = (botsBy[b] || 0) + n;
       }
     }
     totals.views += dayTotals.views;
@@ -283,6 +309,7 @@ async function sumShards(env, site, days, withTop, topN) {
     shards,
     top_pages: top(paths).map((x) => ({ path: x.key, views: x.views })),
     top_referrers: top(refs).map((x) => ({ referrer: x.key === "(other)" ? "(other)" : x.key, views: x.views })),
+    bots_by: top(botsBy).map((x) => ({ bot: x.key, hits: x.views })),
     distinct_paths: Object.keys(paths).length,
     distinct_referrers: Object.keys(refs).length,
   };
@@ -308,6 +335,7 @@ async function handleStats(url, env) {
     totals: data.totals,
     top_pages: data.top_pages,
     top_referrers: data.top_referrers,
+    bots_by: data.bots_by || [],
     distinct_paths: data.distinct_paths,
     distinct_referrers: data.distinct_referrers,
     shards: data.shards,
