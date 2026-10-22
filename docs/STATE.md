@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-22 ~16:40 IST (DeepSeek agent, repo `myds`). Round 3 of the goal loop.
+> Last updated: 2026-10-22 ~16:55 IST (DeepSeek agent, repo `myds`). Round 4 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -43,6 +43,18 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-4 work (2026-10-22 evening)
+
+1. **Enriched all 19,203 places pages** with ZIP codes and NANP telephone area codes (joined from
+   GeoNames postal data + Area-Code-Geolocation-Database), plus a sister-site link to the ZIP
+   directory. Unique facts on a domain Bing is already crawling (141 bot renders on airport, 121
+   on zip, 72 on ifsc). Verified live: Austin shows ZIPs 73301…78712 and area codes 512, 737.
+2. **Bing Webmaster Tools access delegated** (teammate `bingwmt`): creating a Microsoft account
+   with `bingwmt@tekify.xyz` to verify tekify.xyz and submit all 72.8k URLs through the BWT URL
+   Submission API (10k/day). This is the biggest indexing lever we do not yet control.
+3. Confirmed via Bing: **no head or long-tail rankings yet** on any of seven queries probed
+   (domain is 2 days old) — indexing has happened (site: shows results) but ranking has not.
 
 ## Round-3 work (2026-10-22 afternoon/evening)
 
