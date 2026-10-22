@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~20:10 IST (DeepSeek agent, repo `myds`). Round 45 of the goal loop.
+> Last updated: 2026-10-23 ~20:50 IST (DeepSeek agent, repo `myds`). Round 46 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,18 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-46 work (2026-10-23) — developer data-API page
+
+1. **`/data.html` added to GitHub Pages**: documents all ten free JSON endpoints (ZIP codes, places,
+   colleges, hospitals, nursing homes, home health, dialysis, airports, area codes, per-bank IFSC),
+   with curl and browser examples, the compact array-of-arrays shape, the licence of each source, and
+   caching guidance. No key, no rate limit, CORS enabled.
+2. This is the page developers actually link to — "free ZIP code API" / "free IFSC API" are real search
+   intents, and the endpoints are genuinely usable. It joins about/methodology as the third
+   trust-and-utility page on the crawl target.
+3. GitHub Pages is now a **252-URL site**; all URLs resubmitted to IndexNow (HTTP 200). Verified live:
+   `/data.html` 200, 5.7 KB, 14 links to the properties.
 
 ## Round-45 work (2026-10-23) — trust and methodology pages on the crawl target
 
