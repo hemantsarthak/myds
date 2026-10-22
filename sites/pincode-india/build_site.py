@@ -488,6 +488,8 @@ page that references the record rather than only the one you noticed.</p>""",
 
     # ---- robots + sitemap
     files.append(write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n"))
+    INDEXNOW_KEY = "moneyds7f3a9c2e5b1d4f8a6c0e2d9b5a7f1c3e"
+    files.append(write(f"{INDEXNOW_KEY}.txt", INDEXNOW_KEY))
 
     urls = []
     for f in files:

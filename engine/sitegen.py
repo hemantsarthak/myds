@@ -168,6 +168,7 @@ class Site:
         self.indexnow_key = indexnow_key
         self.author = author
         self.pages: dict[str, dict] = {}
+        self.extra_files: dict[str, str] = {}
 
     # -- page creation ------------------------------------------------------
     def add(self, path: str, title: str, desc: str, body: str, *,
@@ -302,17 +303,35 @@ class Site:
                  "<p>For advertising and partnerships, use the same address with subject “ads”.</p>",
                  crumbs=[("Contact", None)])
 
+    # -- extra files (js, json, text) ---------------------------------------
+    def add_file(self, path: str, content: str) -> None:
+        """Attach a raw file (search index, JS, JSON) to the deploy output."""
+        self.extra_files[path.lstrip("/")] = content
+
     # -- write --------------------------------------------------------------
     def write(self, out_dir=None) -> pathlib.Path:
         out = pathlib.Path(out_dir) if out_dir else (ROOT / "sites" / self.slug / "site")
         if out.exists():
             import shutil
-            shutil.rmtree(out)
+            import time
+            for attempt in range(4):
+                try:
+                    shutil.rmtree(out)
+                    break
+                except PermissionError:
+                    if attempt == 3:
+                        print("WARN: output dir locked (OneDrive/sync?); overwriting in place")
+                    else:
+                        time.sleep(1.5 * (attempt + 1))
         out.mkdir(parents=True, exist_ok=True)
         for path, page in self.pages.items():
             p = out / path
             p.parent.mkdir(parents=True, exist_ok=True)
             p.write_text(self._page_html(path, page), encoding="utf-8")
+        for rel, content in self.extra_files.items():
+            p = out / rel
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(content, encoding="utf-8")
         self._write_sitemaps(out)
         self._write_misc(out)
         return out
