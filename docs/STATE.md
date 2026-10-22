@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~08:45 IST (DeepSeek agent, repo `myds`). Round 28 of the goal loop.
+> Last updated: 2026-10-23 ~09:20 IST (DeepSeek agent, repo `myds`). Round 29 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,21 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-29 work (2026-10-23) — open datasets packaged for publishing
+
+1. **`datasets/` folder added to the public repo** — four dataset cards with provenance, licence,
+   column lists and `sample.csv` files, each linking to its live directory:
+   - `ifsc-codes` — 183,214 Indian bank branches (Razorpay IFSC, MIT)
+   - `us-zip-codes` — 41,711 ZIP codes (Census/GeoNames, public domain / CC BY)
+   - `cms-hospital-ratings` — 5,419 hospitals (CMS, public domain)
+   - `us-dialysis-facilities` — 7,490 dialysis facilities (CMS, public domain)
+   Generator: `scripts/prepare_datasets.py`. README updated with the current scale (~121k pages) and a
+   link to the datasets folder.
+2. **Why:** these are the payload for publishing on **Hugging Face** and **Zenodo** — both heavily
+   crawled, indexable platforms where an open dataset with a card linking to the live directory is a
+   legitimate, useful artifact (unlike a link-drop). Those signups need the autonomous inbox, which is
+   quota-limited until 00:00 UTC (05:30 IST); next round after the reset will attempt them.
 
 ## Round-28 work (2026-10-23) — three more insights; zone hardened for crawlers
 
