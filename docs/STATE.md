@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~09:20 IST (DeepSeek agent, repo `myds`). Round 29 of the goal loop.
+> Last updated: 2026-10-23 ~09:55 IST (DeepSeek agent, repo `myds`). Round 30 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,22 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-30 work (2026-10-23) — health automation verified; dataset publisher ready
+
+1. **Ran the daily health check locally** (the exact command the GitHub Action runs):
+   `python scripts/health.py --submit` — all **12 properties returned 200**, total **121,285 URLs**,
+   and the new URLs were submitted to IndexNow (hub 12, calculators 13, dialysis 7,809 — the dialysis
+   baseline was stale after its rebuild). Report written to `reports/health-2026-10-22.md` and the
+   `state/sitemaps.json` baseline committed, so tomorrow's scheduled run only submits genuinely new
+   URLs.
+2. **`scripts/publish_datasets.py` created** — one command to publish the four prepared datasets to
+   **Hugging Face** (`--hf`) and **Zenodo** (`--zenodo`), with dataset cards, licences, keywords and
+   `related_identifiers` pointing at the live directories. `--check` verified all four payloads are
+   ready (39-291 KB samples). Tokens are read from `shared/.env` (`HF_TOKEN`, `ZENODO_TOKEN`) and are
+   the only missing pieces — the accounts need the autonomous inbox, which resets at 00:00 UTC
+   (05:30 IST).
+3. No change in search-engine status: Google and Bing still index zero pages for the domain.
 
 ## Round-29 work (2026-10-23) — open datasets packaged for publishing
 
