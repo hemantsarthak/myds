@@ -95,7 +95,9 @@ def card(slug: str) -> str:
 def check() -> int:
     rows = []
     for slug in META:
-        folder = DATASETS / slug
+        folder = ROOT / "packages" / "hf" / slug
+        if not (folder / "README.md").exists():
+            folder = DATASETS / slug
         ok = (folder / "sample.csv").exists() and (folder / "README.md").exists()
         rows.append((slug, ok, (folder / "sample.csv").stat().st_size if (folder / "sample.csv").exists() else 0))
     for slug, ok, size in rows:

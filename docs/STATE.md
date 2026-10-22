@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~21:30 IST (DeepSeek agent, repo `myds`). Round 47 of the goal loop.
+> Last updated: 2026-10-23 ~22:10 IST (DeepSeek agent, repo `myds`). Round 48 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,20 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-48 work (2026-10-23) — publish-ready Medium drafts and HF dataset cards
+
+1. **Three Medium article drafts** written and saved in `content/medium/`: (1) which states have the
+   best-rated hospitals, (2) America's largest nursing-home chains, (3) what 121,000 pages of public
+   data taught me about American healthcare. Each is 500-800 words with links to the live analyses,
+   directories and the data documentation — ready to paste into Medium once the account exists.
+2. **Hugging Face dataset cards generated** (`packages/hf/<slug>/`, script `scripts/build_hf_cards.py`):
+   proper YAML frontmatter (licence, tags, size category), dataset description, record counts, links to
+   the live directory and the JSON data access, plus the sample CSV. `publish_datasets.py` now uploads
+   from these cards when present.
+3. Everything email-gated is now prepared: datasets (HF/Zenodo), client packages (npm/PyPI), articles
+   (Medium), plus the account-creation scripts. The moment the inbox quota resets at 05:30 IST, the
+   publishing sequence can run end to end.
 
 ## Round-47 work (2026-10-23) — npm and PyPI client packages ready
 

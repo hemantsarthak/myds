@@ -1,0 +1,301 @@
+zip,city,state,state_name,type,county_fips,county_name,county_fips_all,lat,lng,coord_source,is_zcta,parent_zcta,population,land_sqmi,water_sqmi,density_per_sqmi,area_codes
+80024,Dupont,CO,Colorado,standard,08001,Adams County,08001,39.844106,-104.918414,census,1,,33,0.022,0.0,1500.0,303|720|983
+95926,Chico,CA,California,standard,06007,Butte County,06007,39.74577,-121.843938,census,1,,40567,7.781,0.0,5213.6,530|837
+63957,Piedmont,MO,Missouri,standard,29223,Wayne County,29223|29179,37.141905,-90.69231,census,1,,5144,203.397,0.858,25.3,573
+32753,Debary,FL,Florida,unknown,12065,Jefferson County,12065,28.883,-81.3087,geonames,0,32713,,,,,386
+82834,Buffalo,WY,Wyoming,standard,56019,Johnson County,56019,44.260573,-106.731065,census,1,,7588,1686.184,10.711,4.5,307
+31201,Macon,GA,Georgia,standard,13021,Bibb County,13021,32.806321,-83.61786,census,1,,7891,9.363,0.239,842.8,478
+47983,Stockwell,IN,Indiana,standard,18157,Tippecanoe County,18157,40.286325,-86.77353,census,1,,255,0.116,0.0,2198.3,765
+60686,Chicago,IL,Illinois,unknown,17031,Cook County,17031,41.8756,-87.6378,geonames,0,60607,,,,,773|312|872
+56653,Littlefork,MN,Minnesota,standard,27071,Koochiching County,27071,48.283385,-93.574938,census,1,,1239,453.954,1.027,2.7,218
+66710,Altoona,KS,Kansas,standard,20205,Wilson County,20205,37.551598,-95.624499,census,1,,804,61.489,0.45,13.1,620
+78580,Raymondville,TX,Texas,standard,48489,Willacy County,48489|48261,26.500598,-97.747802,census,1,,12964,256.855,7.227,50.5,956
+68770,Ponca,NE,Nebraska,standard,31051,Dixon County,31051|31043,42.561623,-96.764827,census,1,,1432,100.195,2.412,14.3,402
+19933,Bridgeville,DE,Delaware,standard,10005,Sussex County,10005,38.733018,-75.603361,census,1,,10597,67.257,0.182,157.6,302
+38015,Burlison,TN,Tennessee,standard,47167,Tipton County,47167,35.559364,-89.824229,census,1,,1950,42.265,0.1,46.1,901
+34212,Bradenton,FL,Florida,standard,12081,Manatee County,12081,27.493816,-82.406103,census,1,,25536,22.258,2.854,1147.3,941
+11965,Shelter Island Heights,NY,New York,standard,36103,Suffolk County,36103,41.082501,-72.303379,census,1,,404,2.741,7.15,147.4,631|934
+51101,Sioux City,IA,Iowa,standard,19193,Woodbury County,19193,42.493688,-96.394184,census,1,,1031,1.203,0.023,857.0,712
+04252,Lisbon Falls,ME,Maine,standard,23001,Androscoggin County,23001,44.036688,-70.058799,census,1,,4968,11.103,0.213,447.4,207
+93308,Bakersfield,CA,California,standard,06029,Kern County,06029,35.547493,-118.946868,census,1,,55078,344.599,0.64,159.8,661|805
+85372,Sun City,AZ,Arizona,unknown,04013,Maricopa County,04013,33.5975,-112.2718,geonames,0,85351,,,,,480|602|623
+35218,Birmingham,AL,Alabama,standard,01073,Jefferson County,01073,33.507698,-86.893956,census,1,,6981,2.638,0.0,2646.3,205|659
+93385,Bakersfield,CA,California,unknown,06029,Kern County,06029,35.2944,-118.9052,geonames,0,93307,,,,,661|805
+33662,Tampa,FL,Florida,unknown,12057,Hillsborough County,12057,27.872,-82.4388,geonames,0,,,,,,813|656
+01757,Milford,MA,Massachusetts,standard,25027,Worcester County,25027,42.158692,-71.521419,census,1,,30609,15.134,0.273,2022.5,508|774
+12824,Diamond Point,NY,New York,standard,36113,Warren County,36113,43.524468,-73.711288,census,1,,1143,21.477,0.513,53.2,518|838
+99166,Republic,WA,Washington,standard,53019,Ferry County,53019|53047,48.608711,-118.667275,census,1,,2953,479.362,1.608,6.2,509
+10970,Pomona,NY,New York,standard,36087,Rockland County,36087,41.18436,-74.062727,census,1,,11497,11.211,0.196,1025.5,845|329
+35082,Hollins,AL,Alabama,standard,01027,Clay County,01027,33.158024,-86.153863,census,1,,0,6.308,0.0,0.0,256|938
+12405,Acra,NY,New York,standard,36039,Greene County,36039,42.306958,-74.10097,census,1,,447,10.84,0.008,41.2,518|838
+06025,East Glastonbury,CT,Connecticut,unknown,09003,Hartford County,09003,41.6889,-72.5345,geonames,0,06033,,,,,860|959
+50064,Dana,IA,Iowa,standard,19073,Greene County,19073|19015,42.103878,-94.223102,census,1,,100,19.145,0.0,5.2,515
+12814,Bolton Landing,NY,New York,standard,36113,Warren County,36113,43.631894,-73.632551,census,1,,1168,45.04,17.177,25.9,518|838
+78152,Saint Hedwig,TX,Texas,standard,48029,Bexar County,48029,29.429237,-98.204532,census,1,,4521,36.046,0.311,125.4,
+36542,Gulf Shores,AL,Alabama,standard,01003,Baldwin County,01003,30.26965,-87.750627,census,1,,18906,52.027,22.505,363.4,251
+43343,Quincy,OH,Ohio,standard,39091,Logan County,39091|39021,40.305092,-83.995255,census,1,,1366,35.807,0.004,38.1,937|326
+74403,Muskogee,OK,Oklahoma,standard,40101,Muskogee County,40101|40145,35.681993,-95.307488,census,1,,29217,109.658,8.666,266.4,918|539
+33017,Hialeah,FL,Florida,unknown,12086,Miami-Dade County,12086,25.8576,-80.2781,geonames,0,33013,,,,,
+82801,Sheridan,WY,Wyoming,standard,56033,Sheridan County,56033|30003,44.832499,-106.896325,census,1,,26310,526.665,0.402,50.0,307
+21239,Baltimore,MD,Maryland,standard,24510,Baltimore city,24510|24005,39.365159,-76.587101,census,1,,27346,2.931,0.001,9329.9,410|443|667
+90070,Los Angeles,CA,California,unknown,06037,Los Angeles County,06037,34.0522,-118.2437,geonames,0,90012,,,,,213|323|738
+91396,Winnetka,CA,California,unknown,06037,Los Angeles County,06037,34.2133,-118.572,geonames,0,91306,,,,,818|747
+72426,Dell,AR,Arkansas,standard,05093,Mississippi County,05093,35.856098,-90.041596,census,1,,168,0.386,0.0,435.2,870|327
+37236,Nashville,TN,Tennessee,unknown,47037,Davidson County,47037,36.1866,-86.7852,geonames,0,37208,,,,,615|629
+72449,O Kean,AR,Arkansas,standard,05121,Randolph County,05121,36.166607,-90.817171,census,1,,193,1.479,0.0,130.5,870|327
+61859,Ogden,IL,Illinois,standard,17019,Champaign County,17019|17183,40.150428,-87.962905,census,1,,1227,30.299,0.01,40.5,217|447
+29853,Williston,SC,South Carolina,standard,45011,Barnwell County,45011|45003,33.399205,-81.431756,census,1,,5944,121.453,1.225,48.9,803|839
+15779,Torrance,PA,Pennsylvania,standard,42129,Westmoreland County,42129,40.40011,-79.218444,census,1,,526,8.237,0.0,63.9,724|878
+16211,Beyer,PA,Pennsylvania,standard,42063,Indiana County,42063,40.794334,-79.202375,census,1,,218,1.03,0.0,211.7,
+65401,Rolla,MO,Missouri,standard,29161,Phelps County,29161|29065|29125,37.899248,-91.768537,census,1,,32714,258.583,0.803,126.5,573
+54452,Merrill,WI,Wisconsin,standard,55069,Lincoln County,55069|55073,45.217729,-89.793643,census,1,,18969,437.954,6.072,43.3,715|534
+64037,Higginsville,MO,Missouri,standard,29107,Lafayette County,29107|29101,39.04663,-93.733848,census,1,,6460,107.788,1.059,59.9,660
+62414,Beecher City,IL,Illinois,standard,17051,Fayette County,17051|17049|17173,39.174446,-88.826372,census,1,,1783,75.865,0.033,23.5,618
+71720,Bearden,AR,Arkansas,standard,05103,Ouachita County,05103|05039|05013,33.775378,-92.638313,census,1,,2523,144.003,0.073,17.5,870
+10008,New York,NY,New York,unknown,36061,New York County,36061,40.7143,-74.006,geonames,0,10007,,,,,212|646|917|332
+16407,Corry,PA,Pennsylvania,standard,42049,Erie County,42049|42123|42039,41.915795,-79.68467,census,1,,10525,113.288,0.343,92.9,814|582
+11364,Oakland Gardens,NY,New York,standard,36081,Queens County,36081,40.746251,-73.756062,census,1,,35276,2.509,0.0,14059.8,347|718|929|917
+61337,Malden,IL,Illinois,standard,17011,Bureau County,17011,41.450551,-89.297789,census,1,,558,7.152,0.0,78.0,815
+51463,Templeton,IA,Iowa,standard,19027,Carroll County,19027,41.907424,-94.912652,census,1,,412,29.981,0.0,13.7,712
+18018,Bethlehem,PA,Pennsylvania,standard,42077,Lehigh County,42077|42095,40.627594,-75.395584,census,1,,32965,5.172,0.134,6373.7,610|484|835
+38088,Cordova,TN,Tennessee,unknown,47157,Shelby County,47157,35.1556,-89.7762,geonames,0,38018,,,,,901
+30038,Lithonia,GA,Georgia,standard,13089,DeKalb County,13089,33.66646,-84.139855,census,1,,43776,28.802,0.405,1519.9,770|678|470|943
+29839,Montmorenci,SC,South Carolina,unknown,45003,Aiken County,45003,33.5073,-81.5992,geonames,0,29803,,,,,803|839
+81430,Placerville,CO,Colorado,standard,08113,San Miguel County,08113,38.053745,-108.067189,census,1,,708,217.697,0.075,3.3,970
+68378,Johnson,NE,Nebraska,standard,31127,Nemaha County,31127|31097,40.398308,-96.020851,census,1,,677,54.643,0.069,12.4,402
+22743,Syria,VA,Virginia,standard,51113,Madison County,51113,38.54004,-78.381412,census,1,,276,57.902,0.008,4.8,540|826
+63774,Perkins,MO,Missouri,standard,29201,Scott County,29201,37.09425,-89.774723,census,1,,106,0.165,0.0,642.4,573|235
+29062,Horatio,SC,South Carolina,standard,45085,Sumter County,45085,34.004286,-80.605521,census,1,,10,12.126,0.431,0.8,803|839
+43347,Rushsylvania,OH,Ohio,standard,39091,Logan County,39091|39065,40.477715,-83.658043,census,1,,1113,30.744,0.0,36.2,937
+71052,Mansfield,LA,Louisiana,standard,22031,De Soto Parish,22031|22081,32.015449,-93.656448,census,1,,9102,319.866,9.255,28.5,318
+38235,Mc Lemoresville,TN,Tennessee,standard,47017,Carroll County,47017,35.991104,-88.58126,census,1,,199,1.373,0.0,144.9,731
+13331,Eagle Bay,NY,New York,standard,36043,Herkimer County,36043|36041,43.821769,-75.040114,census,1,,204,167.021,6.061,1.2,315
+67480,Solomon,KS,Kansas,standard,20143,Ottawa County,20143|20041|20169,38.965807,-97.400502,census,1,,1406,165.835,0.414,8.5,785
+84791,Saint George,UT,Utah,unknown,49053,Washington County,49053,37.1041,-113.5841,geonames,0,84770,,,,,435
+16342,Polk,PA,Pennsylvania,standard,42121,Venango County,42121|42085,41.314848,-79.928008,census,1,,2126,66.267,0.739,32.1,
+09227,APO AE,AE,Armed Forces Europe,military,,,,,,,0,,,,,,
+83237,Franklin,ID,Idaho,standard,16041,Franklin County,16041,42.027452,-111.778558,census,1,,1567,23.214,0.097,67.5,208|986
+02940,Providence,RI,Rhode Island,unknown,44007,Providence County,44007,41.824,-71.4128,geonames,0,02903,,,,,401
+15688,Tarrs,PA,Pennsylvania,standard,42129,Westmoreland County,42129,40.172796,-79.585928,census,1,,612,1.962,0.0,311.9,724|878
+36280,Woodland,AL,Alabama,standard,01111,Randolph County,01111,33.386366,-85.392468,census,1,,4576,120.685,0.117,37.9,256
+26847,Petersburg,WV,West Virginia,standard,54023,Grant County,54023|54031|54071,38.963742,-79.137225,census,1,,5305,136.236,0.079,38.9,304|681
+61801,Urbana,IL,Illinois,standard,17019,Champaign County,17019,40.10952,-88.211031,census,1,,27891,5.4,0.027,5165.0,217|447
+74436,Haskell,OK,Oklahoma,standard,40101,Muskogee County,40101|40145|40111,35.805572,-95.704649,census,1,,5057,142.461,3.632,35.5,918|539
+73650,Hammon,OK,Oklahoma,standard,40129,Roger Mills County,40129|40039,35.644545,-99.4224,census,1,,893,207.0,0.99,4.3,580
+32954,Merritt Island,FL,Florida,unknown,12009,Brevard County,12009,28.5392,-80.672,geonames,0,32780,,,,,321|407|689
+61078,Shannon,IL,Illinois,standard,17015,Carroll County,17015|17177|17141,42.167276,-89.730603,census,1,,1459,55.359,0.0,26.4,815
+10941,Middletown,NY,New York,standard,36071,Orange County,36071,41.490413,-74.345272,census,1,,14422,32.042,0.2,450.1,845|914|329
+26506,Morgantown,WV,West Virginia,standard,54061,Monongalia County,54061,39.646781,-79.970152,census,1,,1476,0.238,0.0,6201.7,304|681
+57571,Saint Charles,SD,South Dakota,standard,46053,Gregory County,46053,43.041253,-99.090095,census,1,,22,10.505,0.0,2.1,605
+00920,San Juan,PR,Puerto Rico,standard,72127,San Juan Municipio,72127,18.422439,-66.09214,census,1,,15900,3.61,0.947,4404.4,787
+59544,Whitewater,MT,Montana,standard,30071,Phillips County,30071,48.803387,-107.555214,census,1,,207,433.606,1.951,0.5,406
+40580,Lexington,KY,Kentucky,unknown,21067,Fayette County,21067,38.0283,-84.4715,geonames,0,40502,,,,,859
+69335,Bingham,NE,Nebraska,standard,31161,Sheridan County,31161|31069,42.020655,-102.142622,census,1,,33,144.303,1.531,0.2,308
+44262,Munroe Falls,OH,Ohio,standard,39153,Summit County,39153,41.139576,-81.436058,census,1,,5000,2.674,0.092,1869.9,330|234
+63945,Harviell,MO,Missouri,standard,29023,Butler County,29023|29181,36.638612,-90.54944,census,1,,928,31.41,0.129,29.5,573
+85726,Tucson,AZ,Arizona,standard,04019,Pima County,04019,32.204341,-110.945294,census,1,,0,0.037,0.0,0.0,520
+74569,Stringtown,OK,Oklahoma,standard,40005,Atoka County,40005,34.477288,-95.924577,census,1,,584,184.864,0.629,3.2,580
+24935,Forest Hill,WV,West Virginia,standard,54089,Summers County,54089,37.566111,-80.80565,census,1,,797,21.556,0.055,37.0,304|681
+29809,New Ellenton,SC,South Carolina,standard,45003,Aiken County,45003,33.416161,-81.689293,census,1,,2301,5.396,0.002,426.4,803|839
+45870,New Hampshire,OH,Ohio,standard,39011,Auglaize County,39011,40.556255,-83.951444,census,1,,445,0.328,0.0,1356.7,419
+33416,West Palm Beach,FL,Florida,unknown,12099,Palm Beach County,12099,26.6654,-80.0929,geonames,0,33406,,,,,561|728
+10924,Goshen,NY,New York,standard,36071,Orange County,36071,41.381156,-74.352485,census,1,,13720,40.081,0.23,342.3,845|329
+92056,Oceanside,CA,California,standard,06073,San Diego County,06073,33.199582,-117.298764,census,1,,53616,12.309,0.024,4355.8,760|442
+83462,Carmen,ID,Idaho,standard,16059,Lemhi County,16059,45.300529,-113.817801,census,1,,667,109.664,0.007,6.1,208
+11413,Springfield Gardens,NY,New York,standard,36081,Queens County,36081,40.67117,-73.752063,census,1,,45965,3.016,0.017,15240.4,347|718|929|917
+48136,Garden City,MI,Michigan,unknown,26163,Wayne County,26163,42.2399,-83.1508,geonames,0,48229,,,,,734
+10522,Dobbs Ferry,NY,New York,standard,36119,Westchester County,36119,41.009696,-73.863304,census,1,,11502,2.444,0.001,4706.2,914
+09171,APO AE,AE,Armed Forces Europe,military,,,,,,,0,,,,,,
+92615,Huntington Beach,CA,California,unknown,06059,Orange County,06059,33.6566,-117.9699,geonames,0,92646,,,,,657|714
+72930,Cecil,AR,Arkansas,standard,05047,Franklin County,05047|05131,35.434713,-94.127067,census,1,,207,37.419,3.044,5.5,479
+76682,Riesel,TX,Texas,standard,48145,Falls County,48145|48309,31.45345,-96.913489,census,1,,3661,124.296,2.124,29.5,254
+80532,Glen Haven,CO,Colorado,standard,08069,Larimer County,08069,40.483892,-105.465565,census,1,,185,35.969,0.012,5.1,970|748
+25306,Charleston,WV,West Virginia,standard,54039,Kanawha County,54039,38.312523,-81.49944,census,1,,6040,37.139,0.255,162.6,681|304
+10475,Bronx,NY,New York,standard,36005,Bronx County,36005,40.875635,-73.826934,census,1,,42578,1.243,0.062,34254.2,347|718|929|917
+77360,Onalaska,TX,Texas,standard,48373,Polk County,48373,30.846249,-95.117513,census,1,,6223,32.952,14.126,188.9,936
+14034,Collins,NY,New York,standard,36029,Erie County,36029,42.500569,-78.865375,census,1,,2086,24.141,0.009,86.4,716
+29386,White Stone,SC,South Carolina,unknown,45083,Spartanburg County,45083,34.8882,-81.969,geonames,0,29376,,,,,864
+12491,West Hurley,NY,New York,standard,36111,Ulster County,36111,41.965192,-74.141459,census,1,,1981,9.91,0.004,199.9,845
+94501,Alameda,CA,California,standard,06001,Alameda County,06001|06075,37.774712,-122.278097,census,1,,63808,7.924,2.819,8052.5,510|341
+12448,Lake Hill,NY,New York,standard,36111,Ulster County,36111,42.079556,-74.200687,census,1,,207,8.566,0.0,24.2,845
+36080,Titus,AL,Alabama,standard,01051,Elmore County,01051|01037,32.711806,-86.284022,census,1,,2539,52.016,3.341,48.8,334
+61453,Little York,IL,Illinois,standard,17187,Warren County,17187|17071,41.013477,-90.76321,census,1,,677,56.967,0.0,11.9,309
+19565,Wernersville,PA,Pennsylvania,standard,42011,Berks County,42011,40.342507,-76.088241,census,1,,9302,18.01,0.555,516.5,484|610
+89714,Carson City,NV,Nevada,unknown,32510,Carson City,32510,39.1678,-119.7764,geonames,0,89703,,,,,775
+37777,Louisville,TN,Tennessee,standard,47009,Blount County,47009,35.822632,-84.052409,census,1,,12877,32.893,3.933,391.5,865
+92026,Escondido,CA,California,standard,06073,San Diego County,06073,33.210965,-117.124788,census,1,,53075,36.058,0.062,1471.9,760|442
+94274,Sacramento,CA,California,unknown,06067,Sacramento County,06067,38.5816,-121.4944,geonames,0,95814,,,,,916|279
+07401,Allendale,NJ,New Jersey,standard,34003,Bergen County,34003,41.032669,-74.133826,census,1,,6865,3.091,0.021,2221.0,201|551
+97539,Shady Cove,OR,Oregon,standard,41029,Jackson County,41029,42.576422,-122.786215,census,1,,3369,21.825,0.151,154.4,458|541
+14269,Buffalo,NY,New York,unknown,36029,Erie County,36029,42.7684,-78.8871,geonames,0,,,,,,716
+63350,High Hill,MO,Missouri,standard,29139,Montgomery County,29139,38.904226,-91.351355,census,1,,769,23.567,0.512,32.6,636
+92561,Mountain Center,CA,California,standard,06065,Riverside County,06065,33.630418,-116.58229,census,1,,2157,163.795,0.002,13.2,760|442
+88530,El Paso,TX,Texas,unknown,48141,El Paso County,48141,31.6948,-106.3,geonames,0,79907,,,,,915
+79235,Floydada,TX,Texas,standard,48153,Floyd County,48153|48107|48345,33.942142,-101.26349,census,1,,2924,498.559,0.129,5.9,806
+48414,Bancroft,MI,Michigan,standard,26155,Shiawassee County,26155,42.861694,-84.079847,census,1,,2488,31.635,1.194,78.6,989
+39832,Cedar Springs,GA,Georgia,standard,13099,Early County,13099,31.19106,-85.027892,census,1,,0,2.596,0.002,0.0,229
+31789,Sumner,GA,Georgia,standard,13321,Worth County,13321,31.483306,-83.733939,census,1,,1470,65.884,0.32,22.3,229
+48184,Wayne,MI,Michigan,standard,26163,Wayne County,26163,42.274474,-83.395633,census,1,,17348,7.2,0.001,2409.4,734
+36609,Mobile,AL,Alabama,standard,01097,Mobile County,01097,30.660248,-88.163479,census,1,,23820,6.701,0.01,3554.7,251
+40744,London,KY,Kentucky,standard,21125,Laurel County,21125|21051,37.03187,-84.109932,census,1,,20137,103.745,3.582,194.1,606
+60411,Chicago Heights,IL,Illinois,standard,17031,Cook County,17031,41.507305,-87.589701,census,1,,52175,30.69,0.176,1700.1,708|464
+21052,Fort Howard,MD,Maryland,standard,24005,Baltimore County,24005,39.205023,-76.439629,census,1,,409,0.402,0.399,1017.4,443|410|667
+46319,Griffith,IN,Indiana,standard,18089,Lake County,18089,41.521837,-87.421897,census,1,,17847,9.582,0.023,1862.6,219
+70185,New Orleans,LA,Louisiana,unknown,22071,Orleans Parish,22071,29.9546,-90.0751,geonames,0,70112,,,,,504
+48382,Commerce Township,MI,Michigan,standard,26125,Oakland County,26125,42.582368,-83.51143,census,1,,24479,16.645,1.624,1470.7,248|947
+12970,Paul Smiths,NY,New York,standard,36033,Franklin County,36033,44.44625,-74.336722,census,1,,1084,109.016,7.579,9.9,518|838
+02115,Boston,MA,Massachusetts,standard,25025,Suffolk County,25025,42.339422,-71.094531,census,1,,29705,0.711,0.003,41779.2,617|857
+70450,Mount Hermon,LA,Louisiana,standard,22117,Washington Parish,22117,30.942521,-90.261736,census,1,,2921,73.561,0.253,39.7,985
+97903,Brogan,OR,Oregon,standard,41045,Malheur County,41045,44.271554,-117.598441,census,1,,48,115.622,0.911,0.4,541|458
+88040,Hachita,NM,New Mexico,standard,35023,Hidalgo County,35023|35017,31.597235,-108.354972,census,1,,14,1163.308,4.996,0.0,
+16668,Patton,PA,Pennsylvania,standard,42021,Cambria County,42021,40.653296,-78.622334,census,1,,3507,53.064,2.384,66.1,814|582
+13053,Dryden,NY,New York,standard,36109,Tompkins County,36109|36023,42.479575,-76.267918,census,1,,4794,34.808,0.245,137.7,607
+82201,Wheatland,WY,Wyoming,standard,56031,Platte County,56031|56001,42.001919,-105.129783,census,1,,6245,1658.78,5.963,3.8,307
+32887,Orlando,FL,Florida,unknown,12095,Orange County,12095,28.5663,-81.2608,geonames,0,32825,,,,,407|689|321
+77093,Houston,TX,Texas,standard,48201,Harris County,48201,29.863156,-95.341927,census,1,,46407,12.01,0.004,3864.0,713|832|346|281
+21270,Baltimore,MD,Maryland,unknown,24510,Baltimore city,24510,39.2847,-76.6205,geonames,0,21201,,,,,410|443|667
+53522,Browntown,WI,Wisconsin,standard,55045,Green County,55045|55065,42.556909,-89.78349,census,1,,943,39.215,0.141,24.0,608
+12514,Clinton Corners,NY,New York,standard,36027,Dutchess County,36027,41.877409,-73.764423,census,1,,3107,27.282,0.274,113.9,845
+37382,Summitville,TN,Tennessee,unknown,47031,Coffee County,47031,35.5595,-85.9925,geonames,0,37355,,,,,931
+56262,Milan,MN,Minnesota,standard,27023,Chippewa County,27023|27151,45.115071,-95.869707,census,1,,871,69.122,0.962,12.6,320
+44232,Green,OH,Ohio,standard,39153,Summit County,39153,40.932541,-81.463521,census,1,,0,0.021,0.0,0.0,330|234
+25333,Charleston,WV,West Virginia,unknown,54039,Kanawha County,54039,38.3498,-81.6326,geonames,0,25301,,,,,681|304
+66716,Bronson,KS,Kansas,standard,20011,Bourbon County,20011|20001,37.938576,-95.038044,census,1,,813,82.766,0.351,9.8,620
+83642,Meridian,ID,Idaho,standard,16001,Ada County,16001,43.573569,-116.400912,census,1,,62279,41.483,0.088,1501.3,208|986
+46774,New Haven,IN,Indiana,standard,18003,Allen County,18003,41.089207,-84.972367,census,1,,17858,52.691,0.158,338.9,260
+96717,Hauula,HI,Hawaii,standard,15003,Honolulu County,15003,21.557794,-157.90534,census,1,,4580,24.728,2.167,185.2,808
+80222,Denver,CO,Colorado,standard,08031,Denver County,08031|08005,39.671314,-104.92823,census,1,,23838,3.825,0.0,6232.2,303|720|983
+01863,North Chelmsford,MA,Massachusetts,standard,25017,Middlesex County,25017,42.630484,-71.397895,census,1,,9796,4.455,0.324,2198.9,978|351
+85603,Bisbee,AZ,Arizona,standard,04003,Cochise County,04003,31.432669,-109.919056,census,1,,6699,227.651,1.068,29.4,520
+46240,Indianapolis,IN,Indiana,standard,18097,Marion County,18097|18057,39.906045,-86.124635,census,1,,19595,9.37,1.01,2091.2,317|463
+17104,Harrisburg,PA,Pennsylvania,standard,42043,Dauphin County,42043,40.255017,-76.8672,census,1,,18541,3.356,3.142,5524.7,717|223
+21704,Frederick,MD,Maryland,standard,24021,Frederick County,24021,39.354883,-77.375902,census,1,,20006,26.633,0.171,751.2,240|301|227
+40452,Mitchellsburg,KY,Kentucky,unknown,21021,Boyle County,21021,37.6033,-84.9492,geonames,0,40464,,,,,859
+19034,Fort Washington,PA,Pennsylvania,standard,42091,Montgomery County,42091,40.133515,-75.209509,census,1,,7488,7.122,0.0,1051.4,215|267|445
+17735,Grover,PA,Pennsylvania,unknown,42015,Bradford County,42015,41.6145,-76.8672,geonames,0,17724,,,,,272|570
+85324,Black Canyon City,AZ,Arizona,standard,04025,Yavapai County,04025,34.121566,-112.037863,census,1,,2181,327.779,1.091,6.7,
+25036,Cannelton,WV,West Virginia,standard,54019,Fayette County,54019|54039,38.182341,-81.271114,census,1,,159,14.674,0.012,10.8,304|681
+42104,Bowling Green,KY,Kentucky,standard,21227,Warren County,21227|21213,36.876864,-86.45119,census,1,,42076,57.99,0.329,725.6,270|364
+43828,Keene,OH,Ohio,unknown,39031,Coshocton County,39031,40.3513,-81.8736,geonames,0,43812,,,,,740|220
+95672,Rescue,CA,California,standard,06017,El Dorado County,06017,38.72226,-120.992955,census,1,,5764,21.745,0.064,265.1,
+32619,Bell,FL,Florida,standard,12041,Gilchrist County,12041,29.756031,-82.86825,census,1,,5074,110.186,1.424,46.0,352
+52329,Rowley,IA,Iowa,standard,19019,Buchanan County,19019,42.351929,-91.860116,census,1,,671,49.948,0.232,13.4,319
+31711,Andersonville,GA,Georgia,standard,13261,Sumter County,13261|13193|13249,32.187695,-84.122225,census,1,,871,73.704,1.044,11.8,229
+99665,Shageluk,AK,Alaska,standard,02290,Yukon-Koyukuk Census Area,02290,62.691949,-159.555231,census,1,,34,10.308,1.192,3.3,907
+40366,Preston,KY,Kentucky,unknown,21011,Bath County,21011,38.0867,-83.7571,geonames,0,40360,,,,,606
+77062,Houston,TX,Texas,standard,48201,Harris County,48201,29.575781,-95.134334,census,1,,25523,5.813,0.019,4390.7,713|832|346|281
+74940,Howe,OK,Oklahoma,standard,40079,Le Flore County,40079,34.949481,-94.631817,census,1,,2504,59.457,2.743,42.1,918
+38389,Yorkville,TN,Tennessee,standard,47053,Gibson County,47053,36.103118,-89.121406,census,1,,76,0.108,0.0,703.7,731
+09252,APO AE,AE,Armed Forces Europe,military,,,,,,,0,,,,,,
+15610,Acme,PA,Pennsylvania,standard,42129,Westmoreland County,42129|42051,40.131269,-79.415343,census,1,,3988,39.677,0.061,100.5,724
+99668,Sleetmute,AK,Alaska,standard,02050,Bethel Census Area,02050,61.654462,-157.10249,census,1,,48,97.948,6.69,0.5,907
+43106,Bloomingburg,OH,Ohio,standard,39047,Fayette County,39047,39.644806,-83.418536,census,1,,1587,39.349,0.0,40.3,740
+08050,Manahawkin,NJ,New Jersey,standard,34029,Ocean County,34029,39.712132,-74.231888,census,1,,28053,30.898,8.465,907.9,609|640
+01059,North Amherst,MA,Massachusetts,unknown,25015,Hampshire County,25015,42.4104,-72.5309,geonames,0,01002,,,,,413
+50402,Mason City,IA,Iowa,unknown,19033,Cerro Gordo County,19033,43.1536,-93.201,geonames,0,50401,,,,,641
+21047,Fallston,MD,Maryland,standard,24025,Harford County,24025,39.526941,-76.438078,census,1,,13852,22.545,0.062,614.4,443|410|667
+40107,Boston,KY,Kentucky,standard,21179,Nelson County,21179,37.725327,-85.598827,census,1,,2187,53.207,0.739,41.1,502
+25943,Wyco,WV,West Virginia,standard,54109,Wyoming County,54109,37.596615,-81.349191,census,1,,0,0.546,0.0,0.0,681|304
+67227,Wichita,KS,Kansas,standard,20173,Sedgwick County,20173,37.626915,-97.501132,census,1,,152,4.805,0.0,31.6,316
+85130,Casa Grande,AZ,Arizona,unknown,04021,Pinal County,04021,32.8151,-111.7054,geonames,0,85193,,,,,520
+64744,El Dorado Springs,MO,Missouri,standard,29039,Cedar County,29039|29185|29217,37.848197,-93.978926,census,1,,8242,250.098,2.828,33.0,417
+87520,Chama,NM,New Mexico,standard,35039,Rio Arriba County,35039,36.875021,-106.627345,census,1,,1148,259.114,0.547,4.4,575
+02138,Cambridge,MA,Massachusetts,standard,25017,Middlesex County,25017,42.379637,-71.135152,census,1,,38509,2.738,0.326,14064.6,617|857
+18439,Lakewood,PA,Pennsylvania,standard,42127,Wayne County,42127,41.825503,-75.348966,census,1,,390,28.358,1.302,13.8,570
+13321,Clark Mills,NY,New York,standard,36065,Oneida County,36065,43.08896,-75.372252,census,1,,678,0.58,0.014,1169.0,315|680
+24093,Glen Lyn,VA,Virginia,standard,51071,Giles County,51071,37.385139,-80.868737,census,1,,102,5.255,0.709,19.4,540|826
+84039,Lapoint,UT,Utah,standard,49047,Uintah County,49047,40.440132,-109.812742,census,1,,713,88.166,0.45,8.1,435
+06673,Bridgeport,CT,Connecticut,unknown,09001,Fairfield County,09001,41.167,-73.2048,geonames,0,06605,,,,,203|475
+56231,Danvers,MN,Minnesota,standard,27151,Swift County,27151,45.27951,-95.763212,census,1,,405,91.549,0.214,4.4,320
+92365,Newberry Springs,CA,California,standard,06071,San Bernardino County,06071,34.896688,-116.560418,census,1,,2192,483.324,0.921,4.5,760|442
+85258,Scottsdale,AZ,Arizona,standard,04013,Maricopa County,04013,33.557918,-111.892948,census,1,,25545,10.307,0.255,2478.4,480|602|623
+24012,Roanoke,VA,Virginia,standard,51770,Roanoke city,51770|51023|51161,37.31765,-79.896769,census,1,,28235,20.335,0.047,1388.5,540|826
+65202,Columbia,MO,Missouri,standard,29019,Boone County,29019|29027,39.01716,-92.297814,census,1,,47327,141.295,0.635,335.0,573|235
+20639,Huntingtown,MD,Maryland,standard,24009,Calvert County,24009,38.601241,-76.605476,census,1,,15544,41.595,1.927,373.7,443|410|667
+07751,Morganville,NJ,New Jersey,standard,34025,Monmouth County,34025,40.35965,-74.261462,census,1,,21109,16.639,0.043,1268.6,732|848
+47515,Bristow,IN,Indiana,standard,18123,Perry County,18123,38.183913,-86.703982,census,1,,1305,51.474,0.235,25.4,812
+55733,Esko,MN,Minnesota,standard,27017,Carlton County,27017|27137,46.713831,-92.360792,census,1,,5139,35.339,0.544,145.4,218
+07421,Hewitt,NJ,New Jersey,standard,34031,Passaic County,34031|34037,41.17374,-74.352613,census,1,,6977,22.528,2.038,309.7,973
+54842,Hawthorne,WI,Wisconsin,standard,55031,Douglas County,55031,46.490793,-91.871965,census,1,,267,4.888,0.0,54.6,715
+32561,Gulf Breeze,FL,Florida,standard,12033,Escambia County,12033|12113,30.340667,-87.116593,census,1,,9321,12.038,26.419,774.3,850|448
+38188,Memphis,TN,Tennessee,unknown,47157,Shelby County,47157,35.2017,-89.9715,geonames,0,38127,,,,,901
+17046,Lebanon,PA,Pennsylvania,standard,42075,Lebanon County,42075,40.381655,-76.429383,census,1,,31835,38.885,0.142,818.7,717|223
+54406,Amherst,WI,Wisconsin,standard,55097,Portage County,55097,44.412217,-89.30493,census,1,,4040,66.355,0.589,60.9,534|715
+87191,Albuquerque,NM,New Mexico,unknown,35001,Bernalillo County,35001,35.0443,-106.6729,geonames,0,87105,,,,,505
+61791,Bloomington,IL,Illinois,unknown,17113,McLean County,17113,40.5192,-88.8643,geonames,0,61776,,,,,309
+97840,Oxbow,OR,Oregon,standard,41001,Baker County,41001,44.856099,-116.941231,census,1,,107,122.917,4.181,0.9,541
+24892,War,WV,West Virginia,standard,54047,McDowell County,54047,37.316739,-81.696824,census,1,,1193,38.032,0.131,31.4,304|681
+36344,Hartford,AL,Alabama,standard,01061,Geneva County,01061,31.101043,-85.710255,census,1,,5405,127.566,1.066,42.4,334
+26149,Middlebourne,WV,West Virginia,standard,54095,Tyler County,54095,39.472168,-80.88585,census,1,,2314,72.053,0.499,32.1,304|681
+28337,Elizabethtown,NC,North Carolina,standard,37017,Bladen County,37017,34.655856,-78.571951,census,1,,8357,165.97,4.984,50.4,910
+62536,Glenarm,IL,Illinois,standard,17167,Sangamon County,17167,39.629019,-89.652265,census,1,,1049,7.675,0.062,136.7,217|447
+04762,New Sweden,ME,Maine,standard,23003,Aroostook County,23003,46.976391,-68.114962,census,1,,494,34.502,0.029,14.3,207
+28541,Jacksonville,NC,North Carolina,unknown,37133,Onslow County,37133,34.6921,-77.3912,geonames,0,28547,,,,,910|472
+50241,Saint Marys,IA,Iowa,standard,19181,Warren County,19181,41.307698,-93.733845,census,1,,96,0.141,0.0,680.9,641
+62464,Stoy,IL,Illinois,standard,17033,Crawford County,17033,38.997956,-87.82379,census,1,,81,1.251,0.0,64.7,618
+38040,Halls,TN,Tennessee,standard,47097,Lauderdale County,47097|47033|47045,35.879109,-89.482941,census,1,,4416,131.322,7.818,33.6,731
+40995,Trosper,KY,Kentucky,standard,21121,Knox County,21121,36.75268,-83.823241,census,1,,120,4.352,0.0,27.6,606
+25607,Amherstdale,WV,West Virginia,standard,54045,Logan County,54045,37.783698,-81.771867,census,1,,847,12.682,0.046,66.8,681|304
+17864,Port Trevorton,PA,Pennsylvania,standard,42109,Snyder County,42109,40.704727,-76.905819,census,1,,2495,21.03,0.044,118.6,570|272
+58310,Agate,ND,North Dakota,standard,38079,Rolette County,38079|38095,48.566713,-99.553099,census,1,,17,14.26,0.014,1.2,701
+07071,Lyndhurst,NJ,New Jersey,standard,34003,Bergen County,34003,40.797113,-74.11298,census,1,,22463,4.584,0.38,4900.3,
+72157,Springfield,AR,Arkansas,standard,05029,Conway County,05029,35.273655,-92.565675,census,1,,1483,53.177,0.037,27.9,501
+33890,Zolfo Springs,FL,Florida,standard,12049,Hardee County,12049,27.455205,-81.724602,census,1,,5197,253.323,0.038,20.5,863
+31008,Byron,GA,Georgia,standard,13225,Peach County,13225|13079|13153,32.665355,-83.786087,census,1,,22602,71.102,0.412,317.9,478
+70660,Singer,LA,Louisiana,standard,22011,Beauregard Parish,22011,30.57264,-93.460816,census,1,,1996,144.033,0.103,13.9,337
+53571,Morrisonville,WI,Wisconsin,standard,55025,Dane County,55025,43.277906,-89.353641,census,1,,367,0.429,0.0,855.5,608|353
+47111,Charlestown,IN,Indiana,standard,18019,Clark County,18019,38.466285,-85.632485,census,1,,17738,85.979,0.866,206.3,812|930
+34788,Leesburg,FL,Florida,standard,12069,Lake County,12069,28.880322,-81.790033,census,1,,22137,36.146,15.729,612.4,352
+33932,Fort Myers Beach,FL,Florida,unknown,12071,Lee County,12071,26.5529,-81.9486,geonames,0,33904,,,,,239
+04624,Corea,ME,Maine,standard,23009,Hancock County,23009,44.423951,-67.985876,census,1,,225,5.851,7.066,38.5,207
+30150,Mount Zion,GA,Georgia,unknown,13045,Carroll County,13045,33.643,-85.1818,geonames,0,30117,,,,,678|770|470|943
+60639,Chicago,IL,Illinois,standard,17031,Cook County,17031,41.920598,-87.755942,census,1,,84240,4.962,0.0,16977.0,773|312|872
+49838,Gould City,MI,Michigan,standard,26097,Mackinac County,26097,46.031895,-85.737398,census,1,,426,135.621,11.876,3.1,906
+43351,Upper Sandusky,OH,Ohio,standard,39175,Wyandot County,39175,40.827604,-83.314046,census,1,,10457,153.995,0.409,67.9,419|567
+12567,Pine Plains,NY,New York,standard,36027,Dutchess County,36027|36021,41.985205,-73.653984,census,1,,2695,46.029,0.561,58.6,518
+43447,Millbury,OH,Ohio,standard,39173,Wood County,39173|39123,41.567683,-83.433162,census,1,,3348,17.347,0.041,193.0,567|419
+53928,Doylestown,WI,Wisconsin,standard,55021,Columbia County,55021,43.418098,-89.155032,census,1,,63,0.978,0.009,64.4,920
+77486,West Columbia,TX,Texas,standard,48039,Brazoria County,48039,29.160441,-95.691989,census,1,,7195,48.221,1.03,149.2,979
+60936,Gibson City,IL,Illinois,standard,17053,Ford County,17053|17113|17019,40.46469,-88.36306,census,1,,4246,97.181,0.23,43.7,217
+81425,Olathe,CO,Colorado,standard,08085,Montrose County,08085,38.458292,-108.118672,census,1,,5005,219.403,0.077,22.8,970
+50137,Killduff,IA,Iowa,standard,19099,Jasper County,19099,41.609715,-92.921578,census,1,,114,2.071,0.006,55.0,641
+05252,East Arlington,VT,Vermont,standard,50003,Bennington County,50003,43.081946,-73.066773,census,1,,455,39.262,0.26,11.6,802
+19029,Essington,PA,Pennsylvania,standard,42045,Delaware County,42045,39.862699,-75.292734,census,1,,3980,2.166,1.748,1837.5,215|267|445
+40010,Buckner,KY,Kentucky,standard,21185,Oldham County,21185,38.372519,-85.459505,census,1,,678,1.533,0.02,442.3,502
+28455,Nakina,NC,North Carolina,standard,37047,Columbus County,37047,34.111657,-78.631796,census,1,,1644,70.375,0.259,23.4,910
+92174,San Diego,CA,California,unknown,06073,San Diego County,06073,32.7153,-117.1573,geonames,0,92101,,,,,619|858
+40702,Corbin,KY,Kentucky,unknown,21235,Whitley County,21235,36.9374,-84.1031,geonames,0,40701,,,,,606
+07035,Lincoln Park,NJ,New Jersey,standard,34027,Morris County,34027,40.927501,-74.308334,census,1,,11120,6.658,0.521,1670.2,
+17901,Pottsville,PA,Pennsylvania,standard,42107,Schuylkill County,42107,40.694711,-76.274753,census,1,,22371,79.422,0.455,281.7,570|272
+94608,Emeryville,CA,California,standard,06001,Alameda County,06001,37.836844,-122.289143,census,1,,34395,2.752,0.806,12498.2,510|341
+66007,Basehor,KS,Kansas,standard,20103,Leavenworth County,20103,39.13603,-94.944555,census,1,,10150,31.387,0.159,323.4,913
+52808,Davenport,IA,Iowa,unknown,19163,Scott County,19163,41.613,-90.6063,geonames,0,52806,,,,,563
+48141,Inkster,MI,Michigan,standard,26163,Wayne County,26163,42.293945,-83.320298,census,1,,25428,6.253,0.001,4066.5,734
+66402,Auburn,KS,Kansas,standard,20177,Shawnee County,20177|20139,38.914,-95.843271,census,1,,3100,44.776,1.111,69.2,785
+95852,Sacramento,CA,California,unknown,06067,Sacramento County,06067,38.6026,-121.4475,geonames,0,95815,,,,,916|279
+77802,Bryan,TX,Texas,standard,48041,Brazos County,48041,30.660911,-96.322289,census,1,,25762,11.466,0.0,2246.8,979
+19050,Lansdowne,PA,Pennsylvania,standard,42045,Delaware County,42045,39.937639,-75.263508,census,1,,29373,3.663,0.0,8018.8,215|267|445
+58639,Hettinger,ND,North Dakota,standard,38001,Adams County,38001|46105,46.066735,-102.650509,census,1,,1762,569.777,0.791,3.1,701
+91503,Burbank,CA,California,unknown,06037,Los Angeles County,06037,34.1808,-118.309,geonames,0,91502,,,,,818|747
+29828,Gloverville,SC,South Carolina,standard,45003,Aiken County,45003,33.523428,-81.82963,census,1,,489,0.653,0.009,748.9,803|839
+38866,Saltillo,MS,Mississippi,standard,28081,Lee County,28081,34.36762,-88.680078,census,1,,12429,75.371,1.622,164.9,662
+08070,Pennsville,NJ,New Jersey,standard,34033,Salem County,34033,39.619125,-75.516069,census,1,,12511,20.698,3.269,604.5,856
+66214,Overland Park,KS,Kansas,standard,20091,Johnson County,20091,38.963579,-94.713965,census,1,,12351,3.854,0.0,3204.7,913
+00802,St Thomas,VI,U.S. Virgin Islands,standard,78030,St. Thomas Island,78030,18.342939,-64.925102,census,1,,,29.834,11.616,,
+78766,Austin,TX,Texas,unknown,48453,Travis County,48453,30.2672,-97.7431,geonames,0,78701,,,,,512|737
+82442,Ten Sleep,WY,Wyoming,standard,56043,Washakie County,56043,43.914059,-107.33342,census,1,,788,614.628,0.705,1.3,307
+30542,Flowery Branch,GA,Georgia,standard,13139,Hall County,13139,34.179847,-83.910081,census,1,,38605,42.443,7.588,909.6,470|770|678|943
+55615,Tofte,MN,Minnesota,standard,27031,Cook County,27031,47.746544,-90.85118,census,1,,379,188.997,10.038,2.0,218
+65459,Dixon,MO,Missouri,standard,29125,Maries County,29125|29169|29161|29131,38.02972,-92.096732,census,1,,8562,231.405,1.687,37.0,573
+12729,Cuddebackville,NY,New York,standard,36071,Orange County,36071|36105,41.489701,-74.613104,census,1,,1203,22.093,0.158,54.5,845
+50048,Casey,IA,Iowa,standard,19077,Guthrie County,19077|19001,41.512457,-94.520058,census,1,,562,85.919,0.107,6.5,641
+98170,Seattle,WA,Washington,unknown,53033,King County,53033,47.6096,-122.3317,geonames,0,98101,,,,,206
+48162,Monroe,MI,Michigan,standard,26115,Monroe County,26115,41.960425,-83.429323,census,1,,28156,57.464,1.703,490.0,734
+20289,Washington,DC,District of Columbia,unknown,11001,District of Columbia,11001,38.8933,-77.0146,geonames,0,20001,,,,,202|771
+46361,Michigan City,IN,Indiana,unknown,18091,LaPorte County,18091,41.7035,-86.9151,geonames,0,46360,,,,,219
+77291,Houston,TX,Texas,unknown,48201,Harris County,48201,29.834,-95.4342,geonames,0,77018,,,,,713|832|346|281
+47633,Poseyville,IN,Indiana,standard,18129,Posey County,18129|18051|18163,38.168768,-87.786342,census,1,,2602,61.241,0.029,42.5,812
+62051,Irving,IL,Illinois,standard,17135,Montgomery County,17135,39.20165,-89.403275,census,1,,791,39.347,0.409,20.1,217
+49648,Kewadin,MI,Michigan,standard,26009,Antrim County,26009,44.997686,-85.338808,census,1,,2577,27.267,22.583,94.5,231
+61322,Depue,IL,Illinois,standard,17011,Bureau County,17011,41.312267,-89.307047,census,1,,1530,3.581,1.05,427.3,815
+45776,Shade,OH,Ohio,standard,39105,Meigs County,39105|39009,39.18141,-82.024066,census,1,,1117,18.134,0.022,61.6,740
