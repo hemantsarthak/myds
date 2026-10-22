@@ -28,6 +28,8 @@ from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, n
 from engine.guides import add_guides  # noqa: E402
 
 CACHE = ROOT / ".cache" / "ipeds"
+PROJ = pathlib.Path(__file__).resolve().parent
+LABELS = json.loads((PROJ / "labels.json").read_text(encoding="utf-8")) if (PROJ / "labels.json").exists() else {}
 
 SECTOR = {
     "0": ("Administrative unit", "Other"),
@@ -106,6 +108,28 @@ def load():
             if gtype in ("2", "3", "4"):
                 grads.setdefault(uid, {})[gtype] = num(r["GRTOTLT"])
 
+    # net price by income band (SFA2223, 2022-23) + retention/student-faculty ratio (EF2023D)
+    netprice, retention = {}, {}
+    sfa = next((CACHE / "SFA2223").glob("*.csv"), None)
+    if sfa:
+        with sfa.open(encoding="utf-8-sig") as f:
+            for r in csv.DictReader(f):
+                uid = clean(r["UNITID"])
+                bands = []
+                for col, label in (("NPIS412", "Under $30,000"), ("NPIS422", "$30,001–48,000"),
+                                   ("NPIS432", "$48,001–75,000"), ("NPIS442", "$75,001–110,000"),
+                                   ("NPIS452", "Over $110,000")):
+                    v = num(r.get(col))
+                    if v is not None:
+                        bands.append((label, v))
+                netprice[uid] = {"total": num(r.get("NPIST2")), "bands": bands}
+    efd = next((CACHE / "EF2023D").glob("*.csv"), None)
+    if efd:
+        with efd.open(encoding="utf-8-sig") as f:
+            for r in csv.DictReader(f):
+                uid = clean(r["UNITID"])
+                retention[uid] = {"ret_ft": num(r.get("RET_PCF")), "stufac": num(r.get("STUFACR"))}
+
     out = []
     with hd_path.open(encoding="utf-8-sig") as f:
         for r in csv.DictReader(f):
@@ -152,6 +176,14 @@ def load():
                 "tuition_in": instate, "tuition_out": outstate,
                 "grad_rate": grad_rate, "transfer_rate": transfer_rate,
                 "cohort": cohort,
+                "net_price": netprice.get(uid, {}).get("total"),
+                "np_bands": netprice.get(uid, {}).get("bands", []),
+                "ret_ft": retention.get(uid, {}).get("ret_ft"),
+                "stufac": retention.get(uid, {}).get("stufac"),
+                "locale": (LABELS.get("LOCALE", {}).get(clean(r["LOCALE"])) or ""),
+                "size_cat": (LABELS.get("INSTSIZE", {}).get(clean(r["INSTSIZE"])) or ""),
+                "degree_top": (LABELS.get("HLOFFER", {}).get(clean(r["HLOFFER"])) or ""),
+                "carnegie": (LABELS.get("C21BASIC", {}).get(clean(r["C21BASIC"])) or ""),
             })
     return out
 
@@ -299,6 +331,18 @@ though most students receive institutional aid that lowers the actual net price.
                 ["Graduation rate (150%)", pct(c.get("grad_rate"))],
                 ["Transfer-out rate", pct(c.get("transfer_rate"))],
                 ]
+        if c.get("stufac"):
+            rows.append(["Student–faculty ratio", f'{c["stufac"]}:1'])
+        if c.get("ret_ft") is not None:
+            rows.append(["Full-time retention rate", pct(c["ret_ft"])])
+        if c.get("net_price"):
+            rows.append(["Average net price (after aid)", money(c["net_price"])])
+        if c.get("locale"):
+            rows.append(["Campus setting", esc(c["locale"])])
+        if c.get("size_cat"):
+            rows.append(["Size category", esc(c["size_cat"])])
+        if c.get("degree_top"):
+            rows.append(["Highest degree offered", esc(c["degree_top"])])
         if c["sat_25"] and c["sat_75"]:
             rows.append(["SAT middle 50% (EBRW+Math)", f'{c["sat_25"]}–{c["sat_75"]}'])
         if c["act_25"] and c["act_75"]:
@@ -359,6 +403,18 @@ though most students receive institutional aid that lowers the actual net price.
             (f'How much does {c["name"]} cost?', cost_ans),
             (f'How many students attend {c["name"]}?', enroll_ans),
         ]
+        np_section = ""
+        if c["np_bands"]:
+            band_rows = [[esc(lbl), money(v)] for lbl, v in c["np_bands"]]
+            np_section = (
+                "<h2>Cost after financial aid</h2>"
+                + (f'<p>The average net price — what students actually pay after grants and '
+                   f'scholarships — is <strong>{money(c["net_price"])}</strong> per year for '
+                   f'first-time, full-time students receiving Title IV aid.</p>' if c["net_price"] else '')
+                + table(["Family income", "Average net price"], band_rows)
+                + '<p>Net price falls as family income falls because need-based aid rises. These are '
+                  '2022-23 figures reported to IPEDS; use them to compare institutions, and use each '
+                  "college's own net price calculator for a personal estimate.</p>")
         body = f"""
 <h1>{esc(c["label"])}</h1>
 <p class="lede">{lede}</p>
@@ -368,6 +424,7 @@ though most students receive institutional aid that lowers the actual net price.
 {(" Of those admitted, " + human(c["enrolled"]) + " enrolled.") if c["enrolled"] else ""}</p>
 <h2>Cost</h2>
 {cost_txt or "<p>Tuition is not reported in the IPEDS charges file for this institution; check the college's own website for current tuition.</p>"}
+{np_section}
 <h2>Outcomes</h2>
 {grad_txt or "<p>A 150% graduation rate is not reported for this institution in the 2023 collection — common for very small, new or specialised institutions.</p>"}
 <h2>Where it is</h2>

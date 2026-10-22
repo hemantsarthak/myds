@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-22 ~17:25 IST (DeepSeek agent, repo `myds`). Round 5 of the goal loop.
+> Last updated: 2026-10-22 ~17:45 IST (DeepSeek agent, repo `myds`). Round 6 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -44,6 +44,19 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-6 work (2026-10-22 evening)
+
+1. **Colleges enriched with money-and-outcomes data** (deployed, IndexNow accepted):
+   - **Average net price after aid** (IPEDS SFA2223, 2022-23) plus a **net price by family income**
+     table (under $30k / 30–48k / 48–75k / 75–110k / over $110k) — the numbers students actually
+     compare. Coverage ~1,830 institutions (the rest do not report).
+   - **Full-time retention rate** (EF2023D) — coverage 5,004 institutions.
+   - **Campus setting**, **size category**, **highest degree offered** from HD2023 with label maps
+     committed as `sites/colleges/labels.json` (so the build stays reproducible).
+   Verified live on Michigan: net price $19,005, retention 98%, income bands $4,926 / $5,389 / $8,756…
+2. Crawler activity is climbing: airport 275, zip 266, ifsc 121, places 61 bot renders in 7 days.
+3. The parallel writer has been idle since ~17:11 (last writes: areacodes + engine/build_all).
 
 ## Round-5 work (2026-10-22 evening)
 
