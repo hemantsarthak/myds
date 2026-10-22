@@ -13,9 +13,11 @@
 - Data quality is real: ZIP 90210 (pop, county, area codes, nearby ZIPs), WGU (net price,
   retention, tuition), nursing homes (CMS stars), all sourced from public datasets.
 - Revenue: $0.00. Human traffic: ~0 (the counters' "views" are our own test loads).
-- Indexing evidence: Google `site:` = 0 (round 12); DuckDuckGo `site:tekify.xyz` = "No results
-  found" (this audit, 19:15 IST); Bing `site:` returned unrelated results / its AI fallback.
-  IndexNow accepted URLs but that is only an acknowledgement, not an index.
+- Indexing evidence: Google `site:` = 0 (round 12, real Chrome); DuckDuckGo `site:tekify.xyz` =
+  "No results found" for the apex (this audit, 19:15 IST). **Caveat:** the repo's own index-check
+  tooling is broken (see Technical findings #3), so "0 indexed" is the only credible data point
+  (round 12) and there is no reliable way to re-measure without Search Console. IndexNow
+  accepted URLs is only an acknowledgement, not an index.
 - The self-hosted analytics is JS-only, so it **cannot** see a plain Googlebot/Bingbot fetch.
   Bot counts in `ops.py stats` are JS-executing agents plus synthetic tests — do not treat them
   as proof of crawl coverage. Only Search Console / Bing Webmaster Tools can prove indexing.
@@ -62,6 +64,47 @@ nursinghomerating.org shows "most recent inspection 03-04-2026, 219 days ago". C
 Google crawl will mostly end at **"Crawled – currently not indexed"** — volume is not the
 bottleneck, per-page completeness and authority are.
 
+## Technical findings (second pass — live crawl of all 11 hosts)
+
+Verified good: all hosts 200, brotli, correct 301 http→https (path preserved), real 404s,
+canonical host, `index,follow`, one `h1`, `lang`, viewport; robots.txt + sitemaps fine on all;
+sitemap counts match the deployed pages (they do **not** match `docs/SITES.md` — see below);
+IndexNow key file live. Sitemaps are single `<urlset>`s, all < 20k URLs.
+
+Critical:
+
+1. **Sitemap-only orphans.** `sites/zip/build.py` caps city pages at 700 and state pages link
+   only to cities, never to ZIP pages. Of 25 sampled ZIP pages, **10 had no city page** and
+   **8 had no internal link path at all** (e.g. `/zip/05620/`, `/zip/73443/`). Those pages are
+   discoverable only via the sitemap — on a 2-day-old domain, effectively never.
+2. **200-link cap on state pages.** 28 of 53 nursing-home state pages sit at exactly 200 entity
+   links; all state pages emit **7,708 links for 14,690 facilities**. Same for home health
+   (5,293 links / 12,409 agencies) and places (2,695 / 16,000). Most entity pages have no
+   internal entry point either.
+3. **The index-check tooling is broken.** `scripts/search.py "site:example.com"` (control)
+   returns unrelated Indian sites; SearXNG ignores the `site:` operator and the script reports
+   "N results" as success. Bing via `web_fetch` returns query-agnostic results; DDG returns a
+   captcha. So any future "we are indexed / competitors don't rank" conclusion from this tool
+   is noise. Only round-12's real-Chrome Google check is credible, and only Search Console can
+   replace it.
+
+High/medium:
+
+4. `lastmod` is fake-uniform: every URL in all 11 sitemaps is `2026-10-22`
+   (`engine/sitegen.py` defaults `lastmod=today()`), so every rebuild restamps 113,456 URLs.
+   Google will ignore it.
+5. No entity schema: only `WebSite` + `BreadcrumbList` on every page; no
+   Hospital/MedicalOrganization/CollegeOrUniversity/Place/FAQPage even where the HTML exists.
+6. Thin/JS-only pages are inside the sitemaps: `/search/` is in 8 sitemaps and renders
+   "Loading index…" without JS; body-text minimums: calculators 243 chars, hospitals 352.
+7. `docs/SITES.md` is stale: lists 8 of 11 properties, says "113,451 pages / 79.7k URLs" while
+   its own rows sum to 79,730; calculators 62 vs 67 live.
+8. `ads.txt` 404 network-wide (HilltopAds does not require one, but a future network will).
+9. No edge HTML cache (`cf-cache-status: DYNAMIC`); deep TTFB 0.28–0.69 s vs 0.12 s home.
+10. ZIP homepage `<title>` is double-escaped (`&amp;amp;` → "&amp;" in the SERP); deep titles
+    run 76–83 characters (truncated in SERPs).
+11. `www.tekify.xyz` is NXDOMAIN; ads also render on the 404 page.
+
 ## The three structural problems
 
 ### 1. The revenue math does not close in 30–90 days
@@ -105,7 +148,7 @@ AI Overviews is eating exactly those lookup clicks. The fix is not more ad netwo
 **decision pages + affiliate/lead offers in 2–3 verticals**, where 20–30k pageviews/mo can beat
 500k lookup pageviews.
 
-## Top 10 changes, ranked by expected impact on revenue
+## Top changes, ranked by expected impact on revenue
 
 1. **Human unblock batch (one ~20-minute sitting, see checklist below).** Without Search
    Console you are blind; without Bing WMT you cannot submit the 113k URLs; without the GitHub
@@ -114,44 +157,54 @@ AI Overviews is eating exactly those lookup clicks. The fix is not more ad netwo
 2. **Freeze page production until one site proves indexing.** No new properties (drop
    `swiftcodes`, further airport expansion, more subdomains). Spend the same hours on
    differentiation and distribution instead.
-3. **Pick 2 verticals and build the money layer**: senior care (nursing homes + home health +
+3. **Fix the internal link graph.** Paginate the state/city lists (remove the hard 200-link cap
+   and the 700-city cap), add A–Z and county/neighbourhood index hubs so every entity page is
+   ≤3 clicks from `/`, and drop the JS-only `/search/` pages from the sitemaps (`noindex`).
+   Without internal paths, a 2-day-old domain will never crawl 113k sitemap URLs.
+4. **Pick 2 verticals and build the money layer**: senior care (nursing homes + home health +
    hospitals) and ZIP/local. Per the page audit: nursing homes need the decision data (inspection
    dates, deficiencies, fines, official Care Compare link) before they can outrank the current
    SERP; ZIP needs ACS demographics + map + a comparison block. Then attach the offers those
    verticals pay for (senior-care lead/affiliate, local services). Colleges and airport pages are
    long-tail-only (IPEDS 2023 is off-cycle for head terms; airport affiliate cards are off-intent).
-4. **Backlinks program (the actual ranking lever).** (a) publish the prepared
+5. **Backlinks program (the actual ranking lever).** (a) publish the prepared
    `tekify-open-data` repo + GitHub Pages landing (blocked on token scope); (b) ship 2–3
    embeddable widgets ("look up your ZIP/area code/IFSC") that carry a followed credit link;
    (c) publish 2–3 genuine data studies (e.g. *"US nursing-home staffing by state, 2026"*) and
    pitch local outlets/newsletters; (d) publish articles on Substack once the publication
    exists.
-5. **Instrument before scaling.** Add GSC + BWT, then a weekly report: indexed pages,
-   impressions, clicks, CTR, avg position, revenue/site. Make "pages shipped" stop being a KPI.
-6. **Kill the popunder** (and set HilltopAds to mainstream-only inventory). Popunder is
+6. **Instrument before scaling — and fix the tooling.** Add GSC + BWT, then a weekly report:
+   indexed pages, impressions, clicks, CTR, avg position, revenue/site. Make "pages shipped"
+   stop being a KPI. Also repair or retire `scripts/search.py`: its SearXNG tier ignores the
+   `site:` operator and returns unrelated results while reporting success — any session that
+   trusts it will draw false conclusions about indexing and competition. Until GSC/BWT exist,
+   treat "indexed" as unknown rather than measured.
+7. **Kill the popunder** (and set HilltopAds to mainstream-only inventory). Popunder is
    UX-hostile, hurts Core Web Vitals and AdSense eligibility later, and unknown creatives can
    get the domain flagged by Safe Browsing — the one failure mode that kills the whole asset.
-7. **Per-page completeness pass (highest SEO ROI after links).** For each page type: official
+8. **Per-page completeness pass (highest SEO ROI after links).** For each page type: official
    record link + `tel:` on every phone + OSM static map from the lat/lon already stored +
    "compared with state/national" block computed from our own files + visible
    "Source: <dataset> <release date>, retrieved <date>" + `dateModified`/`FAQPage`/vertical
    schema + real sitemap `lastmod` (data release date, not build date). Delete the repeated
    affiliate blocks on airport pages; fix the IFSC `/about/` branch-count mismatch; add a
    methodology/about page naming a human owner. Rebuild only `sitemap.xml` + the changed
-   templates, not all 113k pages, where possible.
-
-8. **Architecture limit**: Cloudflare Pages caps a project at 20k files. `ifsc` is at 19,590
-   and `places` at 19,210 — both effectively full. Future growth needs a Worker-rendered
-   site (R2/D1 data + cached HTML) or fewer pages, NOT more subdomain projects. Also consider
-   consolidating future content into paths on fewer domains (authority concentration).
-9. **Ops hygiene**: one writer at a time (a second session commit landed mid-audit — deploy
-   races are real); exclude `.cache/`, `node_modules/`, `sites/*/site/` and
-   `shared/chrome-agent-profile/` (~2.2 GB total) from OneDrive sync; rotate the PAT that is
-   embedded in `.git/config`; remove `bottest`/`selftest` from analytics; fix
-   `scripts/search.py` — a `site:` query returned unrelated results and exit 1 (it can feed
-   false evidence to sessions); trim `STATE.md` (273 lines of round history) into
-   `STATE.md` (current, <80 lines) + `HISTORY.md`.
-10. **Portfolio discipline**: define kill/keep criteria now (e.g. zero GSC impressions after
+   templates, not all 113k pages, where possible. Fix the ZIP homepage `<title>` double-escape
+   and over-long deep titles while in there.
+9. **Close the small technical holes**: emit an `ads.txt` for HilltopAds; add `www.tekify.xyz`
+   DNS + 301 to the apex; set an edge-cache-friendly `Cache-Control` for HTML in `_headers`
+   (deep TTFB is 0.28–0.69 s, home 0.12 s); stop serving ads on the 404 page; refresh
+   `docs/SITES.md` (it lists 8 of 11 properties and its page totals are wrong).
+10. **Architecture limit**: Cloudflare Pages caps a project at 20k files. `ifsc` is at 19,590
+    and `places` at 19,210 — both effectively full. Future growth needs a Worker-rendered
+    site (R2/D1 data + cached HTML) or fewer pages, NOT more subdomain projects. Also consider
+    consolidating future content into paths on fewer domains (authority concentration).
+11. **Ops hygiene**: one writer at a time (a second session commit landed mid-audit — deploy
+    races are real); exclude `.cache/`, `node_modules/`, `sites/*/site/` and
+    `shared/chrome-agent-profile/` (~2.2 GB total) from OneDrive sync; rotate the PAT that is
+    embedded in `.git/config`; remove `bottest`/`selftest` from analytics; trim `STATE.md`
+    (273 lines of round history) into `STATE.md` (current, <80 lines) + `HISTORY.md`.
+12. **Portfolio discipline**: define kill/keep criteria now (e.g. zero GSC impressions after
     60 days → stop investing; a property with clicks and a monetizable intent → double down).
     Current view from the page audit: **invest** `zipcodes` (weakest incumbent, exact-match US
     intent, ACS data already easy to add) and `nursinghomes` (highest CPC, 15k facility-name
@@ -190,7 +243,8 @@ Cuelinks) is second-order until traffic exists — do not spend human time there
 1. Search Console + BWT live, weekly numbers in `docs/REVENUE.md`.
 2. ≥ 1 property with ≥ 100 indexed pages **and** ≥ 100 impressions/week in GSC.
 3. ≥ 3 real referring domains (not nofollow UGC).
-4. Popunder off, sitemap `lastmod` fixed, per-vertical schema + methodology shipped.
+4. Popunder off, every entity reachable by internal links (≤3 clicks), real `lastmod`,
+   per-vertical schema + methodology shipped, `ads.txt` served.
 5. First affiliate click tracked via `/go/` (even if $0 revenue).
 
 If none of 1–3 happens by day 30, the model is wrong and the strategy should change (not the
