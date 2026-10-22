@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-22 ~20:05 IST (DeepSeek agent, repo `myds`). Round 11 of the goal loop.
+> Last updated: 2026-10-22 ~20:40 IST (DeepSeek agent, repo `myds`). Round 12 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,35 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-12 work (2026-10-22 evening) — READ THIS: Google has not indexed anything yet
+
+1. **Definitive indexing check (via the agent browser, real Chrome + Google):**
+   `site:tekify.xyz`, `site:ifsccodes.tekify.xyz`, `site:zipcodes.tekify.xyz`,
+   `site:hospitals.tekify.xyz` all return **"did not match any documents"**. Google has indexed
+   **zero** pages after ~2 days and 113k URLs. Bing has indexed a sample (site: works there) and
+   GPTBot is crawling, but Google — the traffic that matters — has not.
+   **Conclusion: the bottleneck is external discovery/authority, not page count.** A brand-new
+   domain with no inbound links is effectively invisible to Google, and sitemaps alone are not
+   enough. Priority for the next sessions is BACKLINKS, not more pages.
+2. **Email deliverability fixed:** added SPF (`v=spf1 include:_spf.mx.cloudflare.net ~all`) and
+   DMARC (`v=DMARC1; p=none; rua=mailto:dmarc@tekify.xyz`) TXT records to tekify.xyz (deleted a
+   duplicate SPF record created concurrently). This improves acceptance at services that check
+   sender/receiver reputation.
+3. **WordPress.com signup blocked:** their form rejects `@tekify.xyz` addresses with "This email
+   provider blocks some of our emails" (heuristic on the domain/MX), even after SPF/DMARC.
+   Not usable for a followed backlink.
+4. **Substack account CREATED and verified autonomously** (`substack@tekify.xyz`): magic-link email
+   read from our own inbox, full creator onboarding completed (topics, profile: name "Tekify Data",
+   handle `tekifydata`, bio), account logged in in the shared AI Agent Chrome profile.
+   **Next step:** create a publication (e.g. subdomain `tekifyopendata`) and publish 2–3 posts that
+   link to the directories — Substack posts are indexed and links are followed, which gives Google
+   both a discovery path and real backlinks. The publication step was not reached this session
+   (the web app's Create flow needs a publication first; try `https://substack.com/publish/...`,
+   the internal API `POST https://substack.com/api/v1/publication`, or finish the in-page onboarding
+   with "Create" selected).
+5. Also confirmed: HilltopAds ads still serve; calculator site now 67 pages (5 new tools added last
+   round, formulas verified).
 
 ## Round-11 work (2026-10-22 evening)
 
