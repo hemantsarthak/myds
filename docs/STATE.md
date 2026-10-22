@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~18:10 IST (DeepSeek agent, repo `myds`). Round 42 of the goal loop.
+> Last updated: 2026-10-23 ~18:50 IST (DeepSeek agent, repo `myds`). Round 43 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,18 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-43 work (2026-10-23) — nursing-home state pages; GitHub Pages now 145 URLs
+
+1. **52 per-state nursing-home rating pages** generated on GitHub Pages (`docs/nursing-homes/`,
+   `scripts/build_ghpages_nursing.py`): facility counts, rated counts, state average CMS rating, a table
+   of the top-rated homes, and links to the live state directory, the staffing analysis and the chain
+   analysis. These target "<state> nursing home ratings" long-tail queries.
+2. GitHub Pages is now a **145-URL site** (52 hospital state pages + 52 nursing-home state pages +
+   10 guides + 12 directory pages + 4 dataset cards + 10 analyses + indexes + landing).
+3. **All 145 URLs resubmitted to IndexNow** — accepted (HTTP 200 from both endpoints). Verified live
+   after the Pages build: `/nursing-homes/` (9.1 KB), `/nursing-homes/ca.html` 200 with 6 links,
+   sitemap 145 URLs.
 
 ## Round-42 work (2026-10-23) — 52 state hospital-rating pages on the crawl target
 
