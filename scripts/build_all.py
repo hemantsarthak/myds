@@ -18,7 +18,8 @@ ROOT = Path(__file__).resolve().parents[1]
 # slug, build command (relative), Pages project, public host
 SITES = [
     ("hub", ["python", "sites/hub/build.py"], "hub", "tekify.xyz"),
-    ("pincode", ["python", "sites/pincode-india/build_site.py"], "pincode-india", "pincode.tekify.xyz"),
+    # pincode.tekify.xyz is deployed by the other (Minimax) agent that shares this Cloudflare
+    # account; we keep the sources for reference but do not deploy that project any more.
     ("ifsc", ["python", "sites/ifsc/build.py"], "ifsc", "ifsccodes.tekify.xyz"),
     ("airport", ["python", "sites/airport/build.py"], "myds-airport", "airportcodes.tekify.xyz"),
     ("zip", ["python", "sites/zip/build.py"], "myds-zip", "zipcodes.tekify.xyz"),

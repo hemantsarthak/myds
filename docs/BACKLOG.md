@@ -15,7 +15,7 @@ with the date, and update `docs/STATE.md`.
 ## P1 — more traffic assets (biggest SEO lever)
 
 - [ ] P1-1. `areacodes.tekify.xyz`: US/Canada NANP area codes (+ world country calling codes).
-- [ ] P1-2. `calculators.tekify.xyz`: 35–50 client-side calculators (loan, mortgage, tax,
+- [x] P1-2. (2026-10-22) `calculators.tekify.xyz` live with 53 tools; expand with more niches later.
       salary, BMI, dates) — high-intent US traffic, better ad RPM than data pages.
 - [ ] P1-3. `swift.tekify.xyz`: SWIFT/BIC codes by bank/country. Dataset leads (research 2026-10-22):
       https://github.com/lobax/banknames (bank names by BIC from SWIFT registry),
@@ -46,6 +46,8 @@ with the date, and update `docs/STATE.md`.
 - [ ] P4-3. Consider selling the strongest site(s) at 25–35× monthly revenue.
 
 ## Done
+
+- [x] 2026-10-22 — Calculators site live: calculators.tekify.xyz (53 tools, maths verified).
 
 - [x] 2026-10-22 — Repo foundation, agent protocol, strategy, roadmap.
 - [x] 2026-10-22 — Ops CLI (deploy/attach/DNS/IndexNow/inbox), engine, build_all.
