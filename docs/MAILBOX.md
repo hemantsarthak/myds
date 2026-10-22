@@ -114,7 +114,9 @@ python scripts/ops.py mailbox-selftest --to ads@tekify.xyz   # sends real SMTP t
 ```
 
 Last verified 2026-10-22: direct SMTP to `route1.mx.cloudflare.net` → catch-all → Worker → KV →
-`/inbox/latest` returned the message (subject, from, links all parsed).
+`/inbox/latest` returned the message (subject, from, links all parsed). Test mail is sent from
+`*@mailbox-test.example`; messages from that domain in the inbox are selftest artifacts and safe
+to ignore.
 
 ## Fallback (only if Email Routing/MX is ever unavailable)
 
