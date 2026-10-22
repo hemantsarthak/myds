@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-22 ~19:35 IST (DeepSeek agent, repo `myds`). Round 10 of the goal loop.
+> Last updated: 2026-10-22 ~20:05 IST (DeepSeek agent, repo `myds`). Round 11 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,25 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-11 work (2026-10-22 evening)
+
+1. **Who is actually crawling (new evidence).** The per-bot breakdown shows the recent bot hits are
+   **GPTBot** (OpenAI), not Googlebot: airport 17, zip 46, places 59 GPTBot hits in the last two
+   days. That means (a) our content is being ingested by AI crawlers, and (b) our JS-based analytics
+   can only see crawlers that execute JavaScript — Bingbot does not, and Googlebot's rendering is
+   not visible here yet. Google crawl/index status remains unknown without Search Console.
+2. **Five new calculators** (deployed, formulas verified): retirement withdrawal (4% rule), debt
+   payoff (months + interest, with a "pay 25% more" comparison), biweekly mortgage (interest and
+   years saved — fixed a factor-of-2 bug found by the check), sales commission with broker split,
+   and sleep-cycle bedtime planner. Calculators site: 62 → **67 pages**, IndexNow accepted.
+3. **Backlink attempt blocked by token scope.** Created a public repo `hemantsarthak/tekify-open-data`
+   (data documentation + samples + GitHub Pages landing page linking all 11 properties) to earn a
+   followed link from github.io. The fine-grained GitHub token can create the repo but **cannot write
+   contents or enable Pages** (403), and cannot delete the repo either — it is left empty.
+   Human action if wanted: either delete that empty repo or add it to the token's repository scope;
+   then the prepared generator can publish it. Search evidence in the same round: competitors rank
+   for our target queries (bankifsccode.com etc.); we do not yet — expected at 2 days old.
 
 ## Round-10 work (2026-10-22 evening)
 
