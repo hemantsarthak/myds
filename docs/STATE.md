@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~01:30 IST (DeepSeek agent, repo `myds`). Round 17 of the goal loop.
+> Last updated: 2026-10-23 ~02:20 IST (DeepSeek agent, repo `myds`). Round 18 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,30 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-18 work (2026-10-23) — domain-level Google invisibility + first indexable citation
+
+1. **Google indexes NOTHING on tekify.xyz** — checked with the agent browser against Google:
+   `site:tekify.xyz`, `site:ifsccodes.tekify.xyz`, `site:zipcodes.tekify.xyz`,
+   `site:hospitals.tekify.xyz`, **and the other agent's** `site:pincode.tekify.xyz`,
+   `site:ifsc.tekify.xyz`, `site:solarcalc.tekify.xyz` — all "did not match any documents".
+   So the whole domain is unknown to Google, not just our subdomains. Bing does index a sample
+   (site: works there), and GPTBot crawls us. **Discovery is the single blocking problem.**
+2. **Created a public, indexable Telegraph article** that links to all 12 properties:
+   <https://telegra.ph/Open-data-directories-IFSC-codes-ZIP-codes-colleges-hospitals-nursing-homes-and-more-10-22-2>
+   — telegra.ph needs no account/captcha (published through its web editor by the agent browser),
+   the page is `meta robots: index, follow`, 11 outbound links to the directories (`rel="nofollow"`,
+   which still counts for discovery when Google crawls the page). Tool: `scripts/browser/telegraph-publish.mjs`
+   (also `scripts/telegraph_publish.py`, whose direct API call is blocked from this network).
+3. **Blocked signups recorded:** Neocities requires reCAPTCHA/hCaptcha at signup; WordPress.com
+   rejects `@tekify.xyz` ("email provider blocks some of our emails"). Substack remains the only
+   platform where the agent could create an account + public profile/notes without a captcha
+   (publication creation is the captcha-gated step — human action #5).
+4. **Fixed colleges duplicate titles** (27, caused by `seo_title` truncation of long university
+   names) that aborted a full rebuild; colleges now validates clean (0 dup titles).
+5. Full footer refresh: hub/ifsc/airport/zip/calculators/places rebuilt and deployed; colleges,
+   areacodes, hospitals, nursinghomes, homehealth, dialysis rebuilt+deployed with IndexNow in the
+   same round so every footer links all 12 properties.
 
 ## Round-17 work (2026-10-23) — dialysis site + analytics quota fix
 
