@@ -88,6 +88,12 @@ the method stated on every page.</p>
              "Distribution of the CMS five-star ratings."),
             ("/insights/largest-nursing-home-chains/", "Largest nursing-home chains",
              "Industry consolidation, counted by CMS data."),
+            ("/insights/us-zip-codes-by-state/", "US ZIP codes by state",
+             "Postal geography, counted."),
+            ("/insights/airports-by-country/", "Airports by country",
+             "Aviation infrastructure worldwide."),
+            ("/insights/indian-bank-branches-by-state/", "Indian bank branches by state",
+             "The banking network, state by state."),
             ("/insights/indian-bank-branch-networks/", "Indian bank branch networks",
              "IFSC codes counted by bank.")])
     body += """

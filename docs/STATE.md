@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~08:10 IST (DeepSeek agent, repo `myds`). Round 27 of the goal loop.
+> Last updated: 2026-10-23 ~08:45 IST (DeepSeek agent, repo `myds`). Round 28 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,23 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-28 work (2026-10-23) — three more insights; zone hardened for crawlers
+
+1. **Three more insight articles** (hub now **16 pages**, **10 original analyses**), each computed from
+   the cached datasets and charted:
+   - **US ZIP codes by state** — how the postal geography is distributed (top states, shares).
+   - **Which countries have the most airports?** — 86,258 airports by country; only a small share have
+     scheduled commercial service.
+   - **Indian bank branches by state** — 183,208 IFSC codes by state, with a note that the browsable
+     directory publishes the 19,511 largest branch records (counts are dataset-wide, not page counts).
+   Added to the home-page cards, sitemap (16 URLs) and IndexNow.
+2. **Cloudflare zone hardened:** `always_use_https` enabled (HTTP now 301-redirects to HTTPS —
+   verified on tekify.xyz and hospitals.tekify.xyz), `min_tls_version` raised to 1.2,
+   `automatic_https_rewrites` and `early_hints` enabled. Crawler Hints is not available on this plan
+   (API returns 400).
+3. Reminder of the state: HilltopAds site still "Pending" (zones approved), Travelpayouts approved;
+   both $0 pending traffic. No search engine has indexed the domain yet.
 
 ## Round-27 work (2026-10-23) — charts on the insight articles
 

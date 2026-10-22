@@ -575,12 +575,172 @@ domain.</p>
              body, crumbs=[("Insights", "/insights/"), ("College net price", None)])
 
 
+
+# ---------------------------------------------------------------- ZIP codes by state
+def page_zip_by_state(site):
+    per_state = collections.Counter()
+    total = 0
+    for r in rows("us-zip-codes.csv"):
+        st = (r.get("state") or "").strip()
+        if st in STATE_NAMES:
+            per_state[st] += 1
+            total += 1
+    items = per_state.most_common()
+    top = items[:12]
+    chart = bar_chart([(STATE_NAMES[st], n) for st, n in top], lambda v: human(int(v)))
+    tr = [[esc(STATE_NAMES[st]), human(n), f"{n / total * 100:.1f}%"] for st, n in items[:15]]
+    body = f"""
+<h1>US ZIP codes by state</h1>
+<p class="lede">ZIP codes follow postal delivery routes, not state borders — but counting them by
+state still shows how unevenly the country is served. Texas and California hold a large share of all
+ZIP codes; a handful of states hold very few.
+<span class="stat">{human(total)} ZIP codes</span><span class="stat">{len(per_state)} states</span></p>
+<h2>Key findings</h2>
+<ul>
+<li><strong>{esc(STATE_NAMES[top[0][0]])}</strong> has the most ZIP codes ({human(top[0][1])}),
+followed by {esc(STATE_NAMES[top[1][0]])} ({human(top[1][1])}) and
+{esc(STATE_NAMES[top[2][0]])} ({human(top[2][1])}).</li>
+<li>The top five states account for {sum(n for _, n in items[:5]) / total * 100:.1f}% of all ZIP codes
+in the dataset.</li>
+<li>At the other end, {esc(STATE_NAMES[items[-1][0]])} has {human(items[-1][1])} ZIP codes.</li>
+</ul>
+<h2>ZIP codes by state</h2>
+{chart}
+{table(["State", "ZIP codes", "Share"], tr)}
+<h2>Why ZIP counts differ</h2>
+<p>ZIP codes are assigned where mail is delivered, so a densely populated state with many distinct
+delivery areas has more of them. Rural states can cover huge areas with relatively few codes, and
+some codes span state lines. A high ZIP count does not mean a state is larger or busier — just that
+its postal geography is more finely divided.</p>
+<h2>Method</h2>
+<p>Count of unique ZIP codes per state from the US ZIP code dataset (Census/GeoNames-derived), which
+lists one primary state per code. Data: public domain / CC BY 4.0.</p>
+{related([("https://zipcodes.tekify.xyz", "Look up any ZIP code"),
+          ("https://zipcodes.tekify.xyz/state/tx/", "Texas ZIP codes"),
+          ("/insights/hospital-ratings-by-state/", "Hospital ratings by state")])}
+"""
+    site.add("/insights/us-zip-codes-by-state/", "US ZIP Codes by State — Counts and Shares",
+             "How many ZIP codes each US state has, charted, with the share of the national total.",
+             body, crumbs=[("Insights", "/insights/"), ("ZIP codes by state", None)])
+
+
+# ---------------------------------------------------------------- airports by country
+def page_airports_by_country(site):
+    per_country = collections.Counter()
+    types = collections.Counter()
+    scheduled = 0
+    total = 0
+    for r in rows("airports.csv"):
+        c = (r.get("iso_country") or "").strip().upper()
+        if not c:
+            continue
+        per_country[c] += 1
+        types[(r.get("type") or "").strip()] += 1
+        if (r.get("scheduled_service") or "").strip().lower() == "yes":
+            scheduled += 1
+        total += 1
+    items = per_country.most_common(15)
+    chart = bar_chart(items, lambda v: human(int(v)))
+    tr = [[esc(c), human(n), f"{n / total * 100:.1f}%"] for c, n in items]
+    type_rows = [[esc(k.replace("_", " ")), human(v), f"{v / total * 100:.1f}%"] for k, v in types.most_common(6)]
+    body = f"""
+<h1>Which countries have the most airports?</h1>
+<p class="lede">The OurAirports dataset lists every airport, heliport and seaplane base with a known
+location. Counted by country, it is a map of aviation infrastructure — and of how much of it is
+commercial.
+<span class="stat">{human(total)} airports</span><span class="stat">{len(per_country)} countries</span>
+<span class="stat">{human(scheduled)} with scheduled service</span></p>
+<h2>Key findings</h2>
+<ul>
+<li><strong>{esc(items[0][0])}</strong> leads with {human(items[0][1])} airports, followed by
+{esc(items[1][0])} ({human(items[1][1])}) and {esc(items[2][0])} ({human(items[2][1])}).</li>
+<li>Only <strong>{scheduled / total * 100:.1f}%</strong> of airports in the dataset have scheduled
+commercial service — the rest are general aviation, private strips, heliports and military fields.</li>
+<li>The United States alone accounts for {items[0][1] / total * 100:.1f}% of all entries.</li>
+</ul>
+<h2>Airports by country</h2>
+{chart}
+{table(["Country", "Airports", "Share"], tr)}
+<h2>Airport types</h2>
+{table(["Type", "Airports", "Share"], type_rows)}
+<h2>How to read this</h2>
+<p>A large count usually means a large country with many small general-aviation fields, not
+necessarily a busy aviation market. Scheduled service is the better proxy for commercial activity —
+and for the airports travellers actually search for.</p>
+<h2>Method</h2>
+<p>Counts from the OurAirports public dataset (public domain), by ISO country code and airport type.
+Data snapshot 2026.</p>
+{related([("https://airportcodes.tekify.xyz", "Look up an airport code"),
+          ("https://airportcodes.tekify.xyz/search/", "Search airports"),
+          ("/insights/us-zip-codes-by-state/", "ZIP codes by state")])}
+"""
+    site.add("/insights/airports-by-country/", "Which Countries Have the Most Airports? — OurAirports Data",
+             "Airport counts by country from the OurAirports dataset, with the share of airports that "
+             "have scheduled commercial service.",
+             body, crumbs=[("Insights", "/insights/"), ("Airports by country", None)])
+
+
+# ---------------------------------------------------------------- IFSC branches by state
+def page_ifsc_states(site):
+    per_state = collections.Counter()
+    total = 0
+    for r in rows("ifsc.csv"):
+        st = (r.get("STATE") or "").strip()
+        if st:
+            per_state[st] += 1
+            total += 1
+    items = per_state.most_common(15)
+    chart = bar_chart([(st.title(), n) for st, n in items[:12]], lambda v: human(int(v)))
+    tr = [[str(i + 1), esc(st.title()), human(n), f"{n / total * 100:.1f}%"]
+          for i, (st, n) in enumerate(items)]
+    body = f"""
+<h1>Indian bank branches by state</h1>
+<p class="lede">Every bank branch in India has an IFSC code, so counting codes by state shows the
+geography of the banking network — where it is dense, and where branches are sparse relative to
+population.
+<span class="stat">{human(total)} branches</span><span class="stat">{len(per_state)} states</span></p>
+<h2>Key findings</h2>
+<ul>
+<li><strong>{esc(items[0][0].title())}</strong> has the most bank branches ({human(items[0][1])}),
+followed by {esc(items[1][0].title())} ({human(items[1][1])}) and {esc(items[2][0].title())}
+({human(items[2][1])}).</li>
+<li>The top five states account for {sum(n for _, n in items[:5]) / total * 100:.1f}% of all branches
+in the dataset.</li>
+<li>Large northern and southern states dominate the count; smaller states and union territories have
+far fewer branches.</li>
+</ul>
+<h2>Branches by state</h2>
+{chart}
+{table(["#", "State", "Branches", "Share"], tr)}
+<h2>What the counts mean</h2>
+<p>These counts come from the full IFSC dataset (183,208 codes); the browsable directory publishes
+19,511 of the largest branch records, so a state's share here is the share of the national network,
+not the number of pages on the site. A high branch count reflects population, economic activity and
+the number of banks operating in the state. It does not measure access: a state with many branches concentrated in cities can still
+have large unbanked rural districts. The Reserve Bank of India publishes district-level financial
+inclusion data for that question.</p>
+<h2>Method</h2>
+<p>Count of IFSC codes by the state field in the Razorpay IFSC dataset (MIT licence), which mirrors
+the RBI branch list. Data snapshot 2026.</p>
+{related([("https://ifsccodes.tekify.xyz", "Look up an IFSC code"),
+          ("https://ifsccodes.tekify.xyz/search/", "Search branches"),
+          ("/insights/indian-bank-branch-networks/", "Banks with the most branches")])}
+"""
+    site.add("/insights/indian-bank-branches-by-state/", "Indian Bank Branches by State — IFSC Data",
+             "Bank branch counts by Indian state from the IFSC dataset, with shares of the national "
+             "total and a chart of the largest states.",
+             body, crumbs=[("Insights", "/insights/"), ("Bank branches by state", None)])
+
+
 def build_insights(site):
     page_hospital_ratings(site)
     page_hospital_ownership(site)
     page_nursing_staffing(site)
     page_dialysis(site)
     page_ifsc(site)
+    page_zip_by_state(site)
+    page_airports_by_country(site)
+    page_ifsc_states(site)
     page_hospital_er(site)
     page_nursing_chains(site)
     # page_college_net_price(site)  # parked: SFA income bands are public-only
@@ -601,5 +761,11 @@ where you can look up an individual record.</p>"""
                       ("/insights/dialysis-ratings-nationally/", "US dialysis: the national rating picture",
                         "Distribution of the CMS five-star ratings."),
                       ("/insights/indian-bank-branch-networks/", "Which Indian banks have the most branches?",
-                        "The IFSC dataset, counted by bank.")]),
+                        "The IFSC dataset, counted by bank."),
+                      ("/insights/us-zip-codes-by-state/", "US ZIP codes by state",
+                        "How the postal geography is distributed."),
+                      ("/insights/airports-by-country/", "Which countries have the most airports?",
+                        "Aviation infrastructure, counted."),
+                      ("/insights/indian-bank-branches-by-state/", "Indian bank branches by state",
+                        "The banking network, state by state.")]),
              crumbs=[("Insights", None)])
