@@ -1,28 +1,39 @@
 # SITES — registry of deployed properties
 
-Columns: site | Pages project | URL | pages | ads | analytics | status | notes
+Updated 2026-10-22. Cloudflare account `c01fe438c7960466670d312e55164037`, domain `tekify.xyz`.
 
-| site | Pages project | URL | pages | ads | analytics | status |
-|---|---|---|---|---|---|---|
-| pincode-india | pincode-india | https://pincode.tekify.xyz | 8,620 | none yet | CF Web Analytics TBD | LIVE (inherited, needs ad tags + re-deploy from this repo) |
+| Site | Pages project | pages.dev subdomain | Public URL | Pages | Ads | Analytics | Status |
+|---|---|---|---|---|---|---|---|
+| Hub | `hub` | hub-1xy.pages.dev | https://tekify.xyz | 4 | — | — | LIVE |
+| Pincode India | `pincode-india` | pincode-india.pages.dev | https://pincode.tekify.xyz | 8,636 | — | — | LIVE |
+| IFSC Codes India | `ifsc` | ifsc-b55.pages.dev | https://ifsccodes.tekify.xyz | 15,086 | — | — | LIVE |
+| Airport Codes | `myds-airport` | myds-airport.pages.dev | https://airportcodes.tekify.xyz | 10,180 | — | — | LIVE |
+| US ZIP Codes | `myds-zip` | myds-zip.pages.dev | https://zipcodes.tekify.xyz | 17,758 | — | — | deploying |
 
-## Planned (see docs/BACKLOG.md)
+Total published pages ≈ **51,600**.
 
-ifsc.tekify.xyz · zip.tekify.xyz · rto.tekify.xyz · stdcode.tekify.xyz ·
-areacode.tekify.xyz · swift.tekify.xyz · timezone.tekify.xyz · calc.tekify.xyz ·
-textools.tekify.xyz · api.tekify.xyz
+## Build / deploy commands
 
-## Deployment convention
+```
+python sites/<slug>/build.py                     # engine sites (hub, ifsc, airport, zip)
+python sites/pincode-india/build_site.py         # legacy template
+python scripts/ops.py deploy --project <project> --dir sites/<slug>/site
+python scripts/ops.py attach --project <project> --domain <sub>.tekify.xyz
+python scripts/ops.py indexnow --dir sites/<slug>/site --host <sub>.tekify.xyz
+python scripts/build_all.py --deploy             # everything at once
+```
 
-- One Cloudflare Pages project per site: `npx wrangler pages deploy site --project-name=<slug>`
-- Attach `<slug>.tekify.xyz` via API (`/accounts/{acct}/pages/projects/{name}/domains`)
-- Every site ships: `/sitemap.xml` (+ index if >10k), `/robots.txt`, `/<indexnow-key>.txt`,
-  `/404.html`, JSON-LD, CF Web Analytics beacon, ad slots.
-- Build output never committed: `.gitignore` has `site/`.
+## IMPORTANT — shared Cloudflare account
 
-## Ownership / accounts
+A **second (Minimax) agent shares this Cloudflare account and domain**. It has taken
+`ifsc.tekify.xyz` (project `ifsc-india`) and creates projects like `solar`. Rules:
+- Before naming a new site, run `python scripts/ops.py pages` and check for collisions.
+- Use the `myds-` prefix for Pages project names and distinct public subdomains
+  (`ifsccodes.`, `airportcodes.`, `zipcodes.`, `areacodes.`, `calculators.`).
+- Never modify or delete the other agent's projects/DNS records.
+- Apex `tekify.xyz` is ours (hub) as of 2026-10-22.
 
-- Cloudflare account `c01fe438c7960466670d312e55164037` (Monetec2@gmail.com) — shared with
-  other agents; only touch our own Pages projects/zones entries.
-- GitHub `hemantsarthak/myds` (public).
-- Ads: TBD in `shared/creds.md`.
+## Planned next sites
+
+areacodes.tekify.xyz (dialing codes) · calculators.tekify.xyz (money/health/date tools) ·
+textools.tekify.xyz · swift.tekify.xyz · api.tekify.xyz (paid dataset API)

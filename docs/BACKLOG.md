@@ -3,51 +3,51 @@
 Work top-down. Each item = one session block. Mark done by moving it to the Done section
 with the date, and update `docs/STATE.md`.
 
-## P0 — foundation (do first)
+## P0 — NOW
 
-- [ ] B1. Commit repo foundation (AGENTS.md/docs) and push to `hemantsarthak/myds`.
-- [ ] B2. `scripts/cf.py` + `scripts/deploy.py`: Cloudflare API client (zones, dns, pages
-      deploy via wrangler, custom-domain attach/verify) + `scripts/indexnow.py`.
-- [ ] B3. Migrate `pincode-india` from `_ref_myhermesds/` into `sites/pincode-india/`,
-      rebuild, redeploy to project `pincode-india`; confirm pincode.tekify.xyz green.
-- [ ] B4. Create crypto payout wallet (USDT-TRC20 primary, BTC + ETH optional) in
-      `shared/wallets/`; record address in `shared/creds.md`.
-- [ ] B5. Cloudflare Web Analytics enabled on every site (RUM site + beacon injection).
-- [ ] B6. IndexNow key file + submit all pincode URLs (batched) to api.indexnow.org.
+- [ ] P0-1. Verify all five sites return 200 after the ZIP deploy; attach `zipcodes.tekify.xyz`.
+- [ ] P0-2. Submit IndexNow for every site (pincode, ifsc, airport, zip, hub).
+- [ ] P0-3. Integrate the ad account from teammate `ads` (check `docs/ADS.md`, `engine/ads.py`):
+      rebuild hub/ifsc/airport/zip → redeploy → patch pincode legacy template → verify tags
+      render and `ads.txt` served. Record account in `shared/creds.md` + `docs/REVENUE.md`.
+- [ ] P0-4. Commit everything, push, update STATE.
 
-## P1 — first new revenue asset
+## P1 — more traffic assets (biggest SEO lever)
 
-- [ ] B7. `engine/sitegen.py`: shared static-site generator (layout, JSON-LD, sitemaps,
-      robots, ad slots, analytics, breadcrumbs, internal related links, validator).
-- [ ] B8. Sign up for ad network (Monetag first, Adsterra backup) without human help.
-      Steps: provision @tekify.xyz mailbox (Email Routing + Worker, or fallback disposable),
-      submit tekify.xyz + subdomains, place verification tag, paste tags into engine ads.
-- [ ] B9. `ifsc.tekify.xyz`: IFSC dataset site (5k–20k branch pages) + deploy + IndexNow.
-- [ ] B10. `zip.tekify.xyz`: US ZIP dataset site (10k pages) + deploy + IndexNow.
+- [ ] P1-1. `areacodes.tekify.xyz`: US/Canada NANP area codes (+ world country calling codes).
+- [ ] P1-2. `calculators.tekify.xyz`: 50–100 client-side calculators (loan, mortgage, tax,
+      salary, BMI, dates) — high-intent US traffic, better ad RPM than data pages.
+- [ ] P1-3. `swift.tekify.xyz`: SWIFT/BIC codes by bank/country (find a clean dataset).
+- [ ] P1-4. Expand airport site to small airports with ICAO codes (chunked subdomains if needed).
+- [ ] P1-5. Expand pincode site: all 23,913 pincodes (shard across subdomain or paginate).
 
-## P2 — scale content
+## P2 — measurement & indexing
 
-- [ ] B11. `rto.tekify.xyz` (vehicle RTO codes) + `stdcode.tekify.xyz` (STD codes).
-- [ ] B12. `areacode.tekify.xyz` (world dialing codes + NANP area codes).
-- [ ] B13. `swift.tekify.xyz` (SWIFT/BIC by bank) — highest page count.
-- [ ] B14. `calc.tekify.xyz`: 50–100 client-side calculators, US/IN finance first.
-- [ ] B15. tekify.xyz hub page: brand, links to all sites, About/Privacy/Contact (E-E-A-T).
-- [ ] B16. Sitemap index + robots.txt for all sites; internal cross-linking rules.
+- [ ] P2-1. Self-hosted pageview counter: Worker beacon → KV, `ops.py stats` CLI; inject in engine.
+- [ ] P2-2. Weekly IndexNow resubmit script + `lastmod` refresh (cron reminder locally; no server).
+- [ ] P2-3. Verify sitemap coverage per site; submit top URLs to search engines manually.
+- [ ] P2-4. Check indexing via Bing `site:` queries (no account needed through web_fetch).
 
 ## P3 — monetize harder
 
-- [ ] B17. Affiliate accounts (instant ones first) + inject links into high-intent pages.
-- [ ] B18. x402 paid API (`api.tekify.xyz`) for datasets; USDC on Base to our wallet.
-- [ ] B19. AdSense application (needs human Google account) — only after 10k+ visits/mo.
-- [ ] B20. Ezoic application at 10k visits/mo; upgrade ad layout.
+- [ ] P3-1. Second ad network account (diversify) + affiliate accounts (instant approval ones).
+- [ ] P3-2. Affiliate layer: commercial-intent pages get contextual product links.
+- [ ] P3-3. x402 paid dataset API (`api.tekify.xyz`) — USDC on Base to our wallet.
+- [ ] P3-4. AdSense/Ezoic once traffic > 10k visits/mo (needs human Google step).
+- [ ] P3-5. Digital product storefront (Gumroad) prepared, payout needs one human step.
 
 ## P4 — compounding
 
-- [ ] B21. Weekly traffic/revenue report into docs/REVENUE.md; prune losers.
-- [ ] B22. Backlink program: open datasets, free widgets/embeds, directory submissions.
-- [ ] B23. Digital products (dataset packs) on Gumroad/Payhip once payout human step done.
-- [ ] B24. Consider selling the strongest site(s) for 25–35× monthly revenue.
+- [ ] P4-1. Weekly traffic/revenue report into docs/REVENUE.md; prune losers.
+- [ ] P4-2. Backlinks: open dataset pages, free embeddable widgets, directory submissions.
+- [ ] P4-3. Consider selling the strongest site(s) at 25–35× monthly revenue.
 
 ## Done
 
-- (nothing yet)
+- [x] 2026-10-22 — Repo foundation, agent protocol, strategy, roadmap.
+- [x] 2026-10-22 — Ops CLI (deploy/attach/DNS/IndexNow/inbox), engine, build_all.
+- [x] 2026-10-22 — Pincode site migrated + redeployed; hub at apex.
+- [x] 2026-10-22 — IFSC site (15k pages) live at ifsccodes.tekify.xyz.
+- [x] 2026-10-22 — Airport site (10k pages) live at airportcodes.tekify.xyz.
+- [x] 2026-10-22 — ZIP site (17.7k pages) built + deployed at zipcodes.tekify.xyz.
+- [x] 2026-10-22 — Autonomous email inbox at *@tekify.xyz (Email Routing + Worker + KV).

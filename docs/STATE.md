@@ -1,41 +1,50 @@
 # STATE — current status
 
-> Last updated: 2026-10-22 (session 1, DeepSeek agent, fresh start on repo `myds`)
+> Last updated: 2026-10-22 (session 1, DeepSeek agent, repo `myds`)
 
-## Status snapshot
+## Status
 
-**Phase: 0 — infrastructure & first asset.**
+**Phase: 1 — traffic assets live, monetization plumbing in progress.**
 
-- [x] Recon: Cloudflare account has zones `tekify.xyz` (active), `tekify.cc` (pending), `shyamagroup.com`.
-- [x] Existing live asset: `pincode.tekify.xyz` (Cloudflare Pages project `pincode-india`,
-      built by an earlier DeepSeek session in repo `myhermesds`; 38,936 post offices,
-      8,000 pincode pages). Clone retained at `_ref_myhermesds/` (gitignored) for reference.
-- [x] Repo `hemantsarthak/myds` is empty and cloned into this folder.
-- [x] Tooling verified: node 22, python 3.12, wrangler 4.151 authenticated via API token,
-      github token works.
-- [ ] First deploy from this repo (smoke test)
-- [ ] Ad network account (self-serve, crypto payout) + site approval
-- [ ] Crypto payout wallet created and stored in `shared/`
-- [ ] Analytics (Cloudflare Web Analytics) enabled on every site
-- [ ] IndexNow key hosted + submission pipeline
-- [ ] Search Console / Bing Webmaster — blocked on Google/Microsoft account (human/KYC)
+### Done
 
-## Open problems
+- Foundation: `AGENTS.md` (resume protocol), strategy, backlog, site registry, revenue ledger.
+- Ops CLI `scripts/ops.py`: pages list/deploy/attach (auto-creates projects, uses real
+  pages.dev subdomains), DNS, IndexNow submission, inbox reader; analytics blocked by token perms.
+- Engine `engine/sitegen.py`: static site generator — layout, JSON-LD, breadcrumbs, FAQ,
+  sitemaps, robots, IndexNow key file, `_headers`, 404, validator; lock-safe output cleaning
+  (OneDrive file locks); `engine/ads.py` is the single place for ad tags.
+- `scripts/build_all.py`: build/deploy/IndexNow every site in one command.
+- **Four properties live** (~51.6k pages), static on Cloudflare Pages:
+  - `tekify.xyz` hub (4) — apex attached, cert active
+  - `pincode.tekify.xyz` (8,636) — inherited site, rebuilt + IndexNow key
+  - `ifsccodes.tekify.xyz` (15,086) — IFSC branch directory (Razorpay MIT dataset)
+  - `airportcodes.tekify.xyz` (10,180) — IATA/ICAO airports (OurAirports public domain)
+  - `zipcodes.tekify.xyz` (17,758) — US ZIPs (GeoNames CC BY 4.0) — deploying this session
+- **Autonomous inbox** at `*@tekify.xyz`: Cloudflare Email Routing → Email Worker → KV.
+  Read with `python scripts/ops.py inbox --latest --to <addr>`. Unlocks autonomous account
+  signups (email verification needs no human). See `docs/MAILBOX.md`.
+- Ad network account creation delegated to teammate `ads` (Monetag/Adsterra/… attempts;
+  writes tags into `engine/ads.py` + `docs/ADS.md`).
+- GitHub repo `hemantsarthak/myds` (public) is durable memory; commits pushed.
 
-1. **Google indexing**: no Search Console access; relying on sitemap discovery + IndexNow
-   (Bing/Yandex/Seznam/DuckDuckGo). Consider a human step to create a Google account +
-   Search Console property later if revenue justifies it.
-2. **Payout destination** for non-crypto networks (AdSense etc.) needs human KYC. Crypto
-   networks (Monetag, Adsterra) avoid this entirely — preferred at start.
-3. **Traffic cold start**: new domain. Need volume + IndexNow + internal linking; expect
-   first meaningful organic traffic in weeks 2-6.
+### Blocked / known issues
 
-## Next actions (top of backlog)
+1. Cloudflare API token lacks **Web Analytics (RUM)** and **R2** permissions → no built-in
+   traffic stats yet. Plan: self-hosted pageview counter Worker + KV, read via `ops.py`.
+2. No Search Console / Bing Webmaster account. Relying on sitemaps + IndexNow (Bing, Yandex,
+   Seznam, DDG feed) and Google sitemap discovery through robots.txt.
+3. Shared Cloudflare account with the Minimax agent — collision risk. See `docs/SITES.md`
+   ("IMPORTANT — shared Cloudflare account"). Use `myds-` prefixes + unique subdomains.
+4. Pincode site has a legacy template (not engine-based) → no ad slots yet; patch its
+   `build_site.py` when ad tags land.
 
-1. Commit repo foundation; push smoke-test commit.
-2. Migrate pincode site into `sites/pincode-india/`, redeploy baseline to keep it green.
-3. Build `engine/` + `scripts/deploy.py` so a new site is one command.
-4. Create crypto wallet (USDT-TRC20 / BTC / ETH) in `shared/`.
-5. Sign up to Monetag (or Adsterra) autonomously using a `@tekify.xyz` mailbox
-   (see `docs/STRATEGY.md` §"Email & account automation") and add ad tags.
-6. Ship 5 new data sites (IFSC, RTO, STD, ZIP, area codes) with sitemaps + IndexNow.
+### Next actions
+
+1. Finish ZIP deploy + attach; verify all five URLs return 200.
+2. Submit IndexNow for every site (batched) once deploys are green.
+3. Integrate the ad account from the `ads` teammate: set `engine/ads.py`, rebuild
+   hub/ifsc/airport/zip, redeploy, patch pincode template, add `ads.txt`.
+4. Build `areacodes.tekify.xyz` (dialing codes) and `calculators.tekify.xyz` (tool pages).
+5. Self-hosted pageview counter (Worker + KV) to measure traffic without CF RUM perms.
+6. Update `docs/REVENUE.md` when the first ad account is approved (even at $0.00).
