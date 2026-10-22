@@ -10,7 +10,14 @@ identity step. To resume work, just say **"continue"**.
 - Strategy: `docs/STRATEGY.md` · Sites: `docs/SITES.md` · Money: `docs/REVENUE.md`
 - Credentials/notes (not in git): `shared/`
 
-## Live properties (~82,000 pages)
+## Open datasets
+
+Samples and dataset cards for the public data behind the directories live in [`datasets/`](datasets/README.md):
+IFSC codes (183k branches), US ZIP codes (41.7k), CMS hospital ratings (5.4k) and CMS dialysis
+facilities (7.5k). Each has provenance, licence and a `sample.csv`; the full data is served as JSON
+from each site's `/data/` path.
+
+## Live properties (12 sites, ~121,000 pages)
 
 | Site | What it is |
 |---|---|
