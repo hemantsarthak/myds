@@ -331,12 +331,120 @@ the Reserve Bank of India's published branch list.</p>
              body, crumbs=[("Insights", "/insights/"), ("Bank branch networks", None)])
 
 
+
+# ---------------------------------------------------------------- hospital emergency departments
+def page_hospital_er(site):
+    stats = collections.defaultdict(lambda: {"n": 0, "er": 0})
+    for r in rows("hospital_general.csv"):
+        st = (r.get("State") or "").strip()
+        if st not in STATE_NAMES:
+            continue
+        s = stats[st]
+        s["n"] += 1
+        if (r.get("Emergency Services") or "").strip().lower() == "yes":
+            s["er"] += 1
+    total_n = sum(v["n"] for v in stats.values())
+    total_er = sum(v["er"] for v in stats.values())
+    ranked = sorted(((st, v) for st, v in stats.items() if v["n"] >= 20),
+                    key=lambda kv: -(kv[1]["er"] / kv[1]["n"]))
+    tr = [[esc(STATE_NAMES[st]), human(v["n"]), human(v["er"]), f'{v["er"] / v["n"] * 100:.0f}%']
+          for st, v in ranked[:15]]
+    body = f"""
+<h1>Which US hospitals have emergency departments?</h1>
+<p class="lede">Most hospitals in the CMS directory report emergency services, but the share varies
+enormously by state — from nearly every hospital to about half.
+<span class="stat">{human(total_er)} with an ER</span><span class="stat">{human(total_n)} hospitals</span></p>
+<h2>Key findings</h2>
+<ul>
+<li>Nationally, <strong>{total_er / total_n * 100:.0f}%</strong> of hospitals in the directory report
+emergency services.</li>
+<li><strong>{esc(STATE_NAMES[ranked[0][0]])}</strong> has the highest share at
+<strong>{ranked[0][1]["er"] / ranked[0][1]["n"] * 100:.0f}%</strong>; the lowest in this table is
+{esc(STATE_NAMES[ranked[-1][0]])} at {ranked[-1][1]["er"] / ranked[-1][1]["n"] * 100:.0f}%.</li>
+<li>{human(total_n - total_er)} hospitals report no emergency services — many are specialty,
+psychiatric, rehabilitation or critical-access facilities.</li>
+</ul>
+{table(["State", "Hospitals", "With emergency services", "Share"], tr)}
+<p class="mut">States with fewer than 20 hospitals are excluded.</p>
+<h2>Why it matters</h2>
+<p>In an emergency the closest hospital may not have an emergency department. Checking before you
+need it — especially in rural areas — is worth two minutes. Facility pages in the directory show the
+emergency-services flag alongside the CMS rating, type and address.</p>
+<h2>Method</h2>
+<p>Counts of the CMS "Emergency Services" field by hospital state, excluding hospitals outside the 50
+states and DC. Data: CMS Provider Data Catalog (public domain).</p>
+{related([("https://hospitals.tekify.xyz", "Hospitals by state"),
+          ("/insights/hospital-ratings-by-state/", "Best-rated hospitals by state"),
+          ("https://hospitals.tekify.xyz/state/tx/", "Texas hospitals")])}
+"""
+    site.add("/insights/hospitals-with-emergency-departments/",
+             "Which US Hospitals Have Emergency Departments? — CMS Data",
+             "Share of US hospitals reporting emergency services, nationally and by state.",
+             body, crumbs=[("Insights", "/insights/"), ("Emergency departments", None)])
+
+
+# ---------------------------------------------------------------- nursing-home chains
+def page_nursing_chains(site):
+    chains = collections.defaultdict(lambda: {"n": 0, "rated": 0, "sum": 0.0, "beds": 0})
+    for r in rows("nursing_homes.csv"):
+        name = (r.get("Chain Name") or "").strip()
+        if not name or name.lower() in ("", "not applicable", "independent"):
+            continue
+        c = chains[name]
+        c["n"] += 1
+        c["beds"] += num(r.get("Number of Certified Beds")) or 0
+        rating = num(r.get("Overall Rating"))
+        if rating and 1 <= rating <= 5:
+            c["rated"] += 1
+            c["sum"] += rating
+    top = sorted(chains.items(), key=lambda kv: -kv[1]["n"])[:20]
+    tr = [[str(i + 1), esc(name), human(v["n"]), human(int(v["beds"])),
+           f'{v["sum"] / v["rated"]:.2f} ★' if v["rated"] else "—"] for i, (name, v) in enumerate(top)]
+    all_fac = sum(v["n"] for v in chains.values())
+    body = f"""
+<h1>America's largest nursing-home chains</h1>
+<p class="lede">CMS records the chain behind every nursing home. Counting facilities by chain shows
+how concentrated the industry is — and how the biggest operators rate.
+<span class="stat">{human(len(chains))} chains</span><span class="stat">{human(all_fac)} chain facilities</span></p>
+<h2>Key findings</h2>
+<ul>
+<li><strong>{esc(top[0][0])}</strong> operates the largest network in the data with
+{human(top[0][1]["n"])} facilities.</li>
+<li>The ten largest chains together run {human(sum(v["n"] for _, v in top[:10]))} nursing homes —
+{sum(v["n"] for _, v in top[:10]) / all_fac * 100:.0f}% of all chain-affiliated facilities
+in the dataset.</li>
+<li>Average overall ratings among the largest chains range from
+{min((v["sum"] / v["rated"] for _, v in top if v["rated"]), default=0):.1f} to
+{max((v["sum"] / v["rated"] for _, v in top if v["rated"]), default=0):.1f} stars.</li>
+</ul>
+{table(["#", "Chain", "Facilities", "Certified beds", "Average rating"], tr)}
+<h2>What this means for families</h2>
+<p>Chain affiliation is not a quality measure, but it is a practical thing to know: staffing policies,
+training and management are often set at chain level, and problems tend to repeat across a chain's
+facilities. CMS publishes chain-level averages alongside facility ratings for exactly that reason.</p>
+<h2>Method</h2>
+<p>Facility counts by the CMS "Chain Name" field; average of the overall star rating across rated
+facilities in the chain. Independents and facilities without a chain are excluded. Data: CMS Provider
+Data Catalog, Nursing Home Provider Information (public domain).</p>
+{related([("https://nursinghomes.tekify.xyz", "Look up a nursing home"),
+          ("/insights/nursing-home-staffing-by-state/", "Staffing ratings by state"),
+          ("https://homehealth.tekify.xyz", "Home-health agencies")])}
+"""
+    site.add("/insights/largest-nursing-home-chains/",
+             "America's Largest Nursing-Home Chains — CMS Data",
+             "The biggest nursing-home chains by facility count, with certified beds and average CMS "
+             "star ratings.",
+             body, crumbs=[("Insights", "/insights/"), ("Nursing-home chains", None)])
+
+
 def build_insights(site):
     page_hospital_ratings(site)
     page_hospital_ownership(site)
     page_nursing_staffing(site)
     page_dialysis(site)
     page_ifsc(site)
+    page_hospital_er(site)
+    page_nursing_chains(site)
     site.add("/insights/", "Insights — Tekify",
              "Data-driven articles computed from the same public datasets that power the Tekify "
              "directories: hospital ratings by state, nursing-home staffing, dialysis ratings and "

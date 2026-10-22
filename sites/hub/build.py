@@ -78,12 +78,16 @@ plus the surrounding records so you can navigate without going back to search.</
 the method stated on every page.</p>
 """ + cards([("/insights/hospital-ratings-by-state/", "Best-rated hospitals by state",
              "CMS star ratings aggregated by state."),
+            ("/insights/hospitals-with-emergency-departments/", "Which hospitals have an ER?",
+             "Emergency-services share by state."),
             ("/insights/hospitals-by-ownership/", "Hospital ratings by ownership",
              "Non-profit vs for-profit vs government."),
             ("/insights/nursing-home-staffing-by-state/", "Nursing-home staffing by state",
              "Where facilities are most consistently well staffed."),
             ("/insights/dialysis-ratings-nationally/", "Dialysis ratings nationally",
              "Distribution of the CMS five-star ratings."),
+            ("/insights/largest-nursing-home-chains/", "Largest nursing-home chains",
+             "Industry consolidation, counted by CMS data."),
             ("/insights/indian-bank-branch-networks/", "Indian bank branch networks",
              "IFSC codes counted by bank.")])
     body += affiliate_block_for_site("hub", kinds=["hosting", "travel"], limit_per_block=3)

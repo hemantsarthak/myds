@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~05:15 IST (DeepSeek agent, repo `myds`). Round 22 of the goal loop.
+> Last updated: 2026-10-23 ~05:50 IST (DeepSeek agent, repo `myds`). Round 23 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,21 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-23 work (2026-10-23) — insights extended to seven, syndicated externally
+
+1. **Two more insight articles on tekify.xyz** (hub now **13 pages**):
+   - **Which US hospitals have emergency departments?** — 4,494 of 5,418 hospitals report emergency
+     services (83%), with a state-by-state table (states with >=20 hospitals).
+   - **America's largest nursing-home chains** — 10,184 chain-affiliated facilities across 611 chains;
+     the 20 largest operators ranked by facility count, certified beds and average CMS rating.
+   Both computed at build time from the cached CMS CSVs; wired into the insights index and the home
+   page cards (8 insight links on the home page), sitemap + IndexNow updated.
+2. **Syndicated two insight summaries to Telegraph** (10 telegra.ph articles total): the
+   "best-rated hospitals by state" and "largest nursing-home chains" articles, each linking to the
+   matching tekify.xyz insight page and to the directory. Tool: `scripts/browser/telegraph-insights.mjs`.
+3. Recorded data points for future content: hospital ownership mix (2,322 voluntary non-profit,
+   1,063 proprietary, 512 government-district), ER coverage, chain concentration.
 
 ## Round-22 work (2026-10-23) — data-driven insight articles on the hub (the link-earning layer)
 
