@@ -40,4 +40,5 @@ affiliate, product sales, API, site sale. Update at least weekly.
 
 | Date | Pageviews | Notes |
 |---|---|---|
-| 2026-10-22 | ~0 | counter wired ~15:00 IST; sites launched same day, indexing not yet started |
+| 2026-10-22 | ~0 human / 326 crawler renders | 7 properties live, 72,776 sitemap URLs; Googlebot/Bingbot rendering pages (airport 139, zip 116, ifsc 69, places 2) |
+| 2026-10-22 (evening) | 0 | colleges.tekify.xyz launched (6,056 pages); IndexNow accepted |
