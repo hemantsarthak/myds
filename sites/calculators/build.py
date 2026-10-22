@@ -75,6 +75,8 @@ def build() -> Site:
         for c in sorted(calcs, key=lambda x: (x["cat"], x["name"])))
     cat_cards = cards([(f"/{c['id']}/", esc(c["name"]), human(len(group[c["id"]])) + " tools")
                        for c in cats])
+    import hashlib
+    home_js_hash = hashlib.sha1(HOME_JS.encode("utf-8")).hexdigest()[:8]
     home = f"""
 <h1>Free calculators — instant, no sign-up</h1>
 <p class="lede">Loan payments, compound interest, take-home pay, BMI, dates and unit conversions.
@@ -98,7 +100,8 @@ worked example with the default inputs, so you can see exactly what is included.
     site.add("/", "Free Online Calculators — Loans, Investing, Salary, Health & Dates",
              "50 free calculators with instant results: loan and mortgage payments, compound "
              "interest, retirement, take-home pay, BMI, pregnancy dates and unit conversions.",
-             home, extra_head='<link rel="stylesheet" href="/assets/calc.css">')
+             home, extra_head='<link rel="stylesheet" href="/assets/calc.css">'
+                             f'<script defer src="/assets/home.js?v={home_js_hash}"></script>')
     site.add_file("/assets/home.js", HOME_JS)
 
     # ---------------------------------------------------------------- categories

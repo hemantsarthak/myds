@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-22 ~22:05 IST (DeepSeek agent, repo `myds`). Round 14 of the goal loop.
+> Last updated: 2026-10-22 ~23:40 IST (DeepSeek agent, repo `myds`). Round 15 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,34 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-15 work (2026-10-22 late evening) — FUNCTIONAL BUG FIX: search was dead everywhere
+
+The human reported that search on the hospital page did not work. They were right — and it was
+worse than one page:
+
+1. **Root cause:** `engine/sitegen.py` wrote `/assets/app.js` into every deployment but **never
+   referenced it from the HTML**. Every search box on all 10 data sites (home pages and `/search/`
+   pages) was therefore dead: the input existed, the JS existed, nothing loaded it.
+2. **Fix:** the engine now injects `<script defer src="/assets/app.js?v=<content-hash>"></script>`
+   into every page of a site that ships that file. The `?v=` hash busts the year-long immutable
+   cache on `/assets/*` (which would otherwise have hidden future script changes from returning
+   visitors).
+3. **Also fixed:** the calculators home page never loaded `/assets/home.js`, so its filter box did
+   nothing; it is now loaded (versioned too).
+4. **Rebuilt and redeployed all 11 properties**, then tested in a real browser (agent Chrome):
+   - 9 data sites × (home page + /search/) — typing a query produces result links on **all 18**
+     combinations (ifsccodes 30, places 12, nursinghomes 16, homehealth 36, hospitals 4, others 1+).
+   - Calculators home filter works (typing "mortgage" narrows 67 → 5 cards).
+   - Calculator live recompute works (mortgage $400,000 @ 6%/30y → $2,398.20/mo, total $863,352.76).
+   - No JavaScript page errors on any tested page.
+   Test scripts kept: `scripts/browser/search-test.mjs`, `scripts/browser/search-test-home.mjs`.
+5. Audited while there: custom 404 pages return 404 with a styled page; viewport meta present on
+   every page; ads + analytics present; all `/data/*.json` endpoints used by search return 200
+   (0.4–1.5 MB each); no broken internal links (validator clean on every build).
+
+Lesson recorded: build-time validators check links and metadata but **not that referenced assets are
+actually loaded** — browser-level tests belong in every content round.
 
 ## Round-14 work (2026-10-22 late evening) — discovery surface built
 

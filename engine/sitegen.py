@@ -21,6 +21,7 @@ Design rules baked in:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import datetime
 import html
 import json
@@ -264,6 +265,12 @@ class Site:
         for b in blocks:
             ld += '<script type="application/ld+json">' + json.dumps(b, separators=(",", ":")) + "</script>\n"
         nav = "".join(f'<a href="{u}">{esc(t)}</a>' for t, u in self.nav)
+        # page scripts: any site that ships assets/app.js gets it on every page (search etc.).
+        # The ?v= hash busts the immutable /assets/* cache when the script changes.
+        scripts = ""
+        if "assets/app.js" in self.extra_files:
+            digest = hashlib.sha1(self.extra_files["assets/app.js"].encode("utf-8")).hexdigest()[:8]
+            scripts = f'<script defer src="/assets/app.js?v={digest}"></script>'
         footer_links = "".join(
             f'<a href="{u}">{esc(t)}</a>' for t, u in
             [("About", "/about/"), ("Privacy", "/privacy/"), ("Contact", "/contact/"), ("Sitemap", "/sitemap.xml")])
@@ -292,6 +299,7 @@ class Site:
   {note}
   <span class="mut">© {datetime.date.today().year} {esc(self.brand)} · {esc(self.domain)}</span>
 </div></footer>
+{scripts}
 </body>
 </html>"""
 
