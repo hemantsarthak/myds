@@ -414,6 +414,10 @@ class Site:
         dup_titles = sum(c - 1 for c in titles.values() if c > 1)
         dup_descs = sum(c - 1 for c in descs.values() if c > 1)
         if dup_titles:
+            dup_keys = [k for k, c in titles.items() if c > 1][:5]
+            for k in dup_keys:
+                sample = [p for p in self.pages if re.sub(r"\s+", " ", self.pages[p]["title"]).strip().lower() == k][:3]
+                print(f"WARN duplicate title: {k[:70]!r} -> {sample}")
             print(f"WARN duplicate titles: {dup_titles}"); ok = False
         if dup_descs:
             print(f"WARN duplicate descriptions: {dup_descs}"); ok = False

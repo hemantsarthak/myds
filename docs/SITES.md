@@ -11,8 +11,9 @@ Updated 2026-10-22. Cloudflare account `c01fe438c7960466670d312e55164037`, domai
 | Airport Codes | `myds-airport` | myds-airport.pages.dev | https://airportcodes.tekify.xyz | 10,179 | ✅ pop+push | ✅ | LIVE |
 | US ZIP Codes | `myds-zip` | myds-zip.pages.dev | https://zipcodes.tekify.xyz | 17,757 | ✅ pop+push | ✅ | LIVE |
 | Calculators | `myds-calculators` | myds-calculators.pages.dev | https://calculators.tekify.xyz | 60 | ✅ pop+push | ✅ | LIVE |
+| US Places & Counties | `myds-places` | myds-places.pages.dev | https://places.tekify.xyz | 19,200 | ✅ pop+push | ✅ | LIVE |
 
-Total ours ≈ **43,087 pages**. All submitted to IndexNow (2026-10-22, 51.6k URLs incl. pincode).
+Total ours ≈ **62,287 pages**. All submitted to IndexNow (2026-10-22, 51.6k URLs incl. pincode).
 
 ## NOT ours (shared Cloudflare account — do not touch)
 

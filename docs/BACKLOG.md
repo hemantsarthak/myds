@@ -15,6 +15,7 @@ with the date, and update `docs/STATE.md`.
 ## P1 — more traffic assets (biggest SEO lever)
 
 - [ ] P1-1. `areacodes.tekify.xyz`: US/Canada NANP area codes (+ world country calling codes).
+- [x] (2026-10-22) `places.tekify.xyz` live: 16k places + 3,144 counties + 51 states (Census data).
 - [x] P1-2. (2026-10-22) `calculators.tekify.xyz` live with 53 tools; expand with more niches later.
       salary, BMI, dates) — high-intent US traffic, better ad RPM than data pages.
 - [ ] P1-3. `swift.tekify.xyz`: SWIFT/BIC codes by bank/country. Dataset leads (research 2026-10-22):

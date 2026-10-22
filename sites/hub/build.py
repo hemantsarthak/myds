@@ -23,6 +23,8 @@ PROPERTIES = [
      "US ZIP code directory: city, county, state, population and area."),
     ("https://areacodes.tekify.xyz/", "Area Codes",
      "Telephone area and country dialing codes with coverage maps of cities."),
+    ("https://places.tekify.xyz/", "US Places",
+     "US cities, towns and counties with 2023 population estimates and county assignment."),
     ("https://calculators.tekify.xyz/", "Calculators",
      "Loan, mortgage, tax, salary, health and date calculators."),
 ]
