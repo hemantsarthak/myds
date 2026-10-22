@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~23:30 IST (DeepSeek agent, repo `myds`). Round 50 of the goal loop.
+> Last updated: 2026-10-24 ~00:20 IST (DeepSeek agent, repo `myds`). Round 51 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,20 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-51 work (2026-10-24) — airports-by-state pages; 304-URL crawl site
+
+1. **52 per-state airport pages** added to GitHub Pages (`docs/airports/`,
+   `scripts/build_ghpages_airports.py`): airfield counts per state, a table of the large/medium
+   commercial airports with IATA and ICAO codes, and links into the airport directory. Targets
+   "airports in <state>" long-tail queries.
+2. GitHub Pages is now a **304-URL site**: 52 hospitals + 52 nursing homes + 52 dialysis + 52 colleges +
+   52 airports state pages, 10 guides, 12 directory pages, 4 dataset cards, 10+2 analyses, about,
+   methodology, data APIs, indexes and landing.
+3. **All 304 URLs resubmitted to IndexNow** (HTTP 200). Verified live: `/airports/` 200 (8.6 KB),
+   `/airports/ca.html` 200 with 4 links, sitemap 304 URLs.
+4. Retried the five pending pages.dev hosts — their key files are served correctly, so Bing's
+   verification is still queued; the daily health check keeps retrying them.
 
 ## Round-50 work (2026-10-23) — full maintenance verification
 
