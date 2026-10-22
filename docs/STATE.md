@@ -68,9 +68,18 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
    (publication creation is the captcha-gated step — human action #5).
 4. **Fixed colleges duplicate titles** (27, caused by `seo_title` truncation of long university
    names) that aborted a full rebuild; colleges now validates clean (0 dup titles).
-5. Full footer refresh: hub/ifsc/airport/zip/calculators/places rebuilt and deployed; colleges,
+5. **Three more targeted Telegraph articles** published (same no-account channel), each linking the
+   relevant directories: an IFSC-code explainer (ifsccodes + hub), a CMS-star-ratings explainer
+   (hospitals/nursinghomes/homehealth/dialysis + hub), and a US reference-data explainer
+   (zipcodes/places/areacodes/airportcodes + hub). All verified public (200) with 2–12 tekify links
+   each; URLs saved in `shared/discovery-links.md`.
+6. **Title-dedup fallout fixed:** the earlier `seo_title` refinement removed the city from health-site
+   titles, so long facility names truncated to identical titles (colleges 27, hospitals 170 dups) and
+   aborted the rebuild. Titles now use city + facility ID as disambiguators; all three health builds
+   validate clean.
+7. Full footer refresh: hub/ifsc/airport/zip/calculators/places rebuilt and deployed; colleges,
    areacodes, hospitals, nursinghomes, homehealth, dialysis rebuilt+deployed with IndexNow in the
-   same round so every footer links all 12 properties.
+   same round so every footer links all 12 properties. Final audit of all 12: **0 failures, 0 warnings**.
 
 ## Round-17 work (2026-10-23) — dialysis site + analytics quota fix
 
