@@ -36,7 +36,7 @@ param(
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $PSScriptRoot
 $ProfileDir = Join-Path $Root "shared\chrome-agent-profile"
-$Shortcut = Join-Path $Root "shared\chrome-agent.lnk"
+$Shortcut = Join-Path $Root "shared\AI Agent - Chrome.lnk"
 
 $Chrome = @(
   (Join-Path $env:ProgramFiles "Google\Chrome\Application\chrome.exe"),

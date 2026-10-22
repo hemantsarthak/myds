@@ -10,7 +10,7 @@ The human asked that browser automation **never appear on screen**. Do not launc
   EWT captcha.
 - New `scripts/chrome-agent.ps1`: start / reuse / stop the single persistent agent Chrome.
   Off-screen + minimized, DevTools on `127.0.0.1:9222`, `-Visible` for human-in-the-loop,
-  `-CreateShortcut` writes `shared/chrome-agent.lnk` (pin it to the taskbar once).
+  `-CreateShortcut` writes `shared\AI Agent - Chrome.lnk` (pin it to the taskbar once).
 - New `scripts/agentbrowser.mjs`: `getPage()` ATTACHES to the running agent Chrome instead of
   launching a new one (no open/close churn, logins persist). `release()` disconnects without
   killing the browser.
