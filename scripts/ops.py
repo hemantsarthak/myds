@@ -449,6 +449,36 @@ def analytics_get(path: str, params=None) -> dict:
         sys.exit(f"analytics error {e.code}: {body[:400]}")
 
 
+STATS_CACHE = ROOT / ".cache" / "stats"
+
+
+def analytics_cached(path: str, params=None, ttl_minutes: int = 20, force: bool = False) -> dict:
+    """Read analytics through a small local cache (KV list() calls are rate-limited)."""
+    import hashlib
+    import time
+    key = hashlib.sha1((path + "?" + urllib.parse.urlencode(sorted((params or {}).items()))).encode()).hexdigest()[:16]
+    f = STATS_CACHE / f"{key}.json"
+    if not force and f.exists() and (time.time() - f.stat().st_mtime) < ttl_minutes * 60:
+        try:
+            return json.loads(f.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    try:
+        d = analytics_get(path, params)
+    except SystemExit as e:
+        msg = str(e)
+        if "KV list() limit exceeded" in msg and f.exists():
+            print("(analytics quota exhausted — showing cached result)")
+            return json.loads(f.read_text(encoding="utf-8"))
+        if "KV list() limit exceeded" in msg:
+            sys.exit("analytics quota exhausted for today (KV list limit); try again after 00:00 UTC "
+                     "or use --refresh later. Cached data will appear here once a query succeeds.")
+        raise
+    STATS_CACHE.mkdir(parents=True, exist_ok=True)
+    f.write_text(json.dumps(d), encoding="utf-8")
+    return d
+
+
 def print_stats(d: dict) -> None:
     rng = d.get("range") or {}
     t = d.get("totals") or {}
@@ -475,7 +505,7 @@ def print_stats(d: dict) -> None:
 
 def cmd_stats(args):
     if args.site == "all":
-        d = analytics_get("/stats/all")
+        d = analytics_cached("/stats/all", ttl_minutes=20, force=getattr(args, "refresh", False))
         if args.json:
             print(json.dumps(d, indent=2))
             return
@@ -485,7 +515,8 @@ def cmd_stats(args):
             return
         print(f"{len(sites)} site(s) with traffic (totals over last {args.days} day(s)):")
         for s in sites:
-            detail = analytics_get("/stats", {"site": s["site"], "days": str(args.days), "top": "1"})
+            detail = analytics_cached("/stats", {"site": s["site"], "days": str(args.days), "top": "1"},
+                                  force=getattr(args, "refresh", False))
             t = detail.get("totals") or {}
             tp = detail.get("top_pages") or []
             top = tp[0]["path"] if tp else "-"
@@ -571,6 +602,7 @@ def main():
     st.add_argument("--day", help="end day, YYYY-MM-DD UTC (default today)")
     st.add_argument("--top", type=int, default=15)
     st.add_argument("--json", action="store_true")
+    st.add_argument("--refresh", action="store_true", help="bypass the local stats cache")
     st.set_defaults(func=cmd_stats)
 
     ad = sub.add_parser("analytics-deploy", help="deploy workers/analytics + set ANALYTICS_TOKEN")
