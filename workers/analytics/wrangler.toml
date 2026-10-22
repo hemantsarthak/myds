@@ -1,0 +1,20 @@
+name = "analytics"
+main = "src/index.js"
+compatibility_date = "2026-08-01"
+workers_dev = true
+
+# Pageview shards: s:<site>:<day>:<flush-ms>:<rand> -> {views,bots,paths,refs}
+# Created via: wrangler kv namespace create analytics-pv
+[[kv_namespaces]]
+binding = "ANALYTICS"
+id = "5d063dabbc1644789a3e24289582fe12"
+
+# Non-secret tuning. ANALYTICS_TOKEN is a Worker secret:
+#   wrangler secret bulk   (or: python scripts/ops.py analytics-deploy)
+[vars]
+INTERNAL_DOMAIN = "tekify.xyz"   # referrers from this domain are treated as internal (not counted)
+RETENTION_DAYS = "90"            # shard TTL; range stats are limited to this window
+FLUSH_HITS = "50"                # flush early when this many hits are buffered
+FLUSH_MS = "300000"              # a hit this long after the last flush persists immediately
+DEFER_MS = "20000"               # ctx.waitUntil flush ~20 s after a hit (tail of a visit)
+MAX_FLUSH_PER_DAY = "600"        # hard cap on KV writes/day (account budget is 1000/day)

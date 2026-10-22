@@ -14,6 +14,9 @@ Usage:
   python scripts/ops.py mailbox-deploy            # deploy workers/mailbox + secret
   python scripts/ops.py mailbox-setup            # Email Routing catch-all -> worker
   python scripts/ops.py mailbox-selftest --to ads@tekify.xyz
+  python scripts/ops.py stats --site ifsc --days 7 [--json]
+  python scripts/ops.py stats --site all --days 7
+  python scripts/ops.py analytics-deploy          # deploy workers/analytics + secret
 """
 import argparse
 import json
@@ -337,8 +340,8 @@ def cmd_mailbox_setup(args):
     print("status:", json.dumps(api("GET", f"/zones/{zid}/email/routing")))
 
 
-def cmd_mailbox_deploy(args):
-    wdir = ROOT / "workers" / "mailbox"
+def _deploy_worker(wdir: Path, secret_name: str, env_var: str) -> None:
+    """Run `wrangler deploy` in wdir, then upload one Worker secret from an env var."""
     if not wdir.exists():
         sys.exit(f"missing {wdir}")
     wrangler = ROOT / "node_modules" / ".bin" / ("wrangler.cmd" if os.name == "nt" else "wrangler")
@@ -352,13 +355,15 @@ def cmd_mailbox_deploy(args):
     print("\n".join(out.strip().splitlines()[-15:]))
     if p.returncode != 0:
         sys.exit(f"wrangler deploy failed (exit {p.returncode})")
-    token = os.environ.get("MAILBOX_INBOX_TOKEN", "")
-    if not token:
-        sys.exit("missing MAILBOX_INBOX_TOKEN (shared/.env) — worker deployed but secret not set")
+    value = os.environ.get(env_var, "")
+    if not value:
+        sys.exit(f"missing {env_var} (shared/.env) — worker deployed but secret not set")
     (ROOT / ".cache").mkdir(exist_ok=True)
-    sec = ROOT / ".cache" / "mailbox_secret.json"
-    sec.write_text(json.dumps({"INBOX_TOKEN": token}), encoding="utf-8")
+    sec = ROOT / ".cache" / f"{secret_name.lower()}_secret.json"
+    sec.write_text(json.dumps({secret_name: value}), encoding="utf-8")
     try:
+        # nb: pipe the token via a JSON file — `wrangler secret put` piped through
+        # PowerShell corrupts the value (UTF-16/newline), which silently 401s the API.
         p = subprocess.run([str(wrangler), "secret", "bulk", str(sec)], cwd=str(wdir), env=env,
                            capture_output=True, text=True, shell=(os.name == "nt"))
     finally:
@@ -367,6 +372,10 @@ def cmd_mailbox_deploy(args):
     print("\n".join(tail))
     if p.returncode != 0:
         sys.exit(f"wrangler secret bulk failed (exit {p.returncode})")
+
+
+def cmd_mailbox_deploy(args):
+    _deploy_worker(ROOT / "workers" / "mailbox", "INBOX_TOKEN", "MAILBOX_INBOX_TOKEN")
     print(f"DEPLOYED: {mailbox_base()}")
 
 
@@ -416,6 +425,83 @@ def cmd_analytics(args):
         r = api("POST", f"/accounts/{acct()}/rum/site_info",
                 {"host": host, "auto_install": False}, expect_fail=True)
         print(host, "->", json.dumps(r)[:400])
+
+
+# ------------------------------------------------ analytics (pageviews, self-hosted)
+# workers/analytics: cookie-free pageview counter. See docs/ANALYTICS.md.
+def analytics_base() -> str:
+    return os.environ.get("ANALYTICS_URL", "https://analytics.monetec2.workers.dev").rstrip("/")
+
+
+def analytics_get(path: str, params=None) -> dict:
+    token = os.environ.get("ANALYTICS_TOKEN", "")
+    if not token:
+        sys.exit("missing ANALYTICS_TOKEN (shared/.env)")
+    q = urllib.parse.urlencode({"token": token, **(params or {})})
+    req = urllib.request.Request(f"{analytics_base()}{path}?{q}")
+    req.add_header("User-Agent", UA)
+    req.add_header("Accept", "application/json")
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            return json.loads(r.read().decode() or "{}")
+    except urllib.error.HTTPError as e:
+        body = e.read().decode(errors="replace")
+        sys.exit(f"analytics error {e.code}: {body[:400]}")
+
+
+def print_stats(d: dict) -> None:
+    rng = d.get("range") or {}
+    t = d.get("totals") or {}
+    print(f"site {d.get('site')}  {rng.get('from')} .. {rng.get('to')} UTC")
+    print(f"pageviews: {t.get('views', 0)}   bots: {t.get('bots', 0)}   "
+          f"shards: {d.get('shards', 0)}   distinct paths: {d.get('distinct_paths', 0)}")
+    days = d.get("days") or []
+    if len(days) > 1:
+        for x in days:
+            print(f"  {x['day']}: {x['views']} views ({x['bots']} bots)")
+    tp = d.get("top_pages") or []
+    if tp:
+        print("top pages:")
+        for x in tp:
+            print(f"  {x['views']:>6}x  {x['path']}")
+    tr = d.get("top_referrers") or []
+    if tr:
+        print("referrers:")
+        for x in tr:
+            print(f"  {x['views']:>6}x  {x['referrer']}")
+
+
+def cmd_stats(args):
+    if args.site == "all":
+        d = analytics_get("/stats/all")
+        if args.json:
+            print(json.dumps(d, indent=2))
+            return
+        sites = d.get("sites") or []
+        if not sites:
+            print("no pageviews recorded yet")
+            return
+        print(f"{len(sites)} site(s) with traffic (totals over last {args.days} day(s)):")
+        for s in sites:
+            detail = analytics_get("/stats", {"site": s["site"], "days": str(args.days), "top": "1"})
+            t = detail.get("totals") or {}
+            tp = detail.get("top_pages") or []
+            top = tp[0]["path"] if tp else "-"
+            print(f"  {s['site']:<24} views={t.get('views', 0):<8} bots={t.get('bots', 0):<6} top={top}")
+        return
+    params = {"site": args.site, "days": str(args.days), "top": str(args.top)}
+    if args.day:
+        params["day"] = args.day
+    d = analytics_get("/stats", params)
+    if args.json:
+        print(json.dumps(d, indent=2))
+    else:
+        print_stats(d)
+
+
+def cmd_analytics_deploy(args):
+    _deploy_worker(ROOT / "workers" / "analytics", "ANALYTICS_TOKEN", "ANALYTICS_TOKEN")
+    print(f"DEPLOYED: {analytics_base()}")
 
 
 def main():
@@ -476,6 +562,17 @@ def main():
     mt.add_argument("--smtp-host", default="route1.mx.cloudflare.net")
     mt.add_argument("--port", type=int, default=25)
     mt.set_defaults(func=cmd_mailbox_selftest)
+
+    st = sub.add_parser("stats", help="pageviews from the self-hosted analytics worker")
+    st.add_argument("--site", required=True, help="site slug, or 'all'")
+    st.add_argument("--days", type=int, default=1, help="window ending today (or --day)")
+    st.add_argument("--day", help="end day, YYYY-MM-DD UTC (default today)")
+    st.add_argument("--top", type=int, default=15)
+    st.add_argument("--json", action="store_true")
+    st.set_defaults(func=cmd_stats)
+
+    ad = sub.add_parser("analytics-deploy", help="deploy workers/analytics + set ANALYTICS_TOKEN")
+    ad.set_defaults(func=cmd_analytics_deploy)
 
     args = ap.parse_args()
     if args.cmd == "zones":
