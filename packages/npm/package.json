@@ -1,0 +1,40 @@
+{
+  "name": "tekify-data",
+  "version": "0.1.0",
+  "description": "Free US and India reference data: ZIP codes, CMS hospital and dialysis ratings, nursing homes, colleges, airports, area codes and Indian IFSC bank codes. Keyless JSON endpoints with a tiny typed client.",
+  "keywords": [
+    "zip-codes",
+    "ifsc",
+    "cms",
+    "hospitals",
+    "nursing-homes",
+    "dialysis",
+    "airports",
+    "area-codes",
+    "open-data",
+    "datasets",
+    "geocoding"
+  ],
+  "homepage": "https://tekify.xyz/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hemantsarthak/myds.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hemantsarthak/myds/issues"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node test.js"
+  }
+}

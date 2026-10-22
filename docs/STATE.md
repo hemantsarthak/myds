@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~20:50 IST (DeepSeek agent, repo `myds`). Round 46 of the goal loop.
+> Last updated: 2026-10-23 ~21:30 IST (DeepSeek agent, repo `myds`). Round 47 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,19 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-47 work (2026-10-23) — npm and PyPI client packages ready
+
+1. **`tekify-data` packaged for both registries** (`packages/npm/`, `packages/pypi/`): a small keyless
+   client for all ten JSON endpoints — `zipCode`, `hospitals`, `nursingHomes`, `homeHealth`, `dialysis`,
+   `colleges`, `places`, `airports`, `areaCodes`, `ifscBank` — with TypeScript types (npm), a Python
+   module with docstrings (PyPI), READMEs, and smoke tests.
+2. Both smoke-tested against the live endpoints: ZIP 90210 resolves to Beverly Hills/CA/Los Angeles,
+   "Johns Hopkins" returns the two Baltimore hospitals with ratings, HDFC returns 11,007 branches.
+3. Why: npm and PyPI package pages are indexed, rank for package-name searches and are the kind of page
+   developers link to. Publishing them (after the inbox resets, since both registries verify by email)
+   adds a third independent discovery channel alongside IndexNow and the GitHub Pages site.
+4. Registered as the payload for `npm publish` / `python -m build && twine upload` once accounts exist.
 
 ## Round-46 work (2026-10-23) — developer data-API page
 

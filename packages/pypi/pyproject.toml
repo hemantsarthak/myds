@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tekify-data"
+version = "0.1.0"
+description = "Free US and India reference data: ZIP codes, CMS hospital and dialysis ratings, nursing homes, colleges, airports, area codes and Indian IFSC bank codes. Keyless JSON endpoints with a tiny client."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Tekify" }]
+keywords = ["zip-codes", "ifsc", "cms", "hospitals", "nursing-homes", "dialysis", "airports", "open-data"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://tekify.xyz/"
+Documentation = "https://hemantsarthak.github.io/myds/data.html"
+Repository = "https://github.com/hemantsarthak/myds"
+"Dataset samples" = "https://github.com/hemantsarthak/myds/tree/main/datasets"
+
+[tool.setuptools]
+packages = ["tekify_data"]
