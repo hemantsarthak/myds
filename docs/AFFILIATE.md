@@ -2,7 +2,7 @@
 
 > Written 2026-10-22 by the `affiliate` agent (autonomous). Read `docs/STRATEGY.md` §4 for why
 > affiliates are the layer that pays *before* display ads have traffic.
-> **Bottom line: 1 approved, revenue-capable account today (Travelpayouts, 14 tracked links
+> **Bottom line: 1 approved, revenue-capable account today (Travelpayouts, 15 tracked links
 > live in `engine/affiliates.py`), 2 accounts submitted (Hostinger, Cuelinks), 6 blocked on
 > captcha/network gates.** Nothing here needs a human to *start earning*; payout details are
 > the only human step, and only when money is actually due.
@@ -11,7 +11,7 @@
 
 | # | Program | Signup email | Status | Payout | Blocker / next step |
 |---|---|---|---|---|---|
-| 1 | **Travelpayouts** (network of 137 travel brands: Aviasales, Kiwi, Klook, AirHelp, eSIMs, car hire…) | `travelpayouts@tekify.xyz` | ✅ **APPROVED** — instant, no email confirmation, no KYC. 14 tracked links created | min **$50**, PayPal / wire / Payoneer (details not added yet) | None to earn. Add payout details when balance > $50 |
+| 1 | **Travelpayouts** (network of 137 travel brands: Aviasales, Kiwi, Klook, AirHelp, eSIMs, car hire…) | `travelpayouts@tekify.xyz` | ✅ **APPROVED** — instant, no email confirmation, no KYC. 15 tracked links created | min **$50**, PayPal / wire / Payoneer (details not added yet) | None to earn. Add payout details when balance > $50 |
 | 2 | **Hostinger affiliates** (hosting/VPS/domains) | `hostinger@tekify.xyz` | ⏳ **SUBMITTED** — "Your application is currently being reviewed. An account manager will contact you shortly." | PayPal, min **$100** + 3-sale approval minimum | Wait for their manual review; then copy `REFERRALCODE` into `engine/affiliates.py` |
 | 3 | **Cuelinks** (India network, 1000+ merchants: Flipkart, Amazon.in, Booking, banks) | `cuelinks@tekify.xyz` | ⏳ **EMAIL CONFIRMED**, channel verification pending | ₹500 min to Indian bank (₹20,000 non-Indian) | Dashboard is behind a Cloudflare bot wall — one normal-browser login + "verify channel" click |
 | 4 | Namecheap affiliate | — | ❌ blocked | via Impact/CJ | Namecheap runs the programme inside Impact/CJ; both gate new zero-traffic publishers |
