@@ -28,6 +28,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice  # noqa: E402
+from engine.guides import add_guides  # noqa: E402
 
 PROJ = pathlib.Path(__file__).resolve().parent
 SITE = "https://ifsccodes.tekify.xyz"
@@ -130,7 +131,7 @@ def build() -> Site:
         "Every Indian bank branch's IFSC code — address, MICR, and supported transfer rails.",
         "Look up any Indian bank IFSC code: branch address, city, district, state, MICR code, "
         "SWIFT code and whether NEFT, RTGS, IMPS and UPI are supported. 183,000+ branches.",
-        nav=[("Search", "/search/"), ("Banks", "/#banks"), ("States", "/#states"), ("About", "/about/")],
+        nav=[("Search", "/search/"), ("Banks", "/#banks"), ("States", "/#states"), ("About", "/about/"), ("Guides", "/guides/")],
         source_note="Data: public IFSC dataset maintained by Razorpay (MIT licence), derived from NPCI/RBI bank listings.",
     )
 
@@ -341,6 +342,7 @@ transfers to this branch.</p>
                     f"{human(len(by_city))} cities. Source: the open IFSC dataset maintained by "
                     f"Razorpay (MIT licence), which is compiled from bank branch listings. "
                     f"Branch codes change when banks merge — always confirm large transfers.</p>")
+    add_guides(s)
     return s
 
 

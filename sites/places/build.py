@@ -26,6 +26,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice  # noqa: E402
+from engine.guides import add_guides  # noqa: E402
 
 CACHE = ROOT / ".cache"
 PLACE_LIMIT = 16000
@@ -193,7 +194,7 @@ def build() -> Site:
              "US cities towns and counties: population, county and location.",
              "Look up any US city, town or county: which county it belongs to, its 2023 population "
              "estimate, land area, coordinates, time zone and the places around it.",
-             nav=[("Search", "/search/"), ("States", "/#states"), ("About", "/about/")],
+             nav=[("Search", "/search/"), ("States", "/#states"), ("About", "/about/"), ("Guides", "/guides/")],
              source_note="Population: US Census Bureau Vintage 2023 estimates. Boundaries and "
                          "coordinates: US Census Bureau 2023 Gazetteer. Time zones: GeoNames (CC BY).")
 
@@ -352,6 +353,7 @@ listed below, which is a useful check when two states share a place name.</p>
                     f"area: 2023 Census Gazetteer. Time zones: GeoNames (CC BY 4.0). County assignment "
                     f"comes from the Census place-to-county relationship file; a place that crosses "
                     f"counties shows its primary county and lists the others.</p>")
+    add_guides(s)
     return s
 
 

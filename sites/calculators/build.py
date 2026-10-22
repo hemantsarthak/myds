@@ -18,6 +18,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(HERE))
 
 from engine.sitegen import Site, cards, faq, esc, human  # noqa: E402
+from engine.guides import add_guides  # noqa: E402
 
 import catalog  # noqa: E402
 from core import (CALC_CSS, RUNTIME_JS, defaults, fmt_val, page_body, word_count)  # noqa: E402
@@ -150,6 +151,7 @@ worked example with the default inputs, so you can see exactly what is included.
     if short:
         print("WARN short tool pages (<240 words):", ", ".join(short[:10]), f"({len(short)} total)")
     print("word count range:", min(n for _s, n in words), "-", max(n for _s, n in words))
+    add_guides(site)
     return site
 
 

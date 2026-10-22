@@ -22,6 +22,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice  # noqa: E402
+from engine.guides import add_guides  # noqa: E402
 from engine.affiliate import affiliate_block_for_site  # noqa: E402
 
 SITE = "https://airportcodes.tekify.xyz"
@@ -144,7 +145,7 @@ def build() -> Site:
              "IATA and ICAO airport codes with runways, location and nearby airports.",
              "Airport codes directory: search any IATA or ICAO airport code to get the airport name, "
              "city, country, coordinates, elevation, runways and nearby airports.",
-             nav=[("Search", "/search/"), ("Countries", "/#countries"), ("About", "/about/")],
+             nav=[("Search", "/search/"), ("Countries", "/#countries"), ("About", "/about/"), ("Guides", "/guides/")],
              source_note="Data: OurAirports open dataset (public domain). Runway and location data are "
                          "updated regularly; always confirm operational details with the airport or operator.")
 
@@ -284,6 +285,7 @@ into a map service.</p>
                     f"OurAirports public-domain dataset ({len(by_country)} countries). The dataset is "
                     f"maintained by a volunteer community from official aviation publications and is "
                     f"updated regularly. Runway data is included where published.</p>")
+    add_guides(s)
     return s
 
 

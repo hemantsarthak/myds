@@ -23,7 +23,9 @@ with the date, and update `docs/STATE.md`.
       https://github.com/zapjur/swift-api, https://github.com/abdalrhman-alajlouni/BanksDataWorldWide.
       Check licences before shipping.
 - [ ] P1-4. Expand airport site to small airports with ICAO codes (chunked subdomains if needed).
-- [ ] P1-5. Expand pincode site: all 23,913 pincodes (shard across subdomain or paginate).
+- [ ] P1-5. Expand pincode site: all 23,913 pincodes (shard across subdomain or paginate) — NOTE: pincode project is the other agent's now.
+- [x] (2026-10-22) Guide content: 10 hand-written explainers across ifsc/zip/places/airport/calculators
+      (`engine/guides.py`, section at /guides/), to lift site quality and capture informational queries.
 
 ## P2 — measurement & indexing
 

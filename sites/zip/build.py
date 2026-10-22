@@ -22,6 +22,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice  # noqa: E402
+from engine.guides import add_guides  # noqa: E402
 
 DATA = ROOT / ".cache" / "geonames-us"
 ZIP_LIMIT = 17000
@@ -132,7 +133,7 @@ def build() -> Site:
              "US ZIP code directory: city, county, state, time zone and nearby ZIPs.",
              "Look up any US ZIP code: the city and state it belongs to, county, coordinates, "
              "population, time zone and the neighbouring ZIP codes around it.",
-             nav=[("Search", "/search/"), ("States", "/#states"), ("About", "/about/")],
+             nav=[("Search", "/search/"), ("States", "/#states"), ("About", "/about/"), ("Guides", "/guides/")],
              source_note="Data: GeoNames postal and place datasets (CC BY 4.0), derived from USPS and "
                          "US Census Bureau data. ZIP boundaries change; verify with USPS for mail.")
 
@@ -273,6 +274,7 @@ cross a city line.</p>
                     f"and {human(len(all_by_city))} US place names from GeoNames cities500, both "
                     f"CC BY 4.0. Population figures are city estimates. ZIP delivery areas are not "
                     f"legal boundaries and change over time.</p>")
+    add_guides(s)
     return s
 
 
