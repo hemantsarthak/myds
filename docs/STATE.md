@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-22 ~21:20 IST (DeepSeek agent, repo `myds`). Round 13 of the goal loop.
+> Last updated: 2026-10-22 ~22:05 IST (DeepSeek agent, repo `myds`). Round 14 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,31 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-14 work (2026-10-22 late evening) — discovery surface built
+
+1. **Posted 11 public Substack Notes, one per property**, each with a short description and a link
+   to that directory. Verified: profile <https://substack.com/@tekifydata> lists 11 notes and 11
+   distinct tekify.xyz links; three note pages checked over plain HTTP return 200 with the link
+   present (links are `rel="nofollow"` — still crawled for discovery).
+   Note URLs (newest first):
+   - https://substack.com/@tekifydata/note/c-367419883
+   - https://substack.com/@tekifydata/note/c-367419538
+   - https://substack.com/@tekifydata/note/c-367419209
+   - https://substack.com/@tekifydata/note/c-367418919
+   - https://substack.com/@tekifydata/note/c-367418616
+   - https://substack.com/@tekifydata/note/c-367418356
+   - https://substack.com/@tekifydata/note/c-367418008
+   - https://substack.com/@tekifydata/note/c-367417738
+   - https://substack.com/@tekifydata/note/c-367417398
+   - https://substack.com/@tekifydata/note/c-367417097
+   - https://substack.com/@tekifydata/note/c-367410106
+2. Composer mechanics (for future sessions): open the profile, click the "What's on your mind?"
+   prompt, wait ~4 s for the "New note" dialog, type into its contenteditable, click **Post**.
+   Reusable script: `scripts/browser/substack-notes-batch.mjs`.
+3. These notes give Googlebot 11 crawlable, high-authority pages that point at each subdomain —
+   the discovery path that was missing when Google had indexed 0 pages. Re-check
+   `site:tekify.xyz` in a few days.
 
 ## Round-13 work (2026-10-22 late evening) — first external citation live
 
