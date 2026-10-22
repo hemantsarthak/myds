@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~13:50 IST (DeepSeek agent, repo `myds`). Round 36 of the goal loop.
+> Last updated: 2026-10-23 ~14:30 IST (DeepSeek agent, repo `myds`). Round 37 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,21 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-37 work (2026-10-23) — BREAKTHROUGH: IndexNow accepted the GitHub Pages URLs
+
+1. **IndexNow accepted all 30 github.io URLs** (HTTP **202** from both `api.indexnow.org` and
+   `www.bing.com/indexnow`). The blocker had been that IndexNow wants the key file at the host root,
+   and a project Pages site lives under `/myds/`. The IndexNow payload supports a **`keyLocation`** on
+   the same host — `https://hemantsarthak.github.io/myds/<key>.txt` — and both endpoints accepted it.
+   Tool: `scripts/indexnow_ghpages.py`.
+   **This is the first time a search engine has been told to crawl any page we own** (Bing, Yandex and
+   Seznam consume IndexNow). Those 30 pages link to all twelve properties, so a crawl of them is the
+   discovery event the portfolio has been waiting for.
+2. **Cross-linked the Pages site** from the hub's press page (verified live: 2 links to
+   `hemantsarthak.github.io`), so the link graph is bidirectional once crawling starts.
+3. Next: watch Bing's index for the github.io pages and then for tekify.xyz subdomains; the daily
+   health check keeps submitting new tekify.xyz URLs through the same IndexNow channel.
 
 ## Round-36 work (2026-10-23) — GitHub Pages now a 30-URL site
 
