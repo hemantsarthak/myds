@@ -50,9 +50,13 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
    GeoNames postal data + Area-Code-Geolocation-Database), plus a sister-site link to the ZIP
    directory. Unique facts on a domain Bing is already crawling (141 bot renders on airport, 121
    on zip, 72 on ifsc). Verified live: Austin shows ZIPs 73301…78712 and area codes 512, 737.
-2. **Bing Webmaster Tools access delegated** (teammate `bingwmt`): creating a Microsoft account
-   with `bingwmt@tekify.xyz` to verify tekify.xyz and submit all 72.8k URLs through the BWT URL
-   Submission API (10k/day). This is the biggest indexing lever we do not yet control.
+2. **Bing Webmaster Tools: fully scripted, blocked on ONE 30-second human check.** Microsoft
+   signup with `bingwmt@tekify.xyz` works autonomously end-to-end (email code read from our inbox,
+   birthdate, name) up to Microsoft's "press and hold" human check — CAPTCHA-class, not defeated
+   (policy). `scripts/bing_submit.py` is ready and resolves all 72,776 URLs (500/batch, per-site
+   10k/day quota ledger). After the human press-and-hold: add 7 properties -> DNS TXT verify via
+   `scripts/ops.py dns` -> API key to `shared/.env` as `BING_WMT_API_KEY` -> `python
+   scripts/bing_submit.py --all`. Docs: `docs/BING.md`. **Biggest indexing lever left.**
 3. Confirmed via Bing: **no head or long-tail rankings yet** on any of seven queries probed
    (domain is 2 days old) — indexing has happened (site: shows results) but ranking has not.
 
