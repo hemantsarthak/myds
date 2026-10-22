@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Methodology — how the Tekify datasets are built</title>
+<meta name="description" content="How each Tekify directory is generated from its source dataset: parsing, cleaning, joins, ratings, update cadence, known limitations and how to verify a record.">
+<link rel="canonical" href="https://hemantsarthak.github.io/myds/methodology.html">
+<script defer src="https://analytics.monetec2.workers.dev/e.js?site=ghpages"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Methodology — how the Tekify datasets are built","url":"https://hemantsarthak.github.io/myds/methodology.html","author":{"@type":"Organization","name":"Tekify"}}</script>
+<style>
+:root{--bg:#fff;--fg:#0f172a;--mut:#475569;--line:#e2e8f0;--accent:#2563eb}
+@media(prefers-color-scheme:dark){:root{--bg:#0b1220;--fg:#e2e8f0;--mut:#94a3b8;--line:#1e293b;--accent:#60a5fa}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.7 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:780px;margin:0 auto;padding:36px 20px}
+a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+h1{font-size:1.8rem;line-height:1.25;margin:0 0 .4em}
+h2{font-size:1.2rem;margin:1.8em 0 .4em}
+.lede{color:var(--mut);font-size:1.05rem}
+.crumbs{font-size:.9rem;color:var(--mut);margin-bottom:1em}
+table{border-collapse:collapse;width:100%;margin:1em 0}
+td,th{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+code{background:rgba(127,127,127,.12);padding:1px 4px;border-radius:4px}
+footer{margin-top:2.5em;border-top:1px solid var(--line);padding-top:1em;color:var(--mut);font-size:.9rem}
+</style>
+</head>
+<body><div class="wrap">
+<div class="crumbs"><a href="/myds/">Tekify</a> / methodology</div>
+<h1>Methodology</h1>
+<p class="lede">Every Tekify directory follows the same pipeline: download the source dataset, clean it,
+join supporting data, render one page per record, and state the source. This page documents that pipeline
+and its known limitations.</p>
+
+<h2>Pipeline</h2>
+<ol>
+<li><strong>Source.</strong> Each directory has one primary dataset published by a public agency or an
+open-licence project (US Census, CMS, NCES/IPEDS, GeoNames, OurAirports, Razorpay IFSC).</li>
+<li><strong>Parsing.</strong> The file is parsed by code, with encoding and column-name handling written
+for that specific dataset. Record identifiers (ZIP, IFSC, CCN, unitid, IATA) are treated as strings, not
+numbers, so leading zeros survive.</li>
+<li><strong>Cleaning.</strong> Whitespace and casing are normalised for display; missing values are marked
+as unavailable rather than guessed or imputed.</li>
+<li><strong>Joins.</strong> Where a page needs extra context — coordinates for nearby-record links, county
+assignment for places, income bands for colleges — the record is joined to the supporting dataset on its
+identifier. Unmatched records are kept and simply omit the joined fields.</li>
+<li><strong>Rendering.</strong> One page per record with the fields that matter, the surrounding records
+(same state, city, bank or rating band) and the source statement.</li>
+<li><strong>Validation.</strong> Every build checks for duplicate titles and descriptions, broken internal
+links and empty pages before deployment.</li>
+</ol>
+
+<h2>Ratings</h2>
+<p>Star ratings (hospitals, nursing homes, home-health agencies, dialysis facilities) are reproduced
+exactly as CMS publishes them. They are not recalculated, reweighted or adjusted. When CMS marks a
+facility unrated, the page says so — unrated is not a poor rating.</p>
+
+<h2>Updates</h2>
+<table>
+<tr><th>Dataset</th><th>Source cadence</th><th>What a refresh changes</th></tr>
+<tr><td>CMS quality data</td><td>quarterly</td><td>ratings, measures, staffing figures</td></tr>
+<tr><td>Census population estimates</td><td>annual</td><td>population figures</td></tr>
+<tr><td>IPEDS college data</td><td>annual</td><td>admissions, tuition, net price</td></tr>
+<tr><td>OurAirports / GeoNames</td><td>continuous</td><td>airport and place records</td></tr>
+<tr><td>Razorpay IFSC</td><td>continuous</td><td>bank branch records</td></tr>
+</table>
+
+<h2>Known limitations</h2>
+<ul>
+<li>Derived figures (distance between records, state averages, percentages) are computed from the data as
+published and inherit its errors.</li>
+<li>Records can lag the source by the time between a source update and the next import.</li>
+<li>Some source fields are optional and blank for many records; pages show "—" rather than a guess.</li>
+<li>Pages are static: a record changed at the source today appears after the next import.</li>
+</ul>
+
+<h2>Verifying a record</h2>
+<p>Each page names its source dataset. To verify a figure, compare it with the agency's own lookup tool —
+for example CMS Care Compare for hospital ratings, or the Census Bureau for population. If you find a
+discrepancy, the contact page on <a href="https://tekify.xyz/contact/">tekify.xyz</a> is the fastest way to
+report it.</p>
+
+<footer>Tekify — free data directories built from public datasets. <a href="https://tekify.xyz/">tekify.xyz</a> ·
+<a href="https://github.com/hemantsarthak/myds">source</a></footer>
+</div></body></html>
