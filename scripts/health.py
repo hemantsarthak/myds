@@ -71,6 +71,40 @@ def sitemap_urls(host: str) -> list[str]:
     return locs
 
 
+# Cloudflare Pages project subdomains — each serves the same IndexNow key file at its root, so the
+# pages.dev host can be verified. Their pages carry a canonical to the custom domain.
+PAGESDEV_HOSTS = [
+    "hub-1xy.pages.dev", "ifsc-b55.pages.dev", "myds-airport.pages.dev", "myds-zip.pages.dev",
+    "myds-places.pages.dev", "myds-colleges.pages.dev", "myds-calculators.pages.dev",
+    "myds-areacodes.pages.dev", "myds-hospitals.pages.dev", "myds-nursinghomes.pages.dev",
+    "myds-homehealth.pages.dev", "myds-dialysis.pages.dev",
+]
+
+
+def submit_pagesdev(limit: int = 400) -> None:
+    """Submit up to `limit` pages.dev URLs per project to IndexNow (Bing endpoint)."""
+    import json as _json
+    for host in PAGESDEV_HOSTS:
+        try:
+            sm = urllib.request.urlopen(urllib.request.Request(
+                f"https://{host}/sitemap.xml", headers={"User-Agent": UA}), timeout=30).read().decode()
+            locs = re.findall(r"<loc>([^<]+)</loc>", sm)[:limit]
+            urls = [re.sub(r"^https://[^/]+", f"https://{host}", u) for u in locs]
+            payload = _json.dumps({"host": host, "key": INDEXNOW_KEY,
+                                   "keyLocation": f"https://{host}/{INDEXNOW_KEY}.txt",
+                                   "urlList": urls}).encode()
+            req = urllib.request.Request("https://www.bing.com/indexnow", data=payload,
+                                         headers={"Content-Type": "application/json; charset=utf-8",
+                                                  "User-Agent": UA}, method="POST")
+            try:
+                with urllib.request.urlopen(req, timeout=60) as r:
+                    print(f"pagesdev {host}: {len(urls)} urls -> {r.status}")
+            except urllib.error.HTTPError as e:
+                print(f"pagesdev {host}: {len(urls)} urls -> HTTP {e.code} {e.read()[:80]}")
+        except Exception as e:  # noqa: BLE001
+            print(f"pagesdev {host}: error {str(e)[:80]}")
+
+
 def submit_indexnow(host: str, urls: list[str]) -> str:
     if not urls:
         return "nothing to submit"
@@ -129,6 +163,8 @@ def main() -> int:
         lines.append(f"**{failures} propert{'y' if failures == 1 else 'ies'} failing.**")
     (REPORTS / f"health-{today}.md").write_text("\n".join(lines), encoding="utf-8")
     STATE.write_text(json.dumps(new_state, separators=(",", ":")), encoding="utf-8")
+    if a.submit:
+        submit_pagesdev()
     print(f"report: reports/health-{today}.md ({total} urls)")
     return 1 if failures else 0
 

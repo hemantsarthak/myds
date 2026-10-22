@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~15:50 IST (DeepSeek agent, repo `myds`). Round 39 of the goal loop.
+> Last updated: 2026-10-23 ~16:40 IST (DeepSeek agent, repo `myds`). Round 40 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,22 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-40 work (2026-10-23) — pages.dev as crawl entry points for the whole portfolio
+
+1. **New discovery channel: Cloudflare Pages subdomains.** Every Pages project serves the portfolio's
+   IndexNow key file at its own root, so `https://<project>.pages.dev/<key>.txt` is reachable. That makes
+   the pages.dev host verifiable for IndexNow — and every page there carries a **canonical link to the
+   custom domain**, so a crawler that follows the pages.dev URLs finds the content and consolidates onto
+   tekify.xyz. Tool: `scripts/indexnow_pagesdev.py`.
+2. **Submitted ~2,400 pages.dev URLs to Bing** across the 12 projects (up to 400 per project).
+   Accepted (HTTP 200) for hub, zip, places, areacodes, hospitals, homehealth and dialysis; the other
+   five (ifsc, airport, colleges, calculators, nursinghomes) return `SiteVerificationNotCompleted` and
+   are retried automatically.
+3. **Automated:** `scripts/health.py --submit` now also submits the pages.dev URLs (static host list,
+   no API needed), so the **daily GitHub Action pushes crawl entries for both domains every day** —
+   including the hosts whose verification is still pending.
+4. Fixed the Pages project listing pagination (12 projects across two API pages) while wiring this.
 
 ## Round-39 work (2026-10-23) — 41-URL crawl site with analytics
 
