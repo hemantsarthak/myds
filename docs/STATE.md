@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-24 ~01:45 IST (DeepSeek agent, repo `myds`). Round 53 of the goal loop.
+> Last updated: 2026-10-24 ~02:30 IST (DeepSeek agent, repo `myds`). Round 54 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,21 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-54 work (2026-10-24) — HilltopAds site validation published
+
+1. **Found why the HilltopAds site is still "Pending":** their API returns a `validationCodeFile`
+   (`4716467562d48cdb1eec.txt`, content `a5a6d5a4a9ab1debf8fe`) and a `validationCode` meta tag for
+   site 925719 — neither had been published. The validation file is now live at
+   <https://tekify.xyz/4716467562d48cdb1eec.txt> (verified 200, correct content), added through the hub
+   build so it survives rebuilds.
+2. **Verified the rest of the ad stack:** HilltopAds zones are Approved and serving — a live page load
+   makes 8 ad requests, loads 3 ad scripts and injects an ad iframe. The site approval (which affects
+   fill/CPM, not serving) should now be able to complete on their side.
+3. **GitHub Actions health workflow re-verified** (checkout → python → `health.py --submit` → commit
+   report + baseline); it will run daily at 08:47 IST and now also submits pages.dev URLs.
+4. Noted for later: the HilltopAds account allows more zone types (mobile 300x100, video slider) — worth
+   adding only once there is traffic to fill them.
 
 ## Round-53 work (2026-10-24) — readiness report
 

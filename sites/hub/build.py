@@ -254,6 +254,8 @@ https://github.com/hemantsarthak/myds/tree/main/datasets
 US Census Bureau, CMS, NCES/IPEDS, GeoNames, OurAirports, Razorpay IFSC (MIT).
 """
     s.add_file("/llms.txt", llms)
+    # HilltopAds site validation (site 925719): file at the root plus the meta tag on the home page
+    s.add_file("/4716467562d48cdb1eec.txt", "a5a6d5a4a9ab1debf8fe")
     build_insights(s)
     s.add_standard_pages(
         extra_about="<h2>Properties</h2>" + cards([(u, n, d) for u, n, d in PROPERTIES]))
