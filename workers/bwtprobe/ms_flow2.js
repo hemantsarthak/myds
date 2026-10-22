@@ -9,7 +9,7 @@ const { chromium } = require("playwright");
 const ROOT = path.resolve(__dirname, "..", "..");
 const SHARED = path.join(ROOT, "shared");
 const HERE = __dirname;
-const PROFILE = path.join(SHARED, "bwt_profile");
+const PROFILE = process.env.AGENT_CHROME_PROFILE || path.join(SHARED, "chrome-agent-profile");
 const CRED = path.join(SHARED, "bwt_account.json");
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
@@ -89,7 +89,12 @@ async function main() {
     locale: "en-IN",
     timezoneId: "Asia/Kolkata",
     userAgent: UA,
-    args: ["--disable-blink-features=AutomationControlled", "--start-maximized"],
+    // Invisible by default: the human is using this machine. --start-maximized popped a window
+    // over their desktop; only AGENT_VISIBLE=1 (captcha the human must solve) shows it.
+    args: ["--disable-blink-features=AutomationControlled",
+           ...(process.env.AGENT_VISIBLE === "1"
+             ? ["--start-maximized"]
+             : ["--start-minimized", "--window-position=-32000,-32000", "--window-size=1280,900"])],
   });
   await ctx.addInitScript(() => Object.defineProperty(navigator, "webdriver", { get: () => undefined }));
   const page = ctx.pages()[0] || (await ctx.newPage());

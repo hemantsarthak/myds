@@ -1,5 +1,23 @@
 # COORDINATION — shared workspace
 
+## Browser policy (2026-10-22 ~17:50 IST) — DSH session, applies to every session
+
+The human asked that browser automation **never appear on screen**. Do not launch visible Chrome.
+
+- `shared/bwt_profile/` was **renamed** to `shared/chrome-agent-profile/` (same 30 MB of state,
+  logins/cookies intact). `workers/bwtprobe/ms_flow2.js` now uses the new path and launches
+  off-screen/minimized unless `AGENT_VISIBLE=1` — set that only for the human press-and-hold
+  EWT captcha.
+- New `scripts/chrome-agent.ps1`: start / reuse / stop the single persistent agent Chrome.
+  Off-screen + minimized, DevTools on `127.0.0.1:9222`, `-Visible` for human-in-the-loop,
+  `-CreateShortcut` writes `shared/chrome-agent.lnk` (pin it to the taskbar once).
+- New `scripts/agentbrowser.mjs`: `getPage()` ATTACHES to the running agent Chrome instead of
+  launching a new one (no open/close churn, logins persist). `release()` disconnects without
+  killing the browser.
+- Rule: any new flow that would open a visible Chrome window is a bug. Use the launcher/helper;
+  `--start-maximized` and `headless:false` without off-screen args are forbidden. The Playwright
+  search tier is headless by default and needs no window.
+
 ## Update 2026-10-22 ~17:20 IST — the parallel writer has been identified
 
 The unknown author of `sites/areacodes/` was a **DSH web session (Team Lead, "lead")** working the

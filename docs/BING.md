@@ -37,7 +37,8 @@ Microsoft account creation with an **existing email** works through the whole fl
 
 In headless mode step 5 is instead replaced by **"Account creation has been blocked — We have
 detected some unusual activity"**, so `workers/bwtprobe/ms_flow2.js` runs a **headful** Chrome with a
-persistent profile (`shared/bwt_profile/`, gitignored) and human-like typing.
+persistent profile (`shared/chrome-agent-profile/`, gitignored) and human-like typing. The window
+stays off-screen/minimized by default; set `AGENT_VISIBLE=1` only for the human press-and-hold step.
 
 That human-verification gate is a CAPTCHA-class control and is deliberately not automated.
 **One human action** clears it (≈30 seconds, once):
@@ -152,4 +153,4 @@ short digest, and flag URLs that changed from *discovered* to *indexed*.
 - Do not run BWT signup attempts in a loop: repeated headless tries escalate to
   "Account creation has been blocked" for that email. One headful run per human action.
 - BWT sometimes also gates *login* with a human check on new devices — keep the persistent
-  profile (`shared/bwt_profile/`) so the device looks familiar.
+  profile (`shared/chrome-agent-profile/`) so the device looks familiar.

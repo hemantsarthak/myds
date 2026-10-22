@@ -42,6 +42,14 @@ almost entirely without the human. Everything runs from this folder + Cloudflare
   tiers, `--backend NAME` / `--tiers a,b` force one or an order, `-v` shows skipped tiers.
   The harness `web_search` tool needs `DEEPSEEK_API_KEY` and does not work in this profile;
   `web_fetch` still fetches a known URL (public IPs only, no JS rendering).
+- **Browser automation must stay invisible.** ONE persistent Chrome profile:
+  `shared/chrome-agent-profile` (gitignored, holds the Bing WMT / affiliate / Cloudflare logins).
+  Start or keep it with `scripts/chrome-agent.ps1` — it runs the window OFF-SCREEN and minimized
+  and exposes DevTools on `127.0.0.1:9222`; a pinned shortcut can be made with `-CreateShortcut`.
+  Scripts take a browser from `scripts/agentbrowser.mjs`, which ATTACHES to that running browser
+  (no open/close churn) and, if it is not running, launches the same profile off-screen itself.
+  Never launch headful Chrome on-screen: `-Visible` / `AGENT_VISIBLE=1` is only for a
+  captcha/KYC step the human must physically solve.
 
 ## Repo layout
 
