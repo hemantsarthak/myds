@@ -207,6 +207,7 @@ def build() -> Site:
     colleges = load()
     colleges.sort(key=lambda c: (-(c["enrollment"] or 0), c["name"]))
     used = collections.Counter()
+    titles_used = set()
     for c in colleges:
         base = slug(c["name"])
         used[base] += 1
@@ -439,7 +440,13 @@ though most students receive institutional aid that lowers the actual net price.
           ("/guides/", "Guides to reading these numbers")])}
 {faq(faq_pairs)}
 """
-        s.add(c["url"], seo_title(c["label"], " — College Data"),
+        title = seo_title(c["label"], " — College Data")
+        if title in titles_used:
+            title = seo_title(f'{c["label"]} ({c["city"]}, {c["state"]})', " — College Data")
+        if title in titles_used:
+            title = f'{c["label"][:40].rstrip()} — College {c["unitid"]}'
+        titles_used.add(title)
+        s.add(c["url"], title,
               f'{c["name"]} in {loc}: acceptance rate {pct(c.get("accept"))}, in-state tuition '
               f'{money(c["tuition_in"])}, enrollment {human(c["enrollment"] or 0)}, graduation rate '
               f'{pct(c.get("grad_rate"))}. Federal IPEDS data.',
