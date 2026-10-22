@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~02:20 IST (DeepSeek agent, repo `myds`). Round 18 of the goal loop.
+> Last updated: 2026-10-23 ~03:10 IST (DeepSeek agent, repo `myds`). Round 19 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,26 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-19 work (2026-10-23) — discovery surface doubled; shared KV quota made visible
+
+1. **Four more Telegraph explainers published** (total **8** indexable telegra.ph articles linking the
+   directories): hospital CMS ratings before scheduling care, nursing-home star ratings, US ZIP-code
+   structure + JSON index, and IATA vs ICAO airport codes. Verified live (200) with 3-6 tekify links
+   each; all URLs recorded in `shared/discovery-links.md`. Tool: `scripts/browser/telegraph-articles2.mjs`.
+2. **No-account publishing platforms tested:**
+   - **rentry.co** — API works without an account and links are followed, but pages are
+     `meta robots: noindex`, so they cannot help Google discovery. Rejected.
+   - **write.as** — anonymous POST returns 201 with `id: "contentisblocked"` (link-spam filter). Rejected.
+   - **Medium** — sign-in page offers email flow but needs the full magic-link round trip; not pursued
+     this round (kept as an option).
+3. **GitHub Actions health check is healthy but has not run yet:** workflow `portfolio-health` exists
+   and is active in the repo, Actions enabled, but 0 runs because the first cron (`17 3 * * *` UTC)
+   fires at 08:47 IST tomorrow. Expected, not a bug — it will post a report + IndexNow new URLs daily.
+4. **Shared KV list() quota exhausted** (1,000/day, free plan): it broke BOTH `ops.py stats` and the
+   autonomous inbox (same namespace). Both now have local TTL caches + clear "resets at 00:00 UTC"
+   messages. Operational rule recorded: query stats at most a few times a day and prefer
+   `--site X --days 1`; the quota resets 00:00 UTC (05:30 IST). Email reads are cached 10 min.
 
 ## Round-18 work (2026-10-23) — domain-level Google invisibility + first indexable citation
 
