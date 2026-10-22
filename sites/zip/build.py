@@ -87,6 +87,27 @@ def load():
     return rows
 
 
+def load_area_codes():
+    """(USPS state, lowercase city) -> sorted NANP area codes for that city."""
+    name_to_usps = {v.lower(): k for k, v in STATE_NAMES.items()}
+    out = collections.defaultdict(set)
+    f = ROOT / ".cache" / "us-area-code-cities.csv"
+    if not f.exists():
+        return {}
+    import csv as _csv
+    with f.open(encoding="utf-8-sig", newline="") as fh:
+        for row in _csv.reader(fh):
+            if len(row) < 4:
+                continue
+            code, city, state = row[0].strip(), row[1].strip(), row[2].strip()
+            if not (code.isdigit() and city):
+                continue
+            usps = name_to_usps.get(state.lower())
+            if usps:
+                out[(usps, city.lower())].add(code)
+    return {k: sorted(v) for k, v in out.items()}
+
+
 def distance_km(a, b) -> float:
     p1, p2 = math.radians(a["lat"]), math.radians(b["lat"])
     dp, dl = p2 - p1, math.radians(b["lon"] - a["lon"])
@@ -114,6 +135,7 @@ def build() -> Site:
     grid = collections.defaultdict(list)
     for r in selected:
         grid[(int(r["lat"]), int(r["lon"]))].append(r)
+    area_by_city = load_area_codes()
     sel_codes = {r["zip"] for r in selected}
 
     def nearby(r, limit=8):
@@ -223,7 +245,7 @@ are ordered numerically; each links to a page with coordinates, nearby ZIPs and 
         near_cards = cards([(f"/zip/{b['zip']}/", b["zip"], f"{d:,.1f} km · {esc(b['place'])}")
                             for d, b in near])
         same_city = [x for x in sel_by_city[(r["state"], r["place"])] if x["zip"] != r["zip"]][:12]
-        rows_html = table(["Field", "Value"], [
+        row_list = [
             ["ZIP code", f'<strong>{esc(r["zip"])}</strong>'],
             ["City / place", esc(r["place"])],
             ["State", f'<a href="/state/{r["state"]}/">{esc(r["state_name"])}</a>'],
@@ -232,7 +254,11 @@ are ordered numerically; each links to a page with coordinates, nearby ZIPs and 
             ["Time zone", esc(r["tz"] or "—")],
             ["City population", human(r["pop"]) if r["pop"] else "—"],
             ["ZIP type", "PO box / unique" if r["accuracy"] in ("3", "4", "5", "6") else "Standard area"],
-        ])
+        ]
+        areas = area_by_city.get((r["state"], r["place"].lower()), [])
+        if areas:
+            row_list.append(["Telephone area codes", ", ".join(areas)])
+        rows_html = table(["Field", "Value"], row_list)
         body = f"""
 <h1>ZIP Code {esc(r["zip"])} — {esc(r["place"])}, {esc(r["state_name"])}</h1>
 <p class="lede">ZIP code {esc(r["zip"])} belongs to {esc(r["place"])}, {esc(r["state_name"])}
@@ -246,6 +272,7 @@ ZIP codes associated with {esc(r["place"])} in this dataset. The delivery area i
 local post office network, so the ZIP can cover more than one neighbourhood or even
 cross a city line.</p>
 {f'<h2>ZIP codes in the same city</h2>{cards([(f"/zip/{x["zip"]}/", x["zip"], esc(x["county"])) for x in same_city])}' if same_city else ''}
+{f'<h2>Area codes and city profile</h2><p>Telephone area codes serving {esc(r["place"])}: <strong>{", ".join(areas)}</strong>. For population, county and county-seat details, see <a href="https://places.tekify.xyz/state/{r["state"].lower()}/">{esc(r["place"])} and all places in {esc(r["state_name"])}</a>.</p>' if areas else ''}
 <h2>Nearby ZIP codes</h2>
 {near_cards or "<p>No neighbouring ZIP codes indexed.</p>"}
 {related([(f'/city/{slug(r["place"])}-{r["state"]}/', f"All ZIP codes in {r['place']}") if city_has_page else ("/search/", "Search ZIP codes"),
