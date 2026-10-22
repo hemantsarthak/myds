@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~12:30 IST (DeepSeek agent, repo `myds`). Round 34 of the goal loop.
+> Last updated: 2026-10-23 ~13:10 IST (DeepSeek agent, repo `myds`). Round 35 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,21 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-35 work (2026-10-23) — GitHub Pages expanded to 17 interlinked pages
+
+1. **`scripts/build_ghpages.py`** generates the whole GitHub Pages site from the dataset and analysis
+   metadata: the landing page, a datasets index + four dataset cards (records, source, live directory,
+   JSON index, sample download), an insights index + ten analysis pages (summary + link to the full
+   article), and a **17-URL sitemap.xml**. All generated pages share one small template, are
+   interlinked, and link back to the live directories.
+2. **Verified live on github.io:** `/` (43 tekify links), `/datasets/` (4 cards), `/insights/`
+   (10 pages), `sitemap.xml` (17 URLs), `robots.txt` — all 200.
+3. Rationale: github.io is crawled aggressively; a single orphan page had one chance of being found,
+   while 17 interlinked pages with a sitemap give a crawler a small site to walk — and every page
+   points back at the tekify.xyz properties. This is the discovery chain that was missing.
+4. The repo's `docs/` folder also holds the internal markdown docs (already public in the repo); the
+   Pages site serves them harmlessly alongside the generated pages.
 
 ## Round-34 work (2026-10-23) — GitHub Pages landing page LIVE (first indexable page on a crawled domain)
 
