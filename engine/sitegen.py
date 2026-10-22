@@ -233,6 +233,7 @@ class Site:
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%E2%9C%A6</text></svg>">
 <style>{CSS}</style>
 {ads_head}
+{an}
 {extra_head}"""
 
     def _page_html(self, path, page) -> str:

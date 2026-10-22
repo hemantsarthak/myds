@@ -10,8 +10,9 @@ Updated 2026-10-22. Cloudflare account `c01fe438c7960466670d312e55164037`, domai
 | IFSC Codes India | `ifsc` | ifsc-b55.pages.dev | https://ifsccodes.tekify.xyz | 15,086 | ✅ pop+push | ✅ | LIVE |
 | Airport Codes | `myds-airport` | myds-airport.pages.dev | https://airportcodes.tekify.xyz | 10,179 | ✅ pop+push | ✅ | LIVE |
 | US ZIP Codes | `myds-zip` | myds-zip.pages.dev | https://zipcodes.tekify.xyz | 17,757 | ✅ pop+push | ✅ | LIVE |
+| Calculators | `myds-calculators` | myds-calculators.pages.dev | https://calculators.tekify.xyz | 60 | ✅ pop+push | ✅ | LIVE |
 
-Total ours ≈ **43,000 pages**. All submitted to IndexNow (2026-10-22, 51.5k URLs incl. pincode).
+Total ours ≈ **43,087 pages**. All submitted to IndexNow (2026-10-22, 51.6k URLs incl. pincode).
 
 ## NOT ours (shared Cloudflare account — do not touch)
 
@@ -39,5 +40,5 @@ python scripts/build_all.py --deploy             # everything at once
 
 ## Planned next sites (myds- prefix, unique subdomains)
 
-`calculators.tekify.xyz` (finance/health tools, US-optimised) · `swiftcodes.tekify.xyz` ·
+`swiftcodes.tekify.xyz` ·
 `areacodes.tekify.xyz` · `api.tekify.xyz` (paid dataset API, x402)
