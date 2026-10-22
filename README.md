@@ -8,6 +8,7 @@ identity step. To resume work, just say **"continue"**.
 
 - Agents: read `AGENTS.md` first, then `docs/STATE.md` and `docs/BACKLOG.md`.
 - Strategy: `docs/STRATEGY.md` · Sites: `docs/SITES.md` · Money: `docs/REVENUE.md`
+- **Readiness report: `docs/READINESS.md`** — what exists, what works, what is missing
 - Credentials/notes (not in git): `shared/`
 
 ## Landing page (GitHub Pages)
