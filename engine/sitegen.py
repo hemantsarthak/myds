@@ -54,6 +54,8 @@ NETWORK = [
     ("US ZIP Codes", "https://zipcodes.tekify.xyz/"),
     ("Area Codes", "https://areacodes.tekify.xyz/"),
     ("US Hospitals", "https://hospitals.tekify.xyz/"),
+    ("US Nursing Homes", "https://nursinghomes.tekify.xyz/"),
+
 
     ("US Places", "https://places.tekify.xyz/"),
     ("US Colleges", "https://colleges.tekify.xyz/"),

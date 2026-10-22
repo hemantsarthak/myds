@@ -30,6 +30,8 @@ PROPERTIES = [
      "Acceptance rates, tuition, enrollment and graduation rates for 6,000 US institutions."),
     ("https://hospitals.tekify.xyz/", "US Hospitals",
      "CMS star ratings, quality measures, services and contact details for 5,400 hospitals."),
+    ("https://nursinghomes.tekify.xyz/", "US Nursing Homes",
+     "CMS star ratings, staffing and inspections for 14,700 nursing homes."),
     ("https://calculators.tekify.xyz/", "Calculators",
      "Loan, mortgage, tax, salary, health and date calculators."),
 ]
