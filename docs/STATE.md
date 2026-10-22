@@ -1,11 +1,11 @@
 # STATE — current status
 
-> Last updated: 2026-10-22 ~17:55 IST (DeepSeek agent, repo `myds`). Round 7 of the goal loop.
+> Last updated: 2026-10-22 ~18:30 IST (DeepSeek agent, repo `myds`). Round 8 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
 
-**9 properties live (~85,600 pages) with HilltopAds display ads, Travelpayouts affiliate cards,
+**10 properties live (~100,700 pages) with HilltopAds display ads, Travelpayouts affiliate cards,
 self-hosted analytics and an autonomous inbox. IndexNow: every URL accepted; crawlers are
 rendering pages (99 bot hits on airport, 72 on zip, 59 on ifsc in 3 days). Revenue still $0 —
 the domain is 2 days old and ranking is the bottleneck, not infrastructure.**
@@ -23,8 +23,9 @@ the domain is 2 days old and ranking is the bottleneck, not infrastructure.**
 | Calculators | `myds-calculators` | https://calculators.tekify.xyz | 62 | ✅ | ✅ |
 | **Area Codes** | `myds-areacodes` | https://areacodes.tekify.xyz | 6,954 | ✅ | ✅ |
 | **US Hospitals** | `myds-hospitals` | https://hospitals.tekify.xyz | 5,888 | ✅ | ✅ |
+| **US Nursing Homes** | `myds-nursinghomes` | https://nursinghomes.tekify.xyz | 15,056 | ✅ | ✅ |
 
-≈ **85,600 pages** ours. Every property: canonical URLs, JSON-LD, breadcrumbs, sitemaps, robots,
+≈ **100,700 pages** ours. Every property: canonical URLs, JSON-LD, breadcrumbs, sitemaps, robots,
 IndexNow key, network cross-links (footer), ad slots, analytics beacon; five have a `/guides/`
 section of hand-written explainers.
 
@@ -45,6 +46,21 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-8 work (2026-10-22 evening)
+
+1. **New property `nursinghomes.tekify.xyz`** — 15,056 pages from the CMS nursing-home Provider
+   Information file (public domain): 14,690 facilities with CMS **overall / health inspection / QM /
+   staffing star ratings**, staffing hours (aide, LPN, RN, total, weekend), turnover rates,
+   ownership, certified beds, average residents/day, chain affiliation, abuse/special-focus/
+   high-performing flags, inspection recency, sprinklers, resident council, address/phone, lat/lon
+   and nearest facilities. Plus 52 state pages, 300 city pages, rating pages 1–5, two guides
+   (how CMS ratings work; how to choose a home) and local search.
+   Verified live (15 Craigside, Honolulu) — ads + analytics present; IndexNow accepted all 15,056 URLs.
+2. Wired into hub, footer network, `build_all` and the daily health job: baseline is now
+   **100,674 URLs across 10 properties**.
+3. Note: the parallel writer added `scripts/search.py` (SearXNG/DuckDuckGo/Bing/Playwright web-search
+   chain) and documented it in AGENTS.md — useful for future sessions, kept as-is.
 
 ## Round-7 work (2026-10-22 evening)
 

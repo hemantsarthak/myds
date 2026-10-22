@@ -15,7 +15,7 @@ Updated 2026-10-22 (round 5). Cloudflare account `c01fe438c7960466670d312e551640
 | Calculators | `myds-calculators` | myds-calculators.pages.dev | https://calculators.tekify.xyz | 62 | ✅ pop+push | ✅ | LIVE |
 | **Area Codes** | `myds-areacodes` | myds-areacodes.pages.dev | https://areacodes.tekify.xyz | 6,954 | ✅ pop+push | ✅ | LIVE (2026-10-22) |
 
-Total ours ≈ **85,618 pages**. IndexNow accepted for every property (all 79.7k URLs, 2026-10-22).
+Total ours ≈ **100,674 pages**. IndexNow accepted for every property (all 79.7k URLs, 2026-10-22).
 
 ### Area Codes — what it is (built round 5)
 
