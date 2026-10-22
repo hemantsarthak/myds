@@ -2,38 +2,42 @@
 
 Updated 2026-10-22. Cloudflare account `c01fe438c7960466670d312e55164037`, domain `tekify.xyz`.
 
+## Ours (we build + deploy these)
+
 | Site | Pages project | pages.dev subdomain | Public URL | Pages | Ads | Analytics | Status |
 |---|---|---|---|---|---|---|---|
-| Hub | `hub` | hub-1xy.pages.dev | https://tekify.xyz | 4 | — | — | LIVE |
-| Pincode India | `pincode-india` | pincode-india.pages.dev | https://pincode.tekify.xyz | 8,636 | — | — | LIVE |
-| IFSC Codes India | `ifsc` | ifsc-b55.pages.dev | https://ifsccodes.tekify.xyz | 15,086 | — | — | LIVE |
-| Airport Codes | `myds-airport` | myds-airport.pages.dev | https://airportcodes.tekify.xyz | 10,180 | — | — | LIVE |
-| US ZIP Codes | `myds-zip` | myds-zip.pages.dev | https://zipcodes.tekify.xyz | 17,758 | — | — | deploying |
+| Hub | `hub` | hub-1xy.pages.dev | https://tekify.xyz | 5 | ✅ pop+push | ✅ | LIVE |
+| IFSC Codes India | `ifsc` | ifsc-b55.pages.dev | https://ifsccodes.tekify.xyz | 15,086 | ✅ pop+push | ✅ | LIVE |
+| Airport Codes | `myds-airport` | myds-airport.pages.dev | https://airportcodes.tekify.xyz | 10,179 | ✅ pop+push | ✅ | LIVE |
+| US ZIP Codes | `myds-zip` | myds-zip.pages.dev | https://zipcodes.tekify.xyz | 17,757 | ✅ pop+push | ✅ | LIVE |
 
-Total published pages ≈ **51,600**.
+Total ours ≈ **43,000 pages**. All submitted to IndexNow (2026-10-22, 51.5k URLs incl. pincode).
+
+## NOT ours (shared Cloudflare account — do not touch)
+
+The **Minimax agent** shares this account and domain. It actively deploys to:
+- `pincode-india` → pincode.tekify.xyz (it re-deployed over our version on 2026-10-22 14:10;
+  we handed it over and stopped deploying there)
+- `ifsc-india` → ifsc.tekify.xyz (their IFSC lookup; ours is ifsccodes.tekify.xyz)
+- `solar` (solar-6f3.pages.dev)
+
+Rules: never modify/delete those projects or DNS; always use `myds-` prefixed project names
++ distinct subdomains; run `python scripts/ops.py pages` before naming anything; expect the
+same niche to be attempted by them too (duplication is acceptable, racing is not).
 
 ## Build / deploy commands
 
 ```
 python sites/<slug>/build.py                     # engine sites (hub, ifsc, airport, zip)
-python sites/pincode-india/build_site.py         # legacy template
+python sites/pincode-india/build_site.py         # legacy template (no longer deployed by us)
 python scripts/ops.py deploy --project <project> --dir sites/<slug>/site
 python scripts/ops.py attach --project <project> --domain <sub>.tekify.xyz
 python scripts/ops.py indexnow --dir sites/<slug>/site --host <sub>.tekify.xyz
+python scripts/ops.py stats --site all --days 7
 python scripts/build_all.py --deploy             # everything at once
 ```
 
-## IMPORTANT — shared Cloudflare account
+## Planned next sites (myds- prefix, unique subdomains)
 
-A **second (Minimax) agent shares this Cloudflare account and domain**. It has taken
-`ifsc.tekify.xyz` (project `ifsc-india`) and creates projects like `solar`. Rules:
-- Before naming a new site, run `python scripts/ops.py pages` and check for collisions.
-- Use the `myds-` prefix for Pages project names and distinct public subdomains
-  (`ifsccodes.`, `airportcodes.`, `zipcodes.`, `areacodes.`, `calculators.`).
-- Never modify or delete the other agent's projects/DNS records.
-- Apex `tekify.xyz` is ours (hub) as of 2026-10-22.
-
-## Planned next sites
-
-areacodes.tekify.xyz (dialing codes) · calculators.tekify.xyz (money/health/date tools) ·
-textools.tekify.xyz · swift.tekify.xyz · api.tekify.xyz (paid dataset API)
+`calculators.tekify.xyz` (finance/health tools, US-optimised) · `swiftcodes.tekify.xyz` ·
+`areacodes.tekify.xyz` · `api.tekify.xyz` (paid dataset API, x402)
