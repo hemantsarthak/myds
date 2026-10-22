@@ -30,7 +30,7 @@ sys.path.insert(0, str(ROOT))
 from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice  # noqa: E402
 
 PROJ = pathlib.Path(__file__).resolve().parent
-SITE = "https://ifsc.tekify.xyz"
+SITE = "https://ifsccodes.tekify.xyz"
 BRAND = "IFSC Codes India"
 JSONLD_BANK_ORGANIZATION = None
 
@@ -126,7 +126,7 @@ def build() -> Site:
         r["has_page"] = r["ifsc"] in page_set
 
     s = Site(
-        "ifsc", BRAND, "ifsc.tekify.xyz",
+        "ifsc", BRAND, "ifsccodes.tekify.xyz",
         "Every Indian bank branch's IFSC code — address, MICR, and supported transfer rails.",
         "Look up any Indian bank IFSC code: branch address, city, district, state, MICR code, "
         "SWIFT code and whether NEFT, RTGS, IMPS and UPI are supported. 183,000+ branches.",

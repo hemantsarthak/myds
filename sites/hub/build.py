@@ -15,15 +15,15 @@ from engine.sitegen import Site, cards, esc  # noqa: E402
 PROPERTIES = [
     ("https://pincode.tekify.xyz/", "Pincode India",
      "Search 38,936 Indian post offices by pincode, district or state."),
-    ("https://ifsc.tekify.xyz/", "IFSC Codes",
+    ("https://ifsccodes.tekify.xyz/", "IFSC Codes",
      "Indian bank IFSC branch codes: address, MICR, district, contact."),
-    ("https://airport.tekify.xyz/", "Airport Codes",
+    ("https://airportcodes.tekify.xyz/", "Airport Codes",
      "IATA / ICAO airport codes worldwide with city, country and coordinates."),
-    ("https://zip.tekify.xyz/", "US ZIP Codes",
+    ("https://zipcodes.tekify.xyz/", "US ZIP Codes",
      "US ZIP code directory: city, county, state, population and area."),
-    ("https://areacode.tekify.xyz/", "Area Codes",
+    ("https://areacodes.tekify.xyz/", "Area Codes",
      "Telephone area and country dialing codes with coverage maps of cities."),
-    ("https://calc.tekify.xyz/", "Calculators",
+    ("https://calculators.tekify.xyz/", "Calculators",
      "Loan, mortgage, tax, salary, health and date calculators."),
 ]
 

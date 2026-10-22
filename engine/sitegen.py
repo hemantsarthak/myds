@@ -40,6 +40,15 @@ except Exception:  # pragma: no cover - ads not provisioned yet
 DEFAULT_INDEXNOW_KEY = "moneyds7f3a9c2e5b1d4f8a6c0e2d9b5a7f1c3e"
 CF_ANALYTICS_TOKEN = ""  # set by scripts/ops.py analytics, then rebuild: cookie-free RUM
 
+# The tekify network — cross-linked in every footer (crawl discovery + brand).
+NETWORK = [
+    ("Pincode India", "https://pincode.tekify.xyz/"),
+    ("IFSC Codes", "https://ifsccodes.tekify.xyz/"),
+    ("Airport Codes", "https://airportcodes.tekify.xyz/"),
+    ("US ZIP Codes", "https://zipcodes.tekify.xyz/"),
+    ("Tekify home", "https://tekify.xyz/"),
+]
+
 # --------------------------------------------------------------------------- helpers
 
 
@@ -244,6 +253,8 @@ class Site:
         footer_links = "".join(
             f'<a href="{u}">{esc(t)}</a>' for t, u in
             [("About", "/about/"), ("Privacy", "/privacy/"), ("Contact", "/contact/"), ("Sitemap", "/sitemap.xml")])
+        net_links = "".join(
+            f'<a href="{u}">{esc(t)}</a>' for t, u in NETWORK if u.rstrip("/") != self.base.rstrip("/"))
         note = f"<p>{self.source_note}</p>" if self.source_note else ""
         return f"""<!doctype html>
 <html lang="{self.lang}">
@@ -261,6 +272,7 @@ class Site:
 </main>
 <footer><div class="wrap">
   {footer_links}
+  <span class="mut netsep">Tekify network:</span> {net_links}
   {note}
   <span class="mut">© {datetime.date.today().year} {esc(self.brand)} · {esc(self.domain)}</span>
 </div></footer>

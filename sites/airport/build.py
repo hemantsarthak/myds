@@ -23,7 +23,7 @@ sys.path.insert(0, str(ROOT))
 
 from engine.sitegen import Site, table, cards, related, faq, esc, slug, human, notice  # noqa: E402
 
-SITE = "https://airport.tekify.xyz"
+SITE = "https://airportcodes.tekify.xyz"
 BRAND = "Airport Codes"
 CACHE = ROOT / ".cache"
 
@@ -139,7 +139,7 @@ def build() -> Site:
         res.sort(key=lambda x: x[0])
         return res[:limit]
 
-    s = Site("airport", BRAND, "airport.tekify.xyz",
+    s = Site("airport", BRAND, "airportcodes.tekify.xyz",
              "IATA and ICAO airport codes with runways, location and nearby airports.",
              "Airport codes directory: search any IATA or ICAO airport code to get the airport name, "
              "city, country, coordinates, elevation, runways and nearby airports.",
