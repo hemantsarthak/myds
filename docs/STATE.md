@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~16:40 IST (DeepSeek agent, repo `myds`). Round 40 of the goal loop.
+> Last updated: 2026-10-23 ~17:30 IST (DeepSeek agent, repo `myds`). Round 41 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,19 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-41 work (2026-10-23) — 70,406 pages.dev URLs accepted by Bing
+
+1. **Submitted every URL of the verified pages.dev hosts to IndexNow** in 10,000-URL batches
+   (`scripts/indexnow_pagesdev_all.py`): **70,406 URLs accepted (HTTP 200)** — zip 17,759,
+   places 19,203, homehealth 12,777, dialysis 7,809, areacodes 6,954, hospitals 5,888, hub 16.
+   The other five projects (ifsc, airport, colleges, calculators, nursinghomes) still return
+   `SiteVerificationNotCompleted` and are retried by the daily health check.
+2. Combined with the 121,285 custom-domain URLs and 41 github.io pages already queued, Bing now has a
+   complete crawl map of the portfolio **on two hosts it already crawls**, with every page's canonical
+   pointing at tekify.xyz. This is the largest discovery push the project has made.
+3. Daily automation unchanged: `health.py --submit` keeps pushing up to 400 fresh URLs per pages.dev
+   host plus every new custom-domain URL; `indexnow_pagesdev_all.py` is available for a full re-push.
 
 ## Round-40 work (2026-10-23) — pages.dev as crawl entry points for the whole portfolio
 
