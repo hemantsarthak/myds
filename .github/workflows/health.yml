@@ -1,0 +1,38 @@
+name: portfolio-health
+
+# Runs entirely on GitHub's infrastructure, so the portfolio keeps being checked (and new URLs
+# keep being submitted to IndexNow) even when the laptop is off.
+
+on:
+  schedule:
+    - cron: "17 3 * * *"   # daily 03:17 UTC = 08:47 IST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check all properties and submit new URLs to IndexNow
+        continue-on-error: true
+        run: python scripts/health.py --submit
+
+      - name: Commit health report and sitemap baseline
+        run: |
+          git config user.name "tekify-health-bot"
+          git config user.email "health@tekify.xyz"
+          git add reports state
+          if git diff --cached --quiet; then
+            echo "no changes to commit"
+          else
+            git commit -m "health: $(date -u +%F) report + sitemap baseline"
+            git push
+          fi
