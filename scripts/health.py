@@ -41,6 +41,7 @@ HOSTS = [
     "colleges.tekify.xyz",
     "calculators.tekify.xyz",
     "areacodes.tekify.xyz",
+    "hospitals.tekify.xyz",
 ]
 
 

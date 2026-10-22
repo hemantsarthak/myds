@@ -28,6 +28,8 @@ PROPERTIES = [
      "US cities, towns and counties with 2023 population estimates and county assignment."),
     ("https://colleges.tekify.xyz/", "US Colleges",
      "Acceptance rates, tuition, enrollment and graduation rates for 6,000 US institutions."),
+    ("https://hospitals.tekify.xyz/", "US Hospitals",
+     "CMS star ratings, quality measures, services and contact details for 5,400 hospitals."),
     ("https://calculators.tekify.xyz/", "Calculators",
      "Loan, mortgage, tax, salary, health and date calculators."),
 ]
