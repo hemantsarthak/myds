@@ -177,9 +177,18 @@ def cmd_attach(args):
             {"type": "CNAME", "name": rec_name, "content": target, "proxied": True})
         print(f"dns created {rec_name} -> {target}")
     # 2) attach custom domain to Pages project
-    body = api("POST", f"/accounts/{acct()}/pages/projects/{args.project}/domains",
-               {"name": rec_name}, expect_fail=True)
-    print("pages domain:", json.dumps(body)[:400])
+    try:
+        body = api("POST", f"/accounts/{acct()}/pages/projects/{args.project}/domains",
+                   {"name": rec_name}, expect_fail=True)
+        print("pages domain:", json.dumps(body)[:400])
+        if isinstance(body, dict) and body.get("success") is False:
+            errs = body.get("errors") or []
+            if any(e.get("code") == 8000018 or "already added" in (e.get("message") or "").lower()
+                   for e in errs):
+                print("note: domain already attached - continuing")
+    except SystemExit:
+        # an already-attached domain or a transient API error must not abort a deploy pipeline
+        print("note: attach API call failed - continuing (domain may already be attached)")
     # 3) poll status briefly
     for _ in range(args.wait):
         r = api("GET", f"/accounts/{acct()}/pages/projects/{args.project}/domains/{rec_name}",
