@@ -97,6 +97,26 @@ def cmd_pages(args):
         print(f"{p['name']:<28} {doms:<45} {latest.get('modified_on','')} {latest.get('url','')}")
 
 
+def resolve_project(name: str) -> str:
+    """Return the real project name: bare slugs map to an existing prefixed project if one exists.
+
+    Critical safety: deploying to a bare slug that does not exist used to create a NEW, empty Pages
+    project (the live custom domain stayed on the prefixed one), so deploys silently did nothing.
+    """
+    r = api("GET", f"/accounts/{acct()}/pages/projects/{name}", expect_fail=True)
+    if isinstance(r, dict) and r.get("id"):
+        return name
+    projects = api("GET", f"/accounts/{acct()}/pages/projects")
+    names = {p["name"] for p in (projects or []) if isinstance(p, dict) and p.get("name")}
+    for prefix in ("myds-", "moneyds-"):
+        if prefix + name in names:
+            print(f"note: using existing project {prefix + name} for --project {name}")
+            return prefix + name
+    print(f"creating pages project: {name}")
+    api("POST", f"/accounts/{acct()}/pages/projects", {"name": name, "production_branch": "main"})
+    return name
+
+
 def ensure_project(name: str) -> None:
     r = api("GET", f"/accounts/{acct()}/pages/projects/{name}", expect_fail=True)
     if isinstance(r, dict) and r.get("id"):
@@ -109,10 +129,11 @@ def cmd_deploy(args):
     d = (ROOT / args.dir).resolve()
     if not d.exists():
         sys.exit(f"dir not found: {d}")
-    ensure_project(args.project)
+    project = resolve_project(args.project)
+    args.project = project
     wrangler = ROOT / "node_modules" / ".bin" / ("wrangler.cmd" if os.name == "nt" else "wrangler")
     cmd = [str(wrangler) if wrangler.exists() else "npx", "pages", "deploy", str(d),
-           f"--project-name={args.project}", "--branch=main", "--commit-dirty=true"]
+           f"--project-name={project}", "--branch=main", "--commit-dirty=true"]
     if not wrangler.exists():
         cmd = ["npx", "--yes", "wrangler@latest"] + cmd[1:]
     print("+", " ".join(cmd), flush=True)

@@ -47,7 +47,7 @@ def build() -> Site:
         "Free data directories and calculators, built to be fast and ad-light.",
         "Tekify publishes free reference directories — pincodes, IFSC bank codes, airport codes, "
         "ZIP codes, dialing codes — and practical calculators. No signups, no paywalls.",
-        nav=[("Directories", "/#directories"), ("About", "/about/"), ("Contact", "/contact/")],
+        nav=[("Directories", "/#directories"), ("Press", "/press/"), ("About", "/about/"), ("Contact", "/contact/")],
         source_note="Tekify is a network of independent reference sites funded by advertising.",
     )
     items = [(u, n, d) for u, n, d in PROPERTIES]
@@ -75,6 +75,50 @@ plus the surrounding records so you can navigate without going back to search.</
     s.add("/", "Tekify — free data directories and calculators", 
           "Free, fast reference data: Indian pincodes, bank IFSC codes, airport codes, US ZIP codes, "
           "dialing codes and practical calculators.", body)
+    press_articles = [
+        ("Open data directories: IFSC codes, ZIP codes, colleges, hospitals, nursing homes and more",
+         "https://telegra.ph/Open-data-directories-IFSC-codes-ZIP-codes-colleges-hospitals-nursing-homes-and-more-10-22-2"),
+        ("How to find any Indian bank branch's IFSC code",
+         "https://telegra.ph/How-to-find-any-Indian-bank-branchs-IFSC-code-and-what-it-means-10-22"),
+        ("How CMS star ratings work for hospitals, nursing homes and dialysis centres",
+         "https://telegra.ph/How-CMS-star-ratings-work-for-hospitals-nursing-homes-and-dialysis-centres-10-22"),
+        ("Free US ZIP code, place, area code and airport data — with JSON indexes",
+         "https://telegra.ph/Free-US-ZIP-code-place-area-code-and-airport-data--with-JSON-indexes-10-22"),
+        ("How to check a US hospital's CMS star rating before scheduling care",
+         "https://telegra.ph/How-to-check-a-US-hospital-CMS-star-rating-before-scheduling-care-10-22"),
+        ("Choosing a nursing home: what the CMS star rating does and does not tell you",
+         "https://telegra.ph/Choosing-a-nursing-home-what-the-CMS-star-rating-does-and-does-not-tell-you-10-22"),
+        ("US ZIP codes: what the five digits mean",
+         "https://telegra.ph/US-ZIP-codes-what-the-five-digits-mean-and-how-to-look-one-up-10-22"),
+        ("IATA vs ICAO airport codes",
+         "https://telegra.ph/IATA-vs-ICAO-airport-codes-the-difference-and-where-to-look-them-up-10-22"),
+    ]
+    press_body = (
+        "<h1>Press, publications and data sources</h1>"
+        "<p class=\"lede\">Tekify builds free reference directories from open data. Our explainers are "
+        "published on open platforms; every dataset is documented on the site that uses it.</p>"
+        "<h2>Published explainers</h2>"
+        + cards([(u, esc(t), "Telegraph") for t, u in press_articles])
+        + "<h2>Where the data comes from</h2>"
+        "<ul>"
+        "<li>US Census Bureau: population estimates, place and county geography (public domain).</li>"
+        "<li>Centers for Medicare &amp; Medicaid Services: hospital, nursing-home, home-health and "
+        "dialysis quality data (public domain).</li>"
+        "<li>NCES / IPEDS: college admissions, tuition, net price and graduation rates (public domain).</li>"
+        "<li>GeoNames: place coordinates (CC BY 4.0); OurAirports: airport data (public domain).</li>"
+        "<li>Razorpay IFSC dataset (MIT licence) for Indian bank branch codes.</li>"
+        "</ul>"
+        "<h2>Social and code</h2>"
+        "<ul>"
+        "<li>Substack: <a href=\"https://substack.com/@tekifydata\" rel=\"me\">@tekifydata</a></li>"
+        "<li>GitHub: <a href=\"https://github.com/hemantsarthak/myds\" rel=\"me\">hemantsarthak/myds</a> "
+        "(the build system behind these sites)</li>"
+        "</ul>"
+        "<h2>Contact</h2><p>Data corrections and removal requests: see <a href=\"/contact/\">contact</a>.</p>"
+    )
+    s.add("/press/", "Press and publications — Tekify",
+          "Tekify explainers published on open platforms, plus the public datasets behind each directory.",
+          press_body, crumbs=[("Press", None)])
     s.add_standard_pages(
         extra_about="<h2>Properties</h2>" + cards([(u, n, d) for u, n, d in PROPERTIES]))
     return s

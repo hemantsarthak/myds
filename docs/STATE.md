@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-23 ~03:10 IST (DeepSeek agent, repo `myds`). Round 19 of the goal loop.
+> Last updated: 2026-10-23 ~04:00 IST (DeepSeek agent, repo `myds`). Round 20 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,26 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-20 work (2026-10-23) — new calculators, press page, and a deploy bug that hid deploys
+
+1. **Four new calculators** (`sites/calculators/calcs_money3.py`): net worth, stock profit, crypto
+   profit (fees on both sides) and emergency fund. Python and JavaScript twins verified to agree at
+   defaults, then exercised in the real browser (inputs changed, results recomputed, no page errors).
+   Calculators site is now **71 pages**, deployed and IndexNow-submitted.
+2. **New `/press/` page on the hub** listing all 8 Telegraph explainers, the data sources behind every
+   directory, the Substack profile and the GitHub repo; linked from the hub nav. This gives the
+   external explainers an inbound link from our own network and documents provenance for readers.
+3. **Discovery chain built:** four Substack notes now link to the Telegraph explainers
+   (substack.com → telegra.ph → our subdomains). Found that telegra.ph has **no sitemap, robots.txt or
+   recent-pages listing**, so unpublished-inbound articles are orphan pages — the Substack notes and
+   the hub press page are what make them reachable.
+4. **BUG FIXED — deploys could silently go to the wrong Pages project.** `ops.py deploy --project
+   calculators` created a *new* project named `calculators` (created 15:45 UTC) while the live domain
+   belonged to `myds-calculators`: wrangler reported success, the site never changed. Deleted the
+   stray project and added `resolve_project()` which maps a bare slug to an existing `myds-<slug>` /
+   `moneyds-<slug>` project and prints a note. **Lesson: verify a deploy by checking the live sitemap
+   page count, not just the CLI output.**
 
 ## Round-19 work (2026-10-23) — discovery surface doubled; shared KV quota made visible
 

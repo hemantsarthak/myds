@@ -12,7 +12,7 @@ Updated 2026-10-22 (round 5). Cloudflare account `c01fe438c7960466670d312e551640
 | US ZIP Codes | `myds-zip` | myds-zip.pages.dev | https://zipcodes.tekify.xyz | 17,759 | ✅ pop+push | ✅ | LIVE |
 | US Places & Counties | `myds-places` | myds-places.pages.dev | https://places.tekify.xyz | 19,203 | ✅ pop+push | ✅ | LIVE |
 | US Colleges | `myds-colleges` | myds-colleges.pages.dev | https://colleges.tekify.xyz | 6,056 | ✅ pop+push | ✅ | LIVE |
-| Calculators | `myds-calculators` | myds-calculators.pages.dev | https://calculators.tekify.xyz | 62 | ✅ pop+push | ✅ | LIVE |
+| Calculators (71 pages) | `myds-calculators` | myds-calculators.pages.dev | https://calculators.tekify.xyz | 62 | ✅ pop+push | ✅ | LIVE |
 | **Area Codes** | `myds-areacodes` | myds-areacodes.pages.dev | https://areacodes.tekify.xyz | 6,954 | ✅ pop+push | ✅ | LIVE (2026-10-22) |
 
 Total ours ≈ **121,260 pages**. IndexNow accepted for every property (all 79.7k URLs, 2026-10-22).
