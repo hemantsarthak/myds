@@ -42,14 +42,21 @@ almost entirely without the human. Everything runs from this folder + Cloudflare
   tiers, `--backend NAME` / `--tiers a,b` force one or an order, `-v` shows skipped tiers.
   The harness `web_search` tool needs `DEEPSEEK_API_KEY` and does not work in this profile;
   `web_fetch` still fetches a known URL (public IPs only, no JS rendering).
-- **Browser automation must stay invisible.** ONE persistent Chrome profile:
-  `shared/chrome-agent-profile` (gitignored, holds the Bing WMT / affiliate / Cloudflare logins).
-  Start or keep it with `scripts/chrome-agent.ps1` — it runs the window OFF-SCREEN and minimized
-  and exposes DevTools on `127.0.0.1:9222`; a pinned shortcut can be made with `-CreateShortcut`.
+- **Browser automation must stay invisible.** ONE persistent Chrome profile, display name
+  **AIProfile**: `shared/chrome-agent-profile` (gitignored; holds the Travelpayouts, Cuelinks,
+  HilltopAds and future logins). Two launch modes:
+  * pinned shortcut `shared\AIProfile - Chrome.lnk` (`-CreateShortcut`) opens a VISIBLE window for
+    the human, with DevTools on so automation can attach to it;
+  * `scripts/chrome-agent.ps1` (no flags) launches it off-screen/minimized for unattended runs.
   Scripts take a browser from `scripts/agentbrowser.mjs`, which ATTACHES to that running browser
   (no open/close churn) and, if it is not running, launches the same profile off-screen itself.
   Never launch headful Chrome on-screen: `-Visible` / `AGENT_VISIBLE=1` is only for a
   captcha/KYC step the human must physically solve.
+  `node scripts/session-import.mjs [--report]` re-injects the saved service sessions
+  (storageState/cookie dumps in `shared/`) into AIProfile and verifies which ones are logged in.
+  Note: the human's own `AIProfile` inside the main Chrome User Data (Profile 4) CANNOT be driven
+  by automation — Chrome 155 refuses DevTools on the default user-data dir and the running Chrome
+  holds its singleton lock. Use this separate AIProfile instead.
 
 ## Repo layout
 

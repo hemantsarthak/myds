@@ -36,7 +36,7 @@ param(
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $PSScriptRoot
 $ProfileDir = Join-Path $Root "shared\chrome-agent-profile"
-$Shortcut = Join-Path $Root "shared\AI Agent - Chrome.lnk"
+$Shortcut = Join-Path $Root "shared\AIProfile - Chrome.lnk"
 
 $Chrome = @(
   (Join-Path $env:ProgramFiles "Google\Chrome\Application\chrome.exe"),
@@ -76,10 +76,12 @@ if ($CreateShortcut) {
   $ws = New-Object -ComObject WScript.Shell
   $s = $ws.CreateShortcut($Shortcut)
   $s.TargetPath = $Chrome
-  $s.Arguments = "--user-data-dir=`"$ProfileDir`" --profile-directory=Default --remote-debugging-port=$Port --no-first-run --no-default-browser-check --start-minimized --window-position=-32000,-32000 --window-size=1280,900"
+  # Pinned shortcut = the profile the human actually uses: VISIBLE window, DevTools on, so the
+  # automation attaches to the same browser instead of launching its own hidden one.
+  $s.Arguments = "--user-data-dir=`"$ProfileDir`" --profile-directory=Default --remote-debugging-port=$Port --no-first-run --no-default-browser-check --window-size=1366,900 --window-position=120,80"
   $s.WorkingDirectory = $Root
   $s.IconLocation = "$Chrome,0"
-  $s.Description = "Tekify AI agent Chrome (dedicated profile, starts invisible)"
+  $s.Description = "AIProfile - Tekify agent Chrome (persistent profile, automation attaches)"
   $s.Save()
   Write-Host "Created $Shortcut"
   Write-Host "Right-click it -> Pin to taskbar (Windows blocks scripted taskbar pinning)."

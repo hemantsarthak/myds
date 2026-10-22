@@ -1,23 +1,27 @@
 # COORDINATION — shared workspace
 
-## Browser policy (2026-10-22 ~17:50 IST) — DSH session, applies to every session
+## Browser policy (2026-10-22 ~18:10 IST) — DSH session, applies to every session
 
-The human asked that browser automation **never appear on screen**. Do not launch visible Chrome.
+The human asked that browser automation never appear on screen, and that the agent use ONE
+profile they can also open themselves.
 
-- `shared/bwt_profile/` was **renamed** to `shared/chrome-agent-profile/` (same 30 MB of state,
-  logins/cookies intact). `workers/bwtprobe/ms_flow2.js` now uses the new path and launches
-  off-screen/minimized unless `AGENT_VISIBLE=1` — set that only for the human press-and-hold
-  EWT captcha.
-- New `scripts/chrome-agent.ps1`: start / reuse / stop the single persistent agent Chrome.
-  Off-screen + minimized, DevTools on `127.0.0.1:9222`, `-Visible` for human-in-the-loop,
-  `-CreateShortcut` writes `shared\AI Agent - Chrome.lnk` (pin it to the taskbar once).
-- New `scripts/agentbrowser.mjs`: `getPage()` ATTACHES to the running agent Chrome instead of
-  launching a new one (no open/close churn, logins persist). `release()` disconnects without
-  killing the browser.
-- Rule: any new flow that would open a visible Chrome window is a bug. Use the launcher/helper;
-  `--start-maximized` and `headless:false` without off-screen args are forbidden. The Playwright
-  search tier is headless by default and needs no window.
-
+- ONE persistent profile: `shared/chrome-agent-profile`, display name **AIProfile**
+  (gitignored). Do NOT create more throwaway profiles.
+- Pinned shortcut `shared\AIProfile - Chrome.lnk` (`chrome-agent.ps1 -CreateShortcut`) opens a
+  VISIBLE AIProfile window with DevTools on `127.0.0.1:9222` — that is the window the human uses
+  and automation attaches to.
+- `scripts/chrome-agent.ps1` with no flags launches the same profile OFF-SCREEN for unattended
+  runs. `-Stop` closes it; `-Status` reports.
+- `scripts/agentbrowser.mjs`: `getPage()` ATTACHES to the running browser; `release()`
+  disconnects without killing it.
+- `node scripts/session-import.mjs [--report]` imports saved service sessions from `shared/`
+  into AIProfile and verifies login state. Current: Travelpayouts / Cuelinks / HilltopAds
+  logged-in; Hostinger login rejected with the stored credentials (human); Microsoft/BWT still
+  needs the press-and-hold signup (human).
+- The human's own AIProfile inside the main Chrome User Data (`Profile 4`) cannot be automated:
+  Chrome 155 blocks DevTools on the default user-data dir and the running Chrome holds the lock.
+  `workers/bwtprobe/ms_flow2.js` uses `shared/chrome-agent-profile` and stays off-screen unless
+  `AGENT_VISIBLE=1`.
 ## Update 2026-10-22 ~17:20 IST — the parallel writer has been identified
 
 The unknown author of `sites/areacodes/` was a **DSH web session (Team Lead, "lead")** working the
