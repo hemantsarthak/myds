@@ -1,6 +1,6 @@
 # STATE — current status
 
-> Last updated: 2026-10-24 ~00:20 IST (DeepSeek agent, repo `myds`). Round 51 of the goal loop.
+> Last updated: 2026-10-24 ~01:00 IST (DeepSeek agent, repo `myds`). Round 52 of the goal loop.
 > Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
 
 ## One-line status
@@ -47,6 +47,18 @@ NOT ours (shared Cloudflare account, **never touch**): `pincode.tekify.xyz` (pro
   `TBAvcRpbbWDvrc8emV6KecNN1tsmCacYvb`, ETH `0x20778d136055522f27ecacc0f7F49378E1E9a91A`
   (keys in `shared/wallets-payout.json`, gitignored).
 - **Repo** `hemantsarthak/myds` (public) = durable memory; secrets only in `shared/`.
+
+## Round-52 work (2026-10-24) — FAQPage schema; index checks
+
+1. **FAQPage JSON-LD added to the hub home** (inside the existing @graph): the four questions from the
+   on-page FAQ — data licensing, freshness, corrections, ads — as structured data. The page now carries
+   Organization + Dataset (with 7 DataDownload distributions) + ItemList + FAQPage + WebSite in two
+   JSON-LD blocks. Verified live; IndexNow resubmitted.
+2. **Bing index re-checked in the real browser** (not just RSS): `site:hemantsarthak.github.io` and
+   `site:tekify.xyz` still return no results, ~7 hours after the first IndexNow submissions. Bing's
+   crawl queue for a new host typically takes 24-72 hours; nothing more can be done to accelerate it.
+3. Content and infrastructure are otherwise unchanged; the inbox-gated publishing push remains queued
+   for 05:30 IST.
 
 ## Round-51 work (2026-10-24) — airports-by-state pages; 304-URL crawl site
 

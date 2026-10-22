@@ -129,6 +129,22 @@ free; there are no cookie walls, no accounts and no personal-data collection.</l
 </ul>
 """
     body += affiliate_block_for_site("hub", kinds=["hosting", "travel"], limit_per_block=3)
+    faq_ld = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": "Is the data free to use?",
+         "acceptedAnswer": {"@type": "Answer", "text": "Yes. The source datasets are public domain or "
+                            "openly licensed (US Census, CMS, NCES/IPEDS, GeoNames CC BY, OurAirports, "
+                            "Razorpay IFSC MIT); attribution is stated on each site."}},
+        {"@type": "Question", "name": "How current is the data?",
+         "acceptedAnswer": {"@type": "Answer", "text": "Each site names its source dataset and the "
+                            "reporting period. CMS publishes updated quality data quarterly; Census "
+                            "estimates annually."}},
+        {"@type": "Question", "name": "Can I request a correction or removal?",
+         "acceptedAnswer": {"@type": "Answer", "text": "Yes - use the contact page; corrections are "
+                            "applied at the next dataset refresh."}},
+        {"@type": "Question", "name": "Are there ads?",
+         "acceptedAnswer": {"@type": "Answer", "text": "The sites carry a small number of display-ad "
+                            "slots that keep them free; there are no cookie walls, no accounts and no "
+                            "personal-data collection."}}]}
     catalog_ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "Organization", "name": "Tekify", "url": "https://tekify.xyz/",
          "sameAs": ["https://github.com/hemantsarthak/myds", "https://substack.com/@tekifydata"]},
@@ -150,6 +166,7 @@ free; there are no cookie walls, no accounts and no personal-data collection.</l
         {"@type": "ItemList", "name": "Tekify directories",
          "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": u, "name": n}
                              for i, (u, n, _d) in enumerate(PROPERTIES)]}]}
+    catalog_ld["@graph"].append(faq_ld)
     s.add("/", "Tekify — free data directories and calculators", 
           "Free, fast reference data: Indian pincodes, bank IFSC codes, airport codes, US ZIP codes, "
           "dialing codes and practical calculators.", body, jsonld=catalog_ld)
