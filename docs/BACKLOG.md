@@ -6,16 +6,16 @@ with the date, and update `docs/STATE.md`.
 ## P0 — NOW
 
 - [x] P0-1. (2026-10-22) All five sites live on their subdomains with certificates.
-- [ ] P0-2. Submit IndexNow for every site (pincode, ifsc, airport, zip, hub).
+- [x] P0-2. (2026-10-22) IndexNow submitted: 15,007 + 10,178 + 8,626 + 17,756 + 4 URLs accepted (200). Bing indexed pages within ~1h.
 - [x] P0-3. (2026-10-22) HilltopAds tags live in engine/ads.py; pincode legacy template patched; full rebuild+deploy done.
       rebuild hub/ifsc/airport/zip → redeploy → patch pincode legacy template → verify tags
       render and `ads.txt` served. Record account in `shared/creds.md` + `docs/REVENUE.md`.
-- [ ] P0-4. Commit everything, push, update STATE.
+- [x] P0-4. (2026-10-22) Committed + pushed; docs updated.
 
 ## P1 — more traffic assets (biggest SEO lever)
 
 - [ ] P1-1. `areacodes.tekify.xyz`: US/Canada NANP area codes (+ world country calling codes).
-- [ ] P1-2. `calculators.tekify.xyz`: 50–100 client-side calculators (loan, mortgage, tax,
+- [ ] P1-2. `calculators.tekify.xyz`: 35–50 client-side calculators (loan, mortgage, tax,
       salary, BMI, dates) — high-intent US traffic, better ad RPM than data pages.
 - [ ] P1-3. `swift.tekify.xyz`: SWIFT/BIC codes by bank/country (find a clean dataset).
 - [ ] P1-4. Expand airport site to small airports with ICAO codes (chunked subdomains if needed).
@@ -23,7 +23,7 @@ with the date, and update `docs/STATE.md`.
 
 ## P2 — measurement & indexing
 
-- [ ] P2-1. Self-hosted pageview counter: Worker beacon → KV, `ops.py stats` CLI; inject in engine.
+- [x] P2-1. (2026-10-22) Self-hosted pageview counter live (`ops.py stats`), injected via engine/analytics.py.
 - [ ] P2-2. Weekly IndexNow resubmit script + `lastmod` refresh (cron reminder locally; no server).
 - [ ] P2-3. Verify sitemap coverage per site; submit top URLs to search engines manually.
 - [ ] P2-4. Check indexing via Bing `site:` queries (no account needed through web_fetch).

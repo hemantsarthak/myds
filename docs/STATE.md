@@ -44,8 +44,9 @@ network cross-links, cookie-free analytics and HilltopAds tags.
 4. Rebuilt and redeployed the inherited pincode site; built IFSC, airport, ZIP sites from
    public datasets; hub at apex; fixed canonical domains for renamed subdomains.
 5. Teammates built: autonomous inbox, ad account (HilltopAds), analytics counter.
-6. Submitted sitemaps to IndexNow (ZIP accepted fully; others partially, per-host
-   verification timing) — resubmit next session.
+6. Submitted all sitemaps to IndexNow: 51,571 URLs accepted (HTTP 200). **Bing already
+   shows 10 results per site within ~1 hour**, but we do not rank for head queries yet
+   (expected on a new domain; ranking needs time + links).
 
 ## Known issues / open threads
 
