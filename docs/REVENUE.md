@@ -42,6 +42,11 @@ Both money sources were read **directly from their dashboards/APIs**, not inferr
 human clicks, and there is still no human traffic. First dollar depends on search indexing.
 Re-check cadence: Hilltop website moderation 24–48 h from 2026-10-22; re-read both balances weekly.
 
+**Re-check 2026-10-24 17:15 IST — still $0.00.** HilltopAds balance `0.00 USD` (409868),
+Travelpayouts balance `0` / 0 actions / no payments. Edge logs now show **Googlebot 2,020 requests
+in 48 h** (was 6 on 10-23): Google has started crawling the sitemap URLs — discovery happening,
+no rankings or impressions yet. ClaudeBot 83,586 requests in 48 h is the dominant crawler.
+
 ## Milestones
 
 - [ ] $1 first revenue

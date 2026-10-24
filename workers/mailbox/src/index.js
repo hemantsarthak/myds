@@ -161,6 +161,11 @@ async function storeMessage(message, env) {
   };
 
   const key = `${MSG_PREFIX}${envelopeTo}:${keyTimestamp(rec.received_ms)}:${id}`;
+  // "last" pointer: lets readers fetch the newest message for an address with a
+  // single KV get instead of a list() call, so a verification code can still be
+  // read when the account's daily KV list quota is exhausted.
+  const lastKey = `last:${envelopeTo}`;
+  await env.INBOX.put(lastKey, key);
   await env.INBOX.put(key, JSON.stringify(rec), {
     // KV metadata is capped at 1024 bytes; keep it small for listing.
     metadata: {
@@ -233,6 +238,15 @@ async function handleInbox(url, env) {
 async function handleLatest(url, env) {
   const to = addr(url.searchParams.get("to"));
   const prefix = to ? `${MSG_PREFIX}${to}:` : MSG_PREFIX;
+  // Fast path: per-address pointer avoids list() entirely (works during KV list
+  // quota exhaustion, which happens on the free plan at high crawl volume).
+  if (to) {
+    const ptr = await env.INBOX.get(`last:${to}`);
+    if (ptr) {
+      const rec = await env.INBOX.get(ptr, "json");
+      if (rec) return json({ ok: true, address: to, message: publicMessage(rec, { full: true }) });
+    }
+  }
   const keys = await listKeys(env, prefix, MAX_LIST);
   if (!keys.length) return json({ ok: true, address: to || "*", message: null }, 404);
   keys.sort();

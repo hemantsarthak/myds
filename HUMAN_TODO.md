@@ -1,4 +1,4 @@
-﻿# HUMAN TODO — 3 small actions that unblock revenue
+# HUMAN TODO — 3 small actions that unblock revenue
 
 The portfolio is built and running (12 sites, 121,000+ pages, all live and audited). The one thing
 that cannot be done by an agent is proving ownership of the domain to the search engines. Each item
@@ -24,11 +24,17 @@ search-performance data. This is the single biggest lever for traffic and theref
 3. The final step is a "press and hold" human check — hold it for ~30 seconds.
 4. Tell the agent it is done; it imports the site, verifies DNS and submits all 121,000 URLs.
 
-## 3. Substack publication captcha (~30 seconds)
+> 2026-10-24 update: the agent can now read the Microsoft verification code by itself — the
+> mailbox `/inbox/latest` endpoint was changed to a `last:` KV pointer so it works even when the
+> free-tier KV `list()` quota is exhausted. So the agent can drive the signup; the only genuinely
+> human step is the press-and-hold challenge. If you already have a Microsoft account (you use
+> OneDrive), **signing in** instead of signing up is fastest.
 
-1. In the same agent Chrome window, open https://substack.com/settings
-2. Publishing -> **Start a Substack** -> solve the captcha.
-3. Tell the agent; it creates the publication and publishes articles linking every directory.
+## 3. Substack — publication created, then SUSPENDED (2026-10-23)
+
+`tekifydata.substack.com` was created but Substack suspended it for a Spam & Phishing policy
+violation (0 posts were published). Not revenue-critical; use the Appeals Center only if you
+want that channel. The agent is focusing on search indexing instead.
 
 ## 4. (Optional, 1 minute) GitHub token scope for the root host
 

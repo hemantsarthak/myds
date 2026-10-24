@@ -61,6 +61,18 @@ accepts anonymous submissions.
 > `docs/REVENUE.md` → "Live verification". The ANALYTICS/MAILBOX KV quota is exhausted until
 > 00:00 UTC (05:30 IST), so `ops.py stats` / `inbox` only work after that.
 
+> **2026-10-24 17:15 IST — check-in + first real crawl milestone.** Income still **$0.00**
+> (Hilltop `0.00 USD`, Travelpayouts `0` / no actions). Edge logs finally show **Googlebot
+> 2,020 requests / 48 h (was 6)** + GoogleOther 1,767 — Google started crawling; ClaudeBot
+> 83,586 dominates; still **0 humans**. Bing shows no indexed URLs yet. Substack: publication
+> `tekifydata.substack.com` was created by the human but is **SUSPENDED** (Spam & Phishing
+> policy, 0 posts) — appeals only. Bing WMT still not signed in (MS account not created; the
+> old blocker was reading the email code). **Fixed infra:** mailbox `/inbox/latest` now uses a
+> per-address `last:` KV pointer, so verification emails stay readable when the free-tier KV
+> `list()` quota is exhausted (deployed + selftest-verified 2026-10-24). GitHub Pages root
+> repo `hemantsarthak/hemantsarthak.github.io` exists but is empty (README only), 404;
+> the PAT still 403s on writes → optional, needs human token scope.
+
 ### Final verified numbers
 
 | Item | State |
