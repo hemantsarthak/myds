@@ -171,6 +171,39 @@ def build() -> Site:
         if f["lat"] is not None:
             grid[(int(f["lat"]), int(f["lon"]))].append(f)
 
+    # ---- national aggregates from the CMS file (guides + /stats/)
+    def pct(x, y):
+        return f"{100 * x / y:.0f}%" if y else "—"
+
+    def numf(v):
+        try:
+            return float(str(v).replace(",", "").strip())
+        except Exception:
+            return None
+
+    def med(xs):
+        xs = sorted(xs)
+        return xs[len(xs) // 2] if xs else 0.0
+
+    rated = [f for f in facilities if f["rating"].isdigit()]
+    n_high = sum(1 for f in rated if int(f["rating"]) >= 4)
+    profits = collections.Counter((f["profit"] or "Unreported").title() for f in facilities)
+    chains = collections.Counter(f["chain"] or "Independent" for f in facilities if f["chain"])
+    n_chain = sum(1 for f in facilities if f["chain_owned"])
+    n_center = sum(1 for f in facilities if f["in_center"])
+    n_peri = sum(1 for f in facilities if f["peritoneal"])
+    n_home = sum(1 for f in facilities if f["home_hd"])
+    n_late = sum(1 for f in facilities if f["late_shift"])
+    stations_v = [x for x in (numf(f["stations"]) for f in facilities) if x]
+    wait_v = [x for x in (numf(f["waitlisted"]) for f in facilities) if x is not None]
+    st_rating = collections.defaultdict(list)
+    for f in rated:
+        st_rating[f["state"]].append(int(f["rating"]))
+    st_avg = {st: sum(v) / len(v) for st, v in st_rating.items() if len(v) >= 10}
+    top_rating = sorted(st_avg.items(), key=lambda kv: -kv[1])[:5]
+    low_rating = sorted(st_avg.items(), key=lambda kv: kv[1])[:5]
+    top_chains = chains.most_common(8)
+
     def nearby(f, limit=6):
         if f["lat"] is None:
             return []
@@ -275,13 +308,188 @@ stations it has — a useful filter when choosing where to receive treatment.</p
 """,
           crumbs=[("Guides", "/guides/"), ("Treatment types", None)])
 
+    # ---- high-intent guide cluster: Medicare coverage / choosing / transplant waitlist + stats
+    s.add("/guides/medicare-dialysis-coverage/", "Does Medicare Cover Dialysis? Coverage, Cost and Rules",
+          "How Medicare covers dialysis (including for under-65 ESRD patients), the 30-month "
+          "employer-plan coordination period, the 20% Part B share, Medigap/Medicaid help, home "
+          "training and travel.",
+          """<h1>Does Medicare cover dialysis?</h1>
+<p class="lede">Yes — dialysis is one of the few conditions for which Medicare is available at any
+age. But coverage is not the whole cost picture, and the first 30 months of employer coverage have
+their own rules.</p>
+<h2>Who qualifies</h2>
+<p>People with <strong>end-stage renal disease (ESRD)</strong> qualify for Medicare regardless of age
+once they begin regular dialysis (or receive a kidney transplant). Coverage usually starts the first
+day of the month dialysis begins, or earlier if you start a home-dialysis training programme.
+People with a kidney transplant also qualify. People 65+ qualify on age alone as usual.</p>
+<h2>The 30-month coordination period</h2>
+<p>If you have <strong>employer group health coverage</strong> when you become eligible, that plan
+pays first for <strong>30 months</strong>, with Medicare as secondary payer. After that, Medicare
+becomes primary. If you are already on Medicare when you start dialysis, Medicare remains primary.
+This rule trips up many newly diagnosed patients — check with the employer plan and a benefits
+advisor before cancelling coverage.</p>
+<h2>What Medicare pays</h2>
+<p>Part B covers dialysis treatments and related services at <strong>80% of the approved amount</strong>
+after the annual deductible; you pay the other <strong>20%</strong> with no cap unless you have
+Medigap, Medicaid (for those who qualify) or an employer plan covering the balance. Dialysis is
+expensive enough that the 20% matters — look into Medigap or state programmes for ESRD patients.
+Some Medicare Advantage plans cover dialysis, with network rules.</p>
+<h2>Home dialysis and training</h2>
+<p>Medicare covers home-dialysis training, the equipment and supplies, and support services for
+both peritoneal dialysis and home haemodialysis. Training is usually provided by the dialysis
+facility; ask which facilities in this directory offer peritoneal dialysis and home haemodialysis
+training (both are recorded on each facility page).</p>
+<h2>Transplants and travel</h2>
+<p>Medicare covers kidney-transplant evaluation, the transplant and immunosuppressive drugs (Part B
+covers most immunosuppressants for life). Dialysis while travelling is possible — plan ahead and
+ask facilities about transient/visitor slots.</p>
+{faq([
+    ("Can I get Medicare before 65 if I need dialysis?",
+     "Yes. End-stage renal disease qualifies you for Medicare at any age once you start regular dialysis or "
+     "have a kidney transplant."),
+    ("How much of dialysis does Medicare pay?",
+     "Part B pays 80% of the approved amount after the deductible; you are responsible for the 20% unless "
+     "Medigap, Medicaid or other coverage fills it."),
+    ("What is the 30-month coordination period?",
+     "If you have employer group health coverage when ESRD Medicare starts, that plan pays first for 30 "
+     "months and Medicare is secondary until the period ends."),
+])}""",
+          crumbs=[("Guides", "/guides/"), ("Medicare coverage", None)])
+
+    s.add("/guides/choosing-a-dialysis-facility/", "How to Choose a Dialysis Facility",
+          "What to compare beyond the star rating: quality measures, treatment options, late shifts, "
+          "stations, travel time, chain ownership, transplant waitlisting and the questions to ask.",
+          """<h1>How to choose a dialysis facility</h1>
+<p class="lede">You may be at a facility three times a week for years. The star rating matters — but
+so do shift times, travel, treatment options and how the team communicates.</p>
+<h2>1. Read the five-star rating and the individual measures</h2>
+<p>CMS rates facilities on patient survival, hospitalisation, readmission, transfusion,
+emergency-department visits and transplant waitlisting. Each measure is shown as "better than
+expected", "as expected" or "worse than expected" on the facility page. Read the measures next to
+the star: a facility can be strong on survival and weaker on hospitalisation.</p>
+<h2>2. Check the treatment options you want</h2>
+<p>Facility pages record whether they offer <strong>in-centre haemodialysis</strong>,
+<strong>peritoneal dialysis</strong> and <strong>home haemodialysis training</strong>. If home
+dialysis or a flexible schedule matters to you, filter for it. A <strong>late shift</strong> can
+make treatment compatible with work.</p>
+<h2>3. Weigh travel and capacity</h2>
+<p>Dialysis is exhausting; a long trip each way matters. Check the number of stations (a proxy for
+capacity), parking, transport help and whether the facility has visitor slots. Nearby facilities
+are listed on each page.</p>
+<h2>4. Ask about transplant referral</h2>
+<p>Facilities record the share of patients waitlisted for a kidney transplant. Ask how the facility
+refers patients for transplant evaluation — a referral is the first step, and patients who are
+informed and referred early do better.</p>
+<h2>5. Questions to ask on a visit</h2>
+<ul>
+<li>What are the shift times, and how flexible are they?</li>
+<li>Who will be my care team, and how consistent is it?</li>
+<li>How does the facility handle emergencies and hospital admissions?</li>
+<li>Do you offer home dialysis training, and who supports home patients?</li>
+<li>How do you help patients get on the transplant waitlist?</li>
+<li>What insurance do you accept, and who helps with billing and financial assistance?</li>
+</ul>
+{related([("/guides/medicare-dialysis-coverage/", "Medicare coverage for dialysis"),
+          ("/guides/in-center-vs-home-dialysis/", "In-centre vs home dialysis"),
+          ("/search/", "Search facilities near you")])}""",
+          crumbs=[("Guides", "/guides/"), ("Choosing a facility", None)])
+
+    s.add("/guides/kidney-transplant-waitlist/", "The Kidney Transplant Waitlist: How It Works",
+          "How patients get referred and waitlisted for a kidney transplant, what the waitlist "
+          "figures on facility pages mean, and how living donation changes the timeline.",
+          """<h1>The kidney transplant waitlist</h1>
+<p class="lede">Dialysis keeps you alive; a transplant is usually the better long-term treatment. The
+waitlist starts with a referral — and transplant centres evaluate patients long before a kidney is
+available.</p>
+<h2>Step 1: Referral and evaluation</h2>
+<p>A nephrologist or dialysis facility refers you to a transplant centre. The centre evaluates your
+heart, infection risk, cancer history and social support, and explains the surgery and medicines.
+Most patients can be evaluated before dialysis even starts — earlier is better.</p>
+<h2>Step 2: Getting listed</h2>
+<p>Once approved, you are listed with the national organ-sharing system, which matches kidneys by
+blood type, tissue compatibility, waiting time and medical urgency. Waiting times vary enormously by
+region and blood type — often several years in dense areas.</p>
+<h2>What the facility pages mean</h2>
+<p>Each dialysis facility page shows the <strong>percentage of prevalent patients waitlisted for a
+kidney transplant</strong> as reported to CMS. A higher share can indicate a facility that refers
+and supports patients actively; a low share may reflect an older or sicker patient mix, or weaker
+transplant referral practice. Ask the facility how it handles referrals.</p>
+<h2>Living donation</h2>
+<p>A living donor — often a family member or friend — can shorten or bypass the deceased-donor wait.
+Living-donor kidneys generally last longer, and the donor is evaluated and protected by a separate
+medical team. Ask the transplant centre about paired exchange programmes if your donor is not a
+match.</p>
+<h2>Staying ready</h2>
+<p>Keep appointments, follow the medicine plan and stay as healthy as possible; the wait can be long
+and your place depends on remaining an active candidate. Medicare covers transplant evaluation,
+surgery and most immunosuppressive drugs for life.</p>
+{related([("/guides/medicare-dialysis-coverage/", "Medicare coverage"),
+          ("/guides/choosing-a-dialysis-facility/", "How to choose a facility")])}""",
+          crumbs=[("Guides", "/guides/"), ("Transplant waitlist", None)])
+
+    # ---- national statistics page
+    profit_rows = "".join(f"<tr><td>{esc(k)}</td><td>{human(v)}</td><td>{pct(v, len(facilities))}</td></tr>"
+                          for k, v in profits.most_common())
+    chain_rows = "".join(f"<tr><td>{esc(k)}</td><td>{human(v)}</td><td>{pct(v, len(facilities))}</td></tr>"
+                         for k, v in top_chains)
+    st_rows = "".join(
+        f'<tr><td><a href="{state_url[st]}">{esc(STATE_NAMES.get(st, st))}</a></td><td>{v:.2f}</td></tr>'
+        for st, v in top_rating)
+    st_rows_low = "".join(
+        f'<tr><td><a href="{state_url[st]}">{esc(STATE_NAMES.get(st, st))}</a></td><td>{v:.2f}</td></tr>'
+        for st, v in low_rating)
+    s.add("/stats/", "US Dialysis Statistics — Facilities, Ratings, Treatments, Chains",
+          f"National statistics from the CMS dialysis file: {human(len(facilities))} facilities, "
+          f"star ratings, treatments offered, chain ownership, stations and state tables.",
+          f"""<h1>US dialysis statistics</h1>
+<p class="lede">Original summary statistics computed from the CMS Provider Information file for the
+<strong>{human(len(facilities))}</strong> Medicare-certified dialysis facilities in this directory.</p>
+<h2>National overview</h2>
+<table>
+<tr><td>Facilities</td><td>{human(len(facilities))}</td></tr>
+<tr><td>States and territories</td><td>{human(len(by_state))}</td></tr>
+<tr><td>Rated by CMS</td><td>{human(len(rated))} ({pct(len(rated), len(facilities))})</td></tr>
+<tr><td>Rated 4 or 5 stars</td><td>{pct(n_high, len(rated))}</td></tr>
+<tr><td>Median dialysis stations per facility</td><td>{med(stations_v):.0f}</td></tr>
+<tr><td>Chain-owned</td><td>{pct(n_chain, len(facilities))}</td></tr>
+</table>
+<h2>Treatments offered</h2>
+<table>
+<tr><td>In-centre haemodialysis</td><td>{pct(n_center, len(facilities))}</td></tr>
+<tr><td>Peritoneal dialysis</td><td>{pct(n_peri, len(facilities))}</td></tr>
+<tr><td>Home haemodialysis training</td><td>{pct(n_home, len(facilities))}</td></tr>
+<tr><td>Late shift available</td><td>{pct(n_late, len(facilities))}</td></tr>
+</table>
+<h2>Ownership</h2>
+<table><tr><th>Profit status</th><th>Facilities</th><th>Share</th></tr>{profit_rows}</table>
+<h2>Largest dialysis chains</h2>
+<table><tr><th>Chain</th><th>Facilities</th><th>Share</th></tr>{chain_rows}</table>
+<h2>States with the highest average five-star rating (≥10 rated facilities)</h2>
+<table><tr><th>State</th><th>Average rating</th></tr>{st_rows}</table>
+<h2>States with the lowest average five-star rating (≥10 rated facilities)</h2>
+<table><tr><th>State</th><th>Average rating</th></tr>{st_rows_low}</table>
+<p class="mut">Averages are computed from the CMS published file and are not risk-adjusted; use them
+as context, not as facility verdicts.</p>
+{notice("Data: CMS Provider Data Catalog, Dialysis Facility Compare (public domain), reproduced as "
+        "published. Not medical advice.")}""",
+          crumbs=[("Statistics", None)])
+
     s.add("/guides/", "Guides — US Dialysis Centers",
-          "Explainers on the CMS dialysis star rating and on treatment options.",
-          "<h1>Guides</h1><p class=\"lede\">Short explainers to help you read the data on each facility page.</p>"
+          "Explainers on the CMS dialysis star rating, Medicare coverage, treatment options, "
+          "choosing a facility, the transplant waitlist — and national statistics.",
+          "<h1>Guides</h1><p class=\"lede\">Plain explainers for the questions patients actually ask.</p>"
           + cards([("/guides/dialysis-five-star-rating/", "The CMS five-star rating explained",
                     "What the rating measures and how to read a single measure."),
                    ("/guides/in-center-vs-home-dialysis/", "In-centre vs home dialysis",
-                    "The three treatment types and how facilities report them.")]),
+                    "The three treatment types and how facilities report them."),
+                   ("/guides/medicare-dialysis-coverage/", "Does Medicare cover dialysis?",
+                    "ESRD eligibility, the 30-month rule, the 20% share and home training."),
+                   ("/guides/choosing-a-dialysis-facility/", "How to choose a facility",
+                    "Ratings, treatments, travel, transplant referral and questions to ask."),
+                   ("/guides/kidney-transplant-waitlist/", "The kidney transplant waitlist",
+                    "Referral, listing, living donation and what the waitlist figures mean."),
+                   ("/stats/", "US dialysis statistics",
+                    "Facilities, treatments, chains and state ratings from CMS data.")]),
           crumbs=[("Guides", None)])
 
     # ---- rating pages
