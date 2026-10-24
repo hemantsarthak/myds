@@ -163,6 +163,27 @@ def build() -> Site:
         if a["lat"] is not None:
             grid[(int(a["lat"]), int(a["lon"]))].append(a)
 
+    # ---- national aggregates from the CMS file (used by the guides + /stats/ page)
+    def pct(x, y):
+        return f"{100 * x / y:.0f}%" if y else "—"
+
+    rated = [a for a in agencies if a["rating"].isdigit()]
+    n_high = sum(1 for a in rated if int(a["rating"]) >= 4)
+    own = collections.Counter((a["owner"] or "Unreported").title() for a in agencies)
+    svc = collections.Counter(s for a in agencies for s in a["services"])
+    cert_years = collections.Counter(
+        a["cert_date"].split("/")[-1] for a in agencies if "/" in a["cert_date"]
+    )
+    st_rating = collections.defaultdict(list)
+    for a in rated:
+        st_rating[a["state"]].append(int(a["rating"]))
+    st_avg = {st: sum(v) / len(v) for st, v in st_rating.items() if len(v) >= 20}
+    top_rating = sorted(st_avg.items(), key=lambda kv: -kv[1])[:5]
+    low_rating = sorted(st_avg.items(), key=lambda kv: kv[1])[:5]
+    n_since2020 = sum(c for y, c in cert_years.items() if y.isdigit() and int(y) >= 2020)
+    n_1990s = sum(c for y, c in cert_years.items() if y.isdigit() and 1990 <= int(y) <= 1999)
+    n_pre1990 = sum(c for y, c in cert_years.items() if y.isdigit() and int(y) < 1990)
+
     def nearby(a, limit=6):
         if a["lat"] is None:
             return []
@@ -266,14 +287,188 @@ not a quality signal — check the measures and talk to the agency.</p>
 """,
           crumbs=[("Guides", "/guides/"), ("Star rating", None)])
 
+    # ---- high-intent guide cluster: Medicare coverage / comparison / choosing / statistics
+    s.add("/guides/medicare-home-health-coverage/", "Does Medicare Cover Home Health Care?",
+          "Medicare home-health eligibility in plain English: the homebound rule, skilled intermittent "
+          "need, the face-to-face requirement, what you pay (and do not pay), and what Medicare will "
+          "not cover.",
+          """<h1>Does Medicare cover home health care?</h1>
+<p class="lede">Usually yes — if you are homebound and need skilled care intermittently. It is one
+of the most misunderstood benefits because "home care" and "home health" sound the same and are
+paid for very differently.</p>
+<h2>The five conditions</h2>
+<p>Original Medicare pays for home health when <strong>all</strong> of these are true:</p>
+<ul>
+<li>A doctor certifies you need <strong>skilled care intermittently</strong> — nursing or therapy
+that only licensed professionals can provide.</li>
+<li>You are <strong>homebound</strong>: leaving home takes considerable effort or the help of
+another person or equipment.</li>
+<li>A doctor has a <strong>face-to-face</strong> encounter with you (in person or by telehealth in
+some cases) within the required window before the plan of care starts.</li>
+<li>A <strong>plan of care</strong> is established and reviewed regularly.</li>
+<li>The agency is <strong>Medicare-certified</strong> — every agency in this directory is.</li>
+</ul>
+<h2>What you pay</h2>
+<p>Original Medicare pays <strong>100% of covered home-health services</strong> — there is no
+coinsurance and no deductible for the visits. Equipment such as a hospital bed or walker, if
+covered, carries the usual 20% coinsurance for durable medical equipment. You may owe for services
+that are not medically necessary or not covered.</p>
+<h2>What is not covered</h2>
+<p>Medicare does not pay for <strong>24-hour care</strong>, <strong>custodial care</strong> (help
+with bathing, dressing, meals when that is the main need), or homemaker services. Those are
+private-pay, long-term-care-insurance or, in some cases, Medicaid waiver services. If the need is
+mostly companionship or supervision, Medicare home health is not the right benefit.</p>
+<h2>Medicare Advantage</h2>
+<p>If you have a Medicare Advantage plan, home health is a covered benefit, but the plan may have
+its own network of agencies and prior-authorisation rules. Ask the plan which agencies are
+in-network before choosing one.</p>
+<h2>How to start</h2>
+<p>You do not have to be discharged from a hospital to use home health, although it is common
+then. Ask your doctor for a home-health referral and an order, choose a Medicare-certified agency
+(check its CMS rating and services in this directory), and ask the agency to confirm in writing
+what Medicare will cover before care starts.</p>
+{faq([
+    ("Is home health care covered by Medicare?",
+     "Yes, when you are homebound and a doctor certifies you need skilled, intermittent care, and "
+     "the agency is Medicare-certified. Original Medicare pays 100% of covered visits."),
+    ("What does homebound mean for Medicare?",
+     "Leaving home requires considerable effort or the help of another person or equipment. Short, "
+     "occasional absences (medical appointments, religious services) can still qualify."),
+    ("Does Medicare pay for 24-hour home care?",
+     "No. Medicare home health is intermittent skilled care. Around-the-clock or custodial care is "
+     "not covered."),
+])}""",
+          crumbs=[("Guides", "/guides/"), ("Medicare coverage", None)])
+
+    s.add("/guides/home-health-vs-home-care/", "Home Health vs Home Care: What's the Difference?",
+          "Skilled Medicare-paid home health versus private-pay home care — what each provides, who "
+          "qualifies, what you pay, and how to know which one you need.",
+          """<h1>Home health vs home care</h1>
+<p class="lede">One is medical and often paid by Medicare; the other is help with daily living and
+paid privately. Families mix them up constantly, and the mistake is expensive.</p>
+<h2>Home health</h2>
+<p><strong>Skilled, intermittent care ordered by a doctor</strong>: nursing (wound care,
+injections, medication management, education), physical, occupational and speech therapy, medical
+social services. Delivered by a Medicare-certified agency, usually for weeks or months after a
+hospital stay or a change in condition. Original Medicare pays 100% of covered services when the
+homebound and skilled-need rules are met; the visits stop when skilled need ends.</p>
+<h2>Home care</h2>
+<p><strong>Non-medical help with daily living</strong>: bathing, dressing, meals, medication
+reminders, companionship, supervision, help around the house. Delivered by home-care aides or
+companions, billed hourly by a private agency or directly. Medicare does not pay for it when
+that is the main need. It is paid privately, by long-term care insurance, or through Medicaid
+waiver programs in some states.</p>
+<h2>What it costs</h2>
+<p>CareScout's 2025 Cost of Care Survey puts the national median for a home health aide at about
+<strong>$35 an hour</strong>. Forty hours a week of that is roughly <strong>$6,000 a month</strong> —
+which is why the amount of care needed matters as much as the hourly rate. Skilled home-health
+visits covered by Medicare carry no coinsurance.</p>
+<h2>Which do you need?</h2>
+<p>If there is a medical need a nurse or therapist must handle — a wound, an infusion, therapy
+after an injury — it is home health; ask the doctor for an order and a Medicare-certified agency.
+If the need is safety, supervision and help with daily activities, it is home care; budget hours
+and plan the money (private pay, LTC insurance, VA benefits, or a state Medicaid programme).</p>
+{related([("/guides/medicare-home-health-coverage/", "Medicare home health eligibility"),
+          ("/guides/choosing-a-home-health-agency/", "How to choose an agency"),
+          ("/stats/", "US home health statistics")])}""",
+          crumbs=[("Guides", "/guides/"), ("Home health vs home care", None)])
+
+    s.add("/guides/choosing-a-home-health-agency/", "How to Choose a Home Health Agency",
+          "A practical checklist: CMS star rating and measures, services offered, ownership, "
+          f"certification age, after-hours coverage and the questions that reveal good care — using "
+          f"data from {human(len(agencies))} agencies.",
+          f"""<h1>How to choose a home health agency</h1>
+<p class="lede">The stars narrow the list; the questions decide. Use the CMS data on agency pages,
+then ask these questions before you sign a plan of care.</p>
+<h2>1. Check the star rating and the individual measures</h2>
+<p>CMS rates agencies 1–5 on quality-of-patient-care measures. Do not stop at the star: read the
+measures beside it. Most informative are <strong>improvement in walking</strong>, <strong>improvement
+in bathing</strong>, <strong>timely initiation of care</strong> and <strong>discharge to the
+community</strong>. For hospitalisation and emergency-department rates, lower is better.</p>
+<h2>2. Check the services you will need</h2>
+<p>Not every agency offers every service. Filter agency pages by nursing, physical therapy,
+occupational therapy, speech pathology, medical social services and home-health aide services.
+If the family needs a specialist service, confirm it is offered before starting.</p>
+<h2>3. Check ownership and experience</h2>
+<p>Agency pages show ownership (proprietary, non-profit, government) and the date the agency was
+first certified. Neither decides quality by itself — but a long certification history and a stable
+local organisation are useful context. CMS flags ownership changes separately where reported.</p>
+<h2>4. Ask these questions</h2>
+<ul>
+<li>Which nurse or therapist will usually come, and can that stay consistent?</li>
+<li>Who answers the phone after hours and at weekends?</li>
+<li>What happens if I need a visit urgently — how fast is the response?</li>
+<li>How do you coordinate with my doctor, and how will I know the plan is changing?</li>
+<li>What will Medicare cover, and what will I be billed for?</li>
+<li>How do you handle hospital admissions or emergencies?</li>
+</ul>
+<h2>5. Confirm the paperwork</h2>
+<p>The agency must provide you written information about your care plan, rights and billing. Keep
+the Medicare "Advance Beneficiary Notice" every time it is offered — it tells you what might not
+be covered before you receive it.</p>
+{related([("/guides/medicare-home-health-coverage/", "Medicare coverage rules"),
+          ("/guides/home-health-star-rating-explained/", "What the star rating measures"),
+          ("/search/", "Search agencies near you")])}""",
+          crumbs=[("Guides", "/guides/"), ("Choosing an agency", None)])
+
+    # ---- national statistics page
+    svc_rows = "".join(f"<tr><td>{esc(name)}</td><td>{human(n)}</td><td>{pct(n, len(agencies))}</td></tr>"
+                       for name, n in svc.most_common())
+    own_rows = "".join(f"<tr><td>{esc(k)}</td><td>{human(v)}</td><td>{pct(v, len(agencies))}</td></tr>"
+                       for k, v in own.most_common())
+    st_rows = "".join(
+        f'<tr><td><a href="{state_url[st]}">{esc(STATE_NAMES.get(st, st))}</a></td><td>{v:.2f}</td></tr>'
+        for st, v in top_rating)
+    st_rows_low = "".join(
+        f'<tr><td><a href="{state_url[st]}">{esc(STATE_NAMES.get(st, st))}</a></td><td>{v:.2f}</td></tr>'
+        for st, v in low_rating)
+    s.add("/stats/", "US Home Health Statistics — Agencies, Ratings, Services, Ownership",
+          f"National statistics from the CMS home-health file: {human(len(agencies))} agencies, "
+          f"ratings, services offered, ownership, certification history and state comparison tables.",
+          f"""<h1>US home health statistics</h1>
+<p class="lede">Original summary statistics computed from the CMS Provider Information file for the
+<strong>{human(len(agencies))}</strong> Medicare-certified home-health agencies in this directory.</p>
+<h2>National overview</h2>
+<table>
+<tr><td>Home-health agencies</td><td>{human(len(agencies))}</td></tr>
+<tr><td>States and territories</td><td>{human(len(by_state))}</td></tr>
+<tr><td>Agencies with a star rating</td><td>{human(len(rated))} ({pct(len(rated), len(agencies))})</td></tr>
+<tr><td>Rated 4 or 5 stars</td><td>{pct(n_high, len(rated))}</td></tr>
+<tr><td>Certified in 2020 or later</td><td>{pct(n_since2020, len(agencies))}</td></tr>
+<tr><td>Certified before 1990</td><td>{pct(n_pre1990, len(agencies))}</td></tr>
+</table>
+<h2>Services offered (share of agencies reporting "yes")</h2>
+<table><tr><th>Service</th><th>Agencies</th><th>Share</th></tr>{svc_rows}</table>
+<h2>Ownership</h2>
+<table><tr><th>Ownership type</th><th>Agencies</th><th>Share</th></tr>{own_rows}</table>
+<h2>States with the highest average star rating (≥20 rated agencies)</h2>
+<table><tr><th>State</th><th>Average rating</th></tr>{st_rows}</table>
+<h2>States with the lowest average star rating (≥20 rated agencies)</h2>
+<table><tr><th>State</th><th>Average rating</th></tr>{st_rows_low}</table>
+<p class="mut">Averages are computed from the CMS published file and are not risk-adjusted; use them
+as context, not as agency verdicts.</p>
+{notice("Data: CMS Provider Data Catalog, Home Health Care Agencies (public domain), reproduced as "
+        "published. Not medical advice.")}""",
+          crumbs=[("Statistics", None)])
+
     s.add("/guides/", "Guides — US Home Health",
-          "Explainers on home health care and CMS quality ratings.",
-          "<h1>Guides</h1><p class=\"lede\">Short explainers to help you read the data on each agency page.</p>"
+          "Explainers on home health care, Medicare coverage and choosing an agency — plus "
+          "statistics computed from the CMS data behind this directory.",
+          "<h1>Guides</h1><p class=\"lede\">Plain explainers for the questions families actually ask.</p>"
           + cards([("/guides/how-home-health-works/", "How home health works",
                     "Services, Medicare eligibility and what to ask an agency."),
                    ("/guides/home-health-star-rating-explained/", "The CMS star rating explained",
-                    "What the rating measures and how to read the individual quality measures.")]),
+                    "What the rating measures and how to read the individual quality measures."),
+                   ("/guides/medicare-home-health-coverage/", "Does Medicare cover home health?",
+                    "Homebound rule, skilled need, what you pay and what is not covered."),
+                   ("/guides/home-health-vs-home-care/", "Home health vs home care",
+                    "Skilled Medicare-paid care versus private-pay help at home."),
+                   ("/guides/choosing-a-home-health-agency/", "How to choose an agency",
+                    "The checklist: ratings, measures, services and the questions to ask."),
+                   ("/stats/", "US home health statistics",
+                    "Agencies, services, ownership and state comparisons from CMS data.")]),
           crumbs=[("Guides", None)])
+
 
     # ---- rating pages
     for n in (5, 4, 3, 2, 1):

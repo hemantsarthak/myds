@@ -158,6 +158,23 @@ def build() -> Site:
         if h["lat"] is not None:
             grid[(int(h["lat"]), int(h["lon"]))].append(h)
 
+    # ---- national aggregates from the CMS file (guides + /stats/)
+    def pct(x, y):
+        return f"{100 * x / y:.0f}%" if y else "—"
+
+    rated = [h for h in hospitals if h["rating"].isdigit()]
+    n_high = sum(1 for h in rated if int(h["rating"]) >= 4)
+    types = collections.Counter(h["type"] or "Unreported" for h in hospitals)
+    owns = collections.Counter((h["owner"] or "Unreported").title() for h in hospitals)
+    n_er = sum(1 for h in hospitals if h["emergency"])
+    n_birth = sum(1 for h in hospitals if h["birthing"])
+    st_rating = collections.defaultdict(list)
+    for h in rated:
+        st_rating[h["state"]].append(int(h["rating"]))
+    st_avg = {st: sum(v) / len(v) for st, v in st_rating.items() if len(v) >= 10}
+    top_rating = sorted(st_avg.items(), key=lambda kv: -kv[1])[:5]
+    low_rating = sorted(st_avg.items(), key=lambda kv: kv[1])[:5]
+
     def nearby(h, limit=6):
         if h["lat"] is None:
             return []
@@ -261,14 +278,201 @@ by itself a quality indicator — the quality measures on each hospital page are
 """,
           crumbs=[("Guides", "/guides/"), ("Hospital types", None)])
 
+    # ---- high-intent guide cluster: financial assistance / ER vs urgent care / choosing + stats
+    s.add("/guides/hospital-financial-assistance/", "Hospital Financial Assistance and Charity Care",
+          "How hospital financial aid works: the 501(r) charity-care rules for non-profit hospitals, "
+          "how to apply, what documents you need, and how to negotiate a hospital bill.",
+          """<h1>Hospital financial assistance and charity care</h1>
+<p class="lede">Most non-profit hospitals are legally required to have a financial assistance
+policy — and many patients never ask. If a hospital bill is unaffordable, apply in writing before
+paying, not after collections start.</p>
+<h2>The 501(r) rules (non-profit hospitals)</h2>
+<p>Non-profit hospitals must maintain a written <strong>financial assistance policy</strong>, publish
+a plain-language summary, and limit what they charge patients who qualify — often to no more than
+the amount paid by insured patients (the "amounts generally billed" limit). They must also tell you
+about the policy before and during collection efforts, and they generally cannot take extraordinary
+collection actions without first checking whether you qualify.</p>
+<h2>Who qualifies</h2>
+<p>Policies set income limits as a percentage of the Federal Poverty Level; many cover households up
+to 200–400% FPL, and some states and hospital systems go higher. Eligibility is usually based on
+household income and size, sometimes with an asset test. Each hospital's policy is different —
+read the policy document, not a verbal summary.</p>
+<h2>How to apply</h2>
+<ol>
+<li>Ask the hospital's financial counselling or patient financial services department for the
+<strong>financial assistance policy (FAP)</strong>, the plain-language summary and the application
+form.</li>
+<li>Request an <strong>itemised bill</strong> — not just the summary — and review it for errors.</li>
+<li>Submit the application with proof of income (pay stubs, tax return, benefits letters) and any
+other documents the policy requires. Keep copies and get a receipt or confirmation.</li>
+<li>Ask for a hold on the account while the application is reviewed.</li>
+<li>If denied, ask for the reason in writing and appeal; many denials are fixable
+(missing documents, wrong income period).</li>
+</ol>
+<h2>If you do not qualify — or the hospital is for-profit</h2>
+<p>Ask about interest-free payment plans, prompt-pay discounts (often 10–30% if paid quickly), a
+reduced self-pay rate, and whether the bill qualifies for state charity-care or Medicaid assistance.
+Compare the self-pay price with the amount insurers pay — the "gross charge" on the bill is rarely
+what anyone pays. Medical debt-collection rules vary by state; get advice before signing anything
+that admits liability.</p>
+<h2>Get help</h2>
+<p>State consumer-assistance offices, patient advocates, and non-profit medical-debt groups help with
+appeals, often for free. Apply for Medicaid and hospital charity care <em>in parallel</em> — help
+from one does not disqualify the other.</p>
+{faq([
+    ("Do hospitals have to offer financial assistance?",
+     "Non-profit hospitals generally must have a written financial assistance policy with income-based "
+     "discounts under IRS 501(r) rules. For-profit hospitals are not bound by those rules, but many still "
+     "offer payment plans or discounts."),
+    ("Can I apply for charity care after the bill is sent to collections?",
+     "Often yes. The hospital must tell you about its policy during collections, and many allow "
+     "applications later. Ask in writing and check the policy's deadline."),
+    ("What is a prompt-pay discount?",
+     "A reduction — often 10-30% — offered if a self-pay patient pays quickly or in full. It is separate "
+     "from charity care and can sometimes be combined with a payment plan."),
+])}""",
+          crumbs=[("Guides", "/guides/"), ("Financial assistance", None)])
+
+    s.add("/guides/emergency-room-vs-urgent-care/", "Emergency Room vs Urgent Care: Where to Go",
+          "When to call 911, when to go to an emergency room, and what urgent care can handle — with "
+          "the cost and coverage consequences of choosing wrong.",
+          """<h1>Emergency room vs urgent care</h1>
+<p class="lede">The emergency department is for conditions that could kill or permanently injure
+you. Urgent care is for problems that need prompt attention but are not life-threatening. Choosing
+wrong can mean hours of waiting or a bill many times larger.</p>
+<h2>Call 911 or go to the emergency room for</h2>
+<ul>
+<li>Chest pain, pressure or squeezing; pain spreading to the arm, jaw or back</li>
+<li>Signs of stroke — face drooping, arm weakness, trouble speaking, sudden confusion</li>
+<li>Severe trouble breathing, choking, or blue lips</li>
+<li>Severe bleeding that will not stop, or a serious head injury / loss of consciousness</li>
+<li>Sudden severe abdominal pain, or vomiting blood</li>
+<li>A severe allergic reaction with swelling or difficulty breathing</li>
+<li>Serious burns, broken bones that pierce the skin, or a seizure that does not stop</li>
+</ul>
+<p>If you are unsure in a potentially life-threatening situation, call 911. Emergency departments
+are required by federal law (EMTALA) to screen and stabilise emergency conditions regardless of
+insurance or ability to pay — do not delay care over money.</p>
+<h2>Urgent care usually handles</h2>
+<ul>
+<li>Sprains, strains and minor broken bones</li>
+<li>Cuts needing stitches, minor burns and rashes</li>
+<li>Ear pain, sore throat, sinus infections, urinary symptoms</li>
+<li>Fever or flu symptoms without severe breathing trouble</li>
+<li>Minor eye irritation, and some vaccinations and physicals</li>
+</ul>
+<p>Urgent care centres are usually faster and far cheaper than an ER for these problems, and many
+accept insurance or offer self-pay rates. Call ahead to check hours, X-ray availability and network
+status.</p>
+<h2>The cost difference</h2>
+<p>An emergency-department visit is coded at a much higher level than an urgent-care visit; the
+same sprain can cost several times more at an ER. If you have insurance, check the copay for each
+and use in-network facilities. If you are uninsured, ask each facility for its self-pay price before
+you go where you have a choice.</p>
+<h2>When in doubt</h2>
+<p>Call your doctor or a nurse line. If the choice is between an ER and waiting at home with a
+potentially serious symptom, go to the ER. Urgent care staff will send you to the ER if they find
+something they cannot handle.</p>
+{related([("/guides/hospital-financial-assistance/", "Help paying a hospital bill"),
+          ("/guides/how-to-choose-a-hospital/", "How to choose a hospital"),
+          ("/search/", "Find hospitals near you")])}""",
+          crumbs=[("Guides", "/guides/"), ("ER vs urgent care", None)])
+
+    s.add("/guides/how-to-choose-a-hospital/", "How to Choose a Hospital",
+          "A practical guide to comparing hospitals with CMS data — rating and measure groups, "
+          "emergency services, hospital type, network coverage and location — plus questions to ask.",
+          f"""<h1>How to choose a hospital</h1>
+<p class="lede">For planned care you often have a choice; for emergencies you do not. Use the data
+here to plan, and use the nearest emergency department when it is urgent.</p>
+<h2>1. Check the CMS rating and the five measure groups</h2>
+<p>The overall star rating summarises mortality, safety, readmission, patient experience and
+timeliness. Read the groups, not just the star: a hospital may be strong on outcomes and weak on
+patient experience, or vice versa. Each hospital page shows whether each group is better than, no
+different from, or worse than the national average.</p>
+<h2>2. Match the hospital type to the care</h2>
+<p>{human(len(hospitals))} hospitals are in this directory. Acute-care hospitals handle most
+inpatient and emergency care; critical access hospitals serve rural areas with limited beds;
+children's, psychiatric, rehabilitation and long-term care hospitals specialise. Confirm the
+hospital offers the service you need before travelling.</p>
+<h2>3. Check emergency and specialty services</h2>
+<p>Not every hospital has an emergency department ({pct(n_er, len(hospitals))} here do) or meets the
+CMS birthing-friendly criteria ({pct(n_birth, len(hospitals))}). If emergency care or maternity care
+matters, filter for it on the hospital page.</p>
+<h2>4. Check network and cost</h2>
+<p>Insurance networks matter as much as quality: an out-of-network hospital can cost far more.
+Confirm the hospital is in your plan's network before booking elective care, and ask for an
+estimate of your share. If you are uninsured, ask about financial assistance before care — see
+<a href="/guides/hospital-financial-assistance/">hospital financial assistance</a>.</p>
+<h2>5. Ask these questions</h2>
+<ul>
+<li>How many of these procedures does the hospital do each year?</li>
+<li>Who will be my surgeon or attending, and what is their experience?</li>
+<li>What are the hospital's infection and readmission rates for my condition?</li>
+<li>What is the plan for discharge and follow-up?</li>
+</ul>
+{related([("/guides/what-is-the-cms-hospital-rating/", "What the CMS rating measures"),
+          ("/guides/hospital-types-explained/", "Hospital types explained"),
+          ("/stats/", "US hospital statistics")])}""",
+          crumbs=[("Guides", "/guides/"), ("Choosing a hospital", None)])
+
+    # ---- national statistics page
+    type_rows = "".join(f"<tr><td>{esc(k)}</td><td>{human(v)}</td><td>{pct(v, len(hospitals))}</td></tr>"
+                        for k, v in types.most_common())
+    own_rows = "".join(f"<tr><td>{esc(k)}</td><td>{human(v)}</td><td>{pct(v, len(hospitals))}</td></tr>"
+                       for k, v in owns.most_common())
+    st_rows = "".join(
+        f'<tr><td><a href="{state_url[st]}">{esc(STATE_NAMES.get(st, st))}</a></td><td>{v:.2f}</td></tr>'
+        for st, v in top_rating)
+    st_rows_low = "".join(
+        f'<tr><td><a href="{state_url[st]}">{esc(STATE_NAMES.get(st, st))}</a></td><td>{v:.2f}</td></tr>'
+        for st, v in low_rating)
+    s.add("/stats/", "US Hospital Statistics — Ratings, Types, Ownership, Emergency Services",
+          f"National statistics from the CMS hospital file: {human(len(hospitals))} hospitals, "
+          f"ratings, hospital types, ownership, emergency and birthing services, and state tables.",
+          f"""<h1>US hospital statistics</h1>
+<p class="lede">Original summary statistics computed from the CMS Provider Information file for the
+<strong>{human(len(hospitals))}</strong> hospitals in this directory.</p>
+<h2>National overview</h2>
+<table>
+<tr><td>Hospitals</td><td>{human(len(hospitals))}</td></tr>
+<tr><td>States and territories</td><td>{human(len(by_state))}</td></tr>
+<tr><td>Rated by CMS</td><td>{human(len(rated))} ({pct(len(rated), len(hospitals))})</td></tr>
+<tr><td>Rated 4 or 5 stars</td><td>{pct(n_high, len(rated))}</td></tr>
+<tr><td>With emergency services</td><td>{pct(n_er, len(hospitals))}</td></tr>
+<tr><td>Meeting CMS birthing-friendly criteria</td><td>{pct(n_birth, len(hospitals))}</td></tr>
+</table>
+<h2>Hospital types</h2>
+<table><tr><th>Type</th><th>Hospitals</th><th>Share</th></tr>{type_rows}</table>
+<h2>Ownership</h2>
+<table><tr><th>Ownership</th><th>Hospitals</th><th>Share</th></tr>{own_rows}</table>
+<h2>States with the highest average CMS rating (≥10 rated hospitals)</h2>
+<table><tr><th>State</th><th>Average rating</th></tr>{st_rows}</table>
+<h2>States with the lowest average CMS rating (≥10 rated hospitals)</h2>
+<table><tr><th>State</th><th>Average rating</th></tr>{st_rows_low}</table>
+<p class="mut">Averages are computed from the CMS published file and are not risk-adjusted; use them
+as context, not as hospital verdicts.</p>
+{notice("Data: CMS Provider Data Catalog, Hospital General Information (public domain), reproduced "
+        "as published. Not medical advice.")}""",
+          crumbs=[("Statistics", None)])
+
     s.add("/guides/", "Guides — US Hospitals",
-          "Explainers on CMS hospital ratings and hospital types.",
-          "<h1>Guides</h1><p class=\"lede\">Short explainers to help you read the data on each hospital page.</p>"
+          "Explainers on CMS hospital ratings, hospital types, financial assistance, choosing a "
+          "hospital and ER versus urgent care — plus national statistics.",
+          "<h1>Guides</h1><p class=\"lede\">Plain explainers for the questions patients actually ask.</p>"
           + cards([("/guides/what-is-the-cms-hospital-rating/", "What is the CMS hospital star rating?",
                     "How the 1–5 rating is built and why some hospitals are unrated."),
                    ("/guides/hospital-types-explained/", "Hospital types and ownership explained",
-                    "Acute care, critical access, specialty hospitals and ownership categories.")]),
+                    "Acute care, critical access, specialty hospitals and ownership categories."),
+                   ("/guides/hospital-financial-assistance/", "Financial assistance and charity care",
+                    "How non-profit hospitals must help, and how to apply."),
+                   ("/guides/emergency-room-vs-urgent-care/", "ER vs urgent care",
+                    "When to call 911, when urgent care is enough, and the cost difference."),
+                   ("/guides/how-to-choose-a-hospital/", "How to choose a hospital",
+                    "Ratings, measure groups, services, network and the questions to ask."),
+                   ("/stats/", "US hospital statistics",
+                    "Types, ownership, ratings and services computed from CMS data.")]),
           crumbs=[("Guides", None)])
+
 
     # ---- rating pages
     for n in (5, 4, 3, 2, 1):

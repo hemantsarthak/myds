@@ -84,3 +84,20 @@ the marketplace track or a later month.
 - Next: replicate the pattern on `homehealth`, `hospitals`, `dialysis` (2–4 pages each + stats),
   then the health-insurance county vertical.
 
+- **2026-10-24 (goal round 2) — cluster replicated on `homehealth` + `hospitals`.**
+  - `homehealth.tekify.xyz`: added `medicare-home-health-coverage` (homebound rule, skilled
+    intermittent need, face-to-face, 100% covered visits, what Medicare will not pay),
+    `home-health-vs-home-care` (skilled vs non-medical, $35/hr CareScout 2025 median ≈ $6,000/mo
+    at 40 h/wk), `choosing-a-home-health-agency` (star + measures + questions), and `/stats/`
+    (12,781 agencies: ratings, services frequency, ownership, certification era, state rankings).
+  - `hospitals.tekify.xyz`: added `hospital-financial-assistance` (501(r) charity-care rules,
+    application steps, negotiation — the highest-intent medical-bill page), 
+    `emergency-room-vs-urgent-care` (911/ER red flags, urgent-care scope, cost gap, EMTALA), 
+    `how-to-choose-a-hospital`, and `/stats/` (5,892 hospitals: types, ownership, emergency and
+    birthing shares, rating distribution, state rankings).
+  - Both builds clean (0 dup titles/descs, 0 broken links), deployed to `myds-homehealth` and
+    `myds-hospitals`, all new pages verified HTTP 200 live, IndexNow 200 for 12,781 and 5,892
+    URLs. Builds: +6 pages per site incl. the original-data `/stats/` pages.
+  - Next: `dialysis` cluster, then the health-insurance county vertical; re-check income next
+    round.
+
