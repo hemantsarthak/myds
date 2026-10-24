@@ -1102,3 +1102,11 @@ actually loaded** — browser-level tests belong in every content round.
 - Pincode project is the other agent's; our sources kept for reference.
 - Ads show no fill at zero traffic; ad divs render empty.
 - IFSC branch page has a harmless redundant sentence.
+
+> **2026-10-24 21:55 IST — round 8: insurance guides + full health check.** Added two high-intent
+> guides to healthinsurance.tekify.xyz (short-term plans vs ACA; COBRA vs marketplace) — site now
+> 2,097 pages; deployed, verified, IndexNow 200, hub links added. Full health run: **all 13
+> properties 200, 123,405 URLs**, every new URL accepted by IndexNow
+> (eports/health-2026-10-24.md). Index status: **calculators now indexed**, healthinsurance not
+> yet (3 days old); no health-query rankings yet. Daily check: **$0.00** (Hilltop 0.00 USD,
+> Travelpayouts 0). Infolinks still pending.

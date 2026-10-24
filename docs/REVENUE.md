@@ -80,3 +80,7 @@ live on hub + insurance + four health sites; no impressions until approval.
 no actions. Infolinks: application **pending** (publisher panel, pid 3448908; integration complete
 on all 13 sites). No human sessions, no impressions, no clicks — traffic remains the binding
 constraint.
+
+**Daily check 2026-10-24 22:00 IST — still $0.00.** Hilltop `0.00 USD`; Travelpayouts `0`.
+Infolinks pending review. Portfolio health: 13 sites, 123,405 URLs, all 200. Google index:
+calculators site now indexed; healthinsurance not yet.

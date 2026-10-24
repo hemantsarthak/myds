@@ -174,3 +174,18 @@ the marketplace track or a later month.
     Decision expected ~2026-10-26/27.
   - Daily verification: Hilltop `0.00 USD`, Travelpayouts `0` — still **$0.00** (zero human traffic).
 
+
+- **2026-10-24 (goal round 8) — two more high-intent insurance guides + full health check.**
+  - Added healthinsurance.tekify.xyz/guides/short-term-health-plans/ (what short-term limited-
+    duration plans may exclude - underwriting, essential benefits, no subsidies - and safer
+    alternatives) and /guides/cobra-vs-marketplace/ (COBRA full premium vs subsidised ACA plan
+    after a job loss, with a fair-comparison checklist). Site now 2,097 pages / 6 guides; build
+    clean; deployed; both URLs verified 200; IndexNow 200 for 2,097 URLs; hub Consumer-guides links
+    added for both.
+  - **Full portfolio health run**: all **13 properties HTTP 200**, **123,405 URLs** in sitemaps,
+    IndexNow accepted every new URL (calculators +5, hospitals +4, nursinghomes +6, homehealth +4,
+    dialysis +4, healthinsurance +2,095 on first baseline). Report: eports/health-2026-10-24.md.
+  - Index coverage check: **calculators.tekify.xyz is now indexed** (calculator pages appear in
+    site: results); **healthinsurance still not indexed** (3 days old); health query
+    "does Medicare cover nursing home care" - ours not in top 20 yet (ranking needs weeks).
+  - Daily verification: Hilltop `0.00 USD`, Travelpayouts `0` - still **$0.00**.

@@ -386,8 +386,77 @@ HealthCare.gov for any extended enrollment periods announced for the current yea
           ("/guides/aca-premium-tax-credits/", "Premium tax credits")])}""",
           crumbs=[("Guides", "/guides/"), ("Enrollment", None)])
 
+    s.add("/guides/short-term-health-plans/", "Short-Term Health Plans vs ACA Plans: What You Give Up",
+          "Why short-term plans look cheap, what they can exclude (pre-existing conditions, "
+          "essential benefits), how long they last, and when buying one is a costly mistake.",
+          """<h1>Short-term health plans vs ACA plans</h1>
+<p class="lede">A short-term plan can cost a fraction of a marketplace premium — because it is
+allowed to cover far less. Read what it excludes before you buy.</p>
+<h2>Why they are cheaper</h2>
+<p>Short-term limited-duration plans are not required to cover the ACA's essential health benefits,
+can <strong>exclude or charge more for pre-existing conditions</strong> through medical
+underwriting, can cap annual or lifetime benefits, may exclude prescription drugs, maternity care
+and mental health, and can rescind coverage if the application was inaccurate. They also cannot be
+bought with a premium tax credit, so the subsidy comparison is not apples-to-apples.</p>
+<h2>How long they last</h2>
+<p>Federal rules limit short-term plans to short durations (with renewals permitted under current
+rules in many states), but states can be stricter — some effectively ban them. Check your state's
+rules before relying on one.</p>
+<h2>When a short-term plan can make sense</h2>
+<p>Only as a bridge for someone healthy, with no pre-existing conditions, who needs temporary
+coverage between jobs or while awaiting an ACA plan start date — and who can afford the risk that
+a new condition will not be covered until the ACA plan begins. Never choose one knowing you need
+care: the exclusions are exactly where you would need the coverage.</p>
+<h2>The safer alternatives</h2>
+<p>Check for a <strong>special enrollment period</strong> (job loss, moving, marriage), Medicaid/CHIP
+eligibility (year-round), COBRA from a former employer, or a parent's plan if under 26. Compare the
+full cost of a subsidised silver plan against the short-term premium plus the deductible you would
+face if something happened.</p>
+{related([("/guides/cobra-vs-marketplace/", "COBRA vs marketplace"),
+          ("/guides/how-to-choose-a-health-insurance-plan/", "How to choose a plan"),
+          ("/guides/open-enrollment-and-special-enrollment/", "Enrollment periods")])}""",
+          crumbs=[("Guides", "/guides/"), ("Short-term plans", None)])
+
+    s.add("/guides/cobra-vs-marketplace/", "COBRA vs Marketplace: Which Is Cheaper After a Job Loss?",
+          "How to compare COBRA continuation coverage with a subsidised marketplace plan: premiums, "
+          "networks, subsidies, deadlines and what to check before choosing.",
+          """<h1>COBRA vs marketplace after a job loss</h1>
+<p class="lede">COBRA keeps your current doctors and plan; the marketplace can be much cheaper
+because of premium tax credits. The right answer depends on your income, your network and how
+quickly you need coverage.</p>
+<h2>What COBRA is</h2>
+<p>COBRA lets you keep a former employer's group plan for a limited period (often 18 months),
+but you pay the <strong>full premium</strong> the employer and employee together were paying, plus
+up to a 2% administrative fee. The coverage itself does not change — same network, same deductible,
+same prescriptions.</p>
+<h2>What the marketplace offers</h2>
+<p>Losing job-based coverage is a qualifying life event: you get a <strong>special enrollment
+period</strong> (generally 60 days) to buy a marketplace plan. If your income qualifies, a premium
+tax credit can make a silver plan far cheaper than the COBRA premium — and cost-sharing reductions
+can lower the deductible further at lower incomes. The trade-off: a new network, new deductible,
+and the plan must be chosen quickly.</p>
+<h2>How to compare fairly</h2>
+<p>Compare annual cost, not monthly premium: premium × 12 + deductible you expect to use + copays +
+prescriptions, for the doctors and hospitals you actually see. A COBRA plan with a low premium but
+out-of-network doctors after a move is not cheaper in practice.</p>
+<h2>Practical steps</h2>
+<ol>
+<li>Get the COBRA election notice and premium in writing; note the deadline (often 60 days).</li>
+<li>Start a marketplace application the same week — the SEP clock is short.</li>
+<li>Estimate income for the year; the subsidy depends on annual modified adjusted gross income.</li>
+<li>Check doctors, hospitals and drugs against both options before electing.</li>
+<li>Keep proof of the coverage loss for the marketplace application.</li>
+</ol>
+<p>You can choose either — you cannot have both for the same coverage period, and dropping COBRA
+later does not reopen a special enrollment period. Decide with the full-year numbers.</p>
+{related([("/guides/short-term-health-plans/", "Short-term plans vs ACA"),
+          ("/guides/aca-premium-tax-credits/", "How premium tax credits work"),
+          ("/guides/open-enrollment-and-special-enrollment/", "Enrollment periods")])}""",
+          crumbs=[("Guides", "/guides/"), ("COBRA vs marketplace", None)])
+
     s.add("/guides/", "Guides — US Health Insurance Marketplace",
-          "Explainers on metal tiers, premium tax credits, choosing a plan and enrollment periods.",
+          "Explainers on metal tiers, premium tax credits, choosing a plan, enrollment periods, "
+          "short-term plans and COBRA.",
           "<h1>Guides</h1><p class=\"lede\">Plain explainers for choosing and paying for marketplace coverage.</p>"
           + cards([("/guides/metal-tiers-explained/", "Bronze, Silver, Gold, Platinum",
                     "What metal levels mean and why silver is the subsidy benchmark."),
@@ -396,7 +465,11 @@ HealthCare.gov for any extended enrollment periods announced for the current yea
                    ("/guides/how-to-choose-a-health-insurance-plan/", "How to choose a plan",
                     "Total cost, networks, drugs, out-of-pocket maximum and deadlines."),
                    ("/guides/open-enrollment-and-special-enrollment/", "Enrollment periods",
-                    "Open enrollment dates and the life events that open a special window.")]),
+                    "Open enrollment dates and the life events that open a special window."),
+                   ("/guides/short-term-health-plans/", "Short-term plans vs ACA plans",
+                    "What short-term plans can exclude - and when they are a mistake."),
+                   ("/guides/cobra-vs-marketplace/", "COBRA vs marketplace",
+                    "How to compare COBRA and a subsidised marketplace plan after a job loss.")]),
           crumbs=[("Guides", None)])
 
     # ---------- data index for search
