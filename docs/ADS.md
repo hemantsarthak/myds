@@ -228,3 +228,22 @@ name, last name, email, phone number and messenger ID, and warns that ID/passpor
 required for payouts — not doable autonomously without the human's phone/ID). Ezoic was evaluated
 and deferred: it requires a full DNS/traffic integration and approval, so it cannot pay anything
 before traffic exists.
+
+## 2026-10-24 23:50 IST — HilltopAds website approval is now APPROVED (verified)
+
+The pending moderation finished: site 925719 (	ekify.xyz) now returns
+`statusApproval: {name: "Approved", value: "STATUS_APPROVAL_APPROVED"}`, `domainValid: true`,
+`status: true` (checked through the GraphQL panel client).
+
+End-to-end ad-stack verification in the real agent browser (guide page on nursinghomes):
+
+| Stack | Evidence |
+|---|---|
+| HilltopAds | 8 requests to `subtle-injury.com` (popunder) + `unfoldedtrade.com` (in-page push/banner), 2 ad iframes inserted into the page, 2 `.adslot` containers |
+| Infolinks | `resources.infolinks.com/js/infolinks_main.js` + `router.infolinks.com/usync` calls with our publisher id 3448908 (still "Pending Application", script syncing meanwhile) |
+| Analytics | `analytics.monetec2.workers.dev/e.js?site=nursinghomes` beacon firing |
+
+Zone stats today: **0 impressions,  .00 payout, trafficStatus "unknown"** on all five zones —
+i.e. the plumbing works but no human has visited yet. Payout action still pending: paste a wallet
+(BTC/USDT-TRC20/ETH from `shared/wallets-payout.json`) in Hilltop → My Account → Payment system
+when balance approaches .

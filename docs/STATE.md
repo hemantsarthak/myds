@@ -1142,3 +1142,11 @@ actually loaded** — browser-level tests belong in every content round.
 > editorial page carries a "written and maintained by the data team / last reviewed / sources"
 > byline. Rebuilt/deployed 7 properties, verified live. Daily check: **$0.00** (Hilltop 0.00 USD,
 > Travelpayouts 0). Infolinks decision expected Mon-Tue; insurance site still not indexed.
+
+> **2026-10-25 00:00 IST — round 14: Hilltop website APPROVED; ad stack verified live.**
+> HilltopAds site 925719 is now `STATUS_APPROVAL_APPROVED` (was pending since 10-22). Verified the
+> whole stack in a real browser: **8 Hilltop requests + 2 ad iframes + 2 adslot containers** on a
+> guide page, Infolinks script/router calls with pid 3448908 (still pending approval), analytics
+> beacon firing. Zone stats: 0 impressions / `0.00` payout / trafficStatus unknown — plumbing works,
+> no human traffic yet. Infolinks still "Pending Application". Income `.00`. Next: watch for the
+> first impressions; paste Hilltop payout wallet when balance nears ; check Infolinks Mon-Tue.

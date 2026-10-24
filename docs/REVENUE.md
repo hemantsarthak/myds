@@ -99,3 +99,8 @@ Round 12: Article + FAQPage structured data deployed across 7 editorial properti
 
 **Daily check 2026-10-24 23:35 IST — still $0.00.** Hilltop `0.00 USD`; Travelpayouts `0`.
 Round 13: facility/agency pages cross-link state cost pages; editorial bylines deployed.
+
+**Daily check 2026-10-25 00:00 IST — still $0.00.** Hilltop `0.00 USD` (balance), 0 impressions;
+Travelpayouts `0`. Infrastructure milestone: **Hilltop website approval granted** and the full ad
+stack (Hilltop + Infolinks + analytics) verified loading on live pages. Only human traffic is
+missing.
