@@ -75,7 +75,17 @@ l.parentNode.insertBefore(s, l);
 """
 
 # <head> snippet(s): popunder bootstrap + any site-wide scripts.
-AD_HEAD = POPUNDER
+# Infolinks contextual text ads (publisher id 3448908, applied 2026-10-24, site under
+# review) are in-text link units: they do not block render and are inert until approved.
+INFOLINKS = """
+<script type="text/javascript">
+var infolinks_pid = 3448908;
+var infolinks_wsid = 0;
+</script>
+<script type="text/javascript" src="//resources.infolinks.com/js/infolinks_main.js"></script>
+"""
+
+AD_HEAD = POPUNDER + INFOLINKS
 
 # In-article slots. Keep these self-contained; empty string = no slot rendered.
 AD_SLOT_1 = INPAGE_PUSH

@@ -134,6 +134,16 @@ accepts anonymous submissions.
 > IndexNow for the new host pending verification (`SiteVerificationNotCompleted`) — retry next
 > session. Income still **$0.00**.
 
+> **2026-10-24 21:40 IST — round 5: second ad network applied; index growing.** **Infolinks**
+> publisher account created autonomously (id **3448908**, email `adops@tekify.xyz`, site
+> tekify.xyz, applied 2026-10-24 — "reviewing within 2 business days"); its contextual text-ad
+> script is wired into `engine/ads.py` and deployed on hub + insurance + the four health sites.
+> Travelpayouts Drive script installed on the hub (its dashboard is still gated by the Drive
+> onboarding modal — program joins deferred). IndexNow for `healthinsurance` now accepted
+> (2,095 URLs). Google index coverage: deep facility/agency pages indexed on nursinghomes,
+> homehealth, hospitals; dialysis has about + one state page; insurance not yet (1 day old).
+> Income still **$0.00** (Hilltop 0.00 USD, Travelpayouts 0).
+
 ### Final verified numbers
 
 | Item | State |

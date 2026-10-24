@@ -13,6 +13,7 @@ sys.path.insert(0, str(ROOT))
 from insights import build_insights
 from engine.sitegen import Site, cards, esc  # noqa: E402
 from engine.affiliate import affiliate_block_for_site  # noqa: E402
+from engine.affiliates import drive_snippet  # noqa: E402
 
 PROPERTIES = [
     ("https://pincode.tekify.xyz/", "Pincode India",
@@ -131,6 +132,10 @@ free; there are no cookie walls, no accounts and no personal-data collection.</l
 </ul>
 """
     body += affiliate_block_for_site("hub", kinds=["hosting", "travel"], limit_per_block=3)
+    # Travelpayouts Drive: auto-converts commercial anchors on the hub into tracked links.
+    # Installing it on the main site also satisfies the network's onboarding step, which
+    # unblocks the full partner dashboard (program joins, statistics).
+    body += drive_snippet()
     # Consumer guides: hand-written, data-backed explainers on the highest-cost care decisions.
     # Linked from the hub (which Google already indexes) so crawl/discovery flows to the new pages.
     consumer_guides = [

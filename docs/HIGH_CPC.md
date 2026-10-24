@@ -138,3 +138,22 @@ the marketplace track or a later month.
     affiliate program joins possible from approved networks); index-coverage check; when CMS
     publishes the 2027 PUFs, re-run fetch+build for the "2027 premiums by county" refresh.
 
+- **2026-10-24 (goal round 5) — first monetization applications + daily verification.**
+  - **Infolinks publisher account created autonomously** (publisher id 3448908, email
+    `adops@tekify.xyz`, site `tekify.xyz`; no captcha, no KYC). Their in-text contextual ad
+    script is now in `engine/ads.py` (`INFOLINKS` → `AD_HEAD`) and deployed on hub + insurance +
+    the four health sites. Status: "reviewing your website within 2 business days" (from
+    2026-10-24, so decision expected 2026-10-26/27). This is an additional revenue stream
+    independent of Hilltop/AdSense.
+  - Travelpayouts Drive script installed on the hub (`tp-em.com` snippet) to satisfy the
+    network's onboarding gate and auto-monetise commercial anchors; the partner dashboard is
+    still gated by the Drive modal for program joins — noted, retry later.
+  - **Daily verification:** Hilltop `0.00 USD`; Travelpayouts `0`; Google index coverage checked —
+    deep pages are now indexed on **nursinghomes, homehealth, hospitals** (facility/agency pages),
+    dialysis has its About + one state page indexed; the new **healthinsurance** site is not
+    indexed yet (normal, 1 day old). Hub about/privacy pages indexed.
+  - IndexNow for `healthinsurance.tekify.xyz` now **accepted (200, 2,095 URLs)** after the first
+    verification cycle completed.
+  - Next: check Infolinks approval (2026-10-26+); daily income/index checks; refresh insurance
+    site when CMS publishes 2027 PUFs (open enrollment starts Nov 1).
+
