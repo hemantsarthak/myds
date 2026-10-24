@@ -1117,3 +1117,9 @@ actually loaded** — browser-level tests belong in every content round.
 > (site now 15,114 pages, clean build, deployed, IndexNow 15,114, hub links added). State facility
 > pages cross-link to their cost pages. Daily check: **$0.00** (Hilltop 0.00 USD,
 > Travelpayouts 0); Infolinks still pending review.
+
+> **2026-10-24 22:55 IST — round 10: home-health cost pages.** Extended the CareScout 2025 cost
+> cluster to `homehealth.tekify.xyz`: national `how-much-does-home-care-cost` guide, `/costs/`
+> index and 50 per-state in-home-care cost pages (12,781 → 12,833 pages), deployed + IndexNow
+> 12,833, hub links added. State agency pages cross-link to cost pages. Daily check: **$0.00**
+> (Hilltop 0.00 USD, Travelpayouts 0); Infolinks still pending.

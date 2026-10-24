@@ -205,3 +205,13 @@ the marketplace track or a later month.
   This targets the highest-intent elder-care queries ("nursing home cost by state") with real
   survey data that most competitors only summarise.
   Daily verification: Hilltop `0.00 USD`, Travelpayouts `0` — still **$0.00**.
+
+- **2026-10-24 (goal round 10) — cost-of-care cluster extended to home health.**
+  Reused the CareScout 2025 dataset on `homehealth.tekify.xyz`: new national explainer
+  `/guides/how-much-does-home-care-cost/` (cost by hours per week: 8/20/30/44/24-7, adult day
+  care, comparison with nursing home and assisted living), `/costs/` index and **50 per-state
+  in-home-care cost pages** (caregiver hourly median, homemaker annual at 44 h/week, adult day care,
+  hours models, FAQ). State agency pages now link to their cost page. Site grew 12,781 → **12,833
+  pages**, clean build, deployed, sample pages verified 200 (e.g. California /hr = 14% above
+  national), IndexNow accepted all 12,833 URLs; hub Consumer-guides links added.
+  Daily verification: Hilltop `0.00 USD`, Travelpayouts `0` — still **$0.00**.

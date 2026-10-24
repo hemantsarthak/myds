@@ -184,6 +184,13 @@ def build() -> Site:
     n_1990s = sum(c for y, c in cert_years.items() if y.isdigit() and 1990 <= int(y) <= 1999)
     n_pre1990 = sum(c for y, c in cert_years.items() if y.isdigit() and int(y) < 1990)
 
+    # ---- CareScout 2025 cost-of-care medians (shared cache, built by sites/nursinghomes/fetch_costs.py)
+    COSTS = json.loads((CACHE / "carescout-costs.json").read_text(encoding="utf-8"))
+    cost_nat = COSTS["national"]
+    cost_states = COSTS["states"]
+    cost_url = {st: f"/costs/{slug(STATE_NAMES[st])}/" for st in by_state
+                if STATE_NAMES.get(st) in cost_states}
+
     def nearby(a, limit=6):
         if a["lat"] is None:
             return []
@@ -203,7 +210,8 @@ def build() -> Site:
              "US home-health agencies: CMS star ratings, services, quality measures and location.",
              "Look up any Medicare-certified home-health agency: services offered, CMS quality-of-"
              "patient-care star rating, individual quality measures, address, phone and nearby agencies.",
-             nav=[("Search", "/search/"), ("States", "/#states"), ("Ratings", "/#ratings"), ("Guides", "/guides/")],
+             nav=[("Search", "/search/"), ("States", "/#states"), ("Ratings", "/#ratings"),
+                  ("Costs", "/costs/"), ("Guides", "/guides/")],
              source_note="Data: Centers for Medicare & Medicaid Services (CMS) Provider Data Catalog, "
                          "Home Health Care Agencies (public domain). The star rating summarises CMS "
                          "quality-of-patient-care measures.")
@@ -451,8 +459,153 @@ as context, not as agency verdicts.</p>
         "published. Not medical advice.")}""",
           crumbs=[("Statistics", None)])
 
+    # ---- cost-of-care pages (CareScout 2025 medians; in-home focus)
+    def money(v):
+        return f"${v:,.0f}" if v else "—"
+
+    def monthly(v):
+        return f"${v / 12:,.0f}" if v else "—"
+
+    nat_a = cost_nat["annual"]
+    nat_h = cost_nat["hourly"]
+    s.add("/guides/how-much-does-home-care-cost/",
+          "How Much Does Home Care Cost? (2025 Survey Data)",
+          "National median costs for in-home care from the CareScout 2025 survey: caregiver hourly "
+          "rates, annual cost at different weekly hours, adult day care — and state-by-state data.",
+          f"""<h1>How much does home care cost?</h1>
+<p class="lede">CareScout's 2025 Cost of Care Survey puts the national median for a non-medical
+caregiver at <strong>{money(nat_h['caregiver'])} an hour</strong>. The annual cost depends entirely on
+how many hours you need — 44 hours a week is the survey's benchmark, but most families start with
+far less.</p>
+<h2>Cost by hours per week (national median)</h2>
+<table>
+<tr><th>Hours per week</th><th>Hourly median</th><th>Annual cost</th><th>Monthly</th></tr>
+<tr><td>8 hours</td><td>{money(nat_h['caregiver'])}</td><td>{money(nat_h['caregiver'] * 8 * 52)}</td><td>{money(nat_h['caregiver'] * 8 * 52 / 12)}</td></tr>
+<tr><td>20 hours</td><td>{money(nat_h['caregiver'])}</td><td>{money(nat_h['caregiver'] * 20 * 52)}</td><td>{money(nat_h['caregiver'] * 20 * 52 / 12)}</td></tr>
+<tr><td>30 hours</td><td>{money(nat_h['caregiver'])}</td><td>{money(nat_h['caregiver'] * 30 * 52)}</td><td>{money(nat_h['caregiver'] * 30 * 52 / 12)}</td></tr>
+<tr><td>44 hours (survey benchmark)</td><td>{money(nat_h['caregiver'])}</td><td>{money(nat_a['homemaker'])}</td><td>{monthly(nat_a['homemaker'])}</td></tr>
+<tr><td>24/7 care (two 44-hour aides)</td><td>{money(nat_h['caregiver'])}</td><td>{money(nat_a['homemaker'] * 2)}</td><td>{money(nat_a['homemaker'] * 2 / 12)}</td></tr>
+</table>
+<h2>Adult day health care</h2>
+<p>For families who need daytime supervision while working, adult day health care has a national
+median of <strong>{money(nat_a['adult_day'])} a year</strong> ({monthly(nat_a['adult_day'])} a
+month), based on five days a week. It is usually far cheaper than full-time in-home help.</p>
+<h2>What home care includes — and what it does not</h2>
+<p>Non-medical home care covers help with daily living: bathing, dressing, meals, mobility,
+medication reminders and companionship. It is <strong>not</strong> skilled nursing or therapy — those
+are covered separately by Medicare home health when you are homebound and a doctor orders them (see
+<a href="/guides/medicare-home-health-coverage/">Medicare home health coverage</a>). Private home
+care is paid out of pocket, by long-term care insurance, or through some Medicaid waiver programmes.</p>
+<h2>How home care compares with other settings</h2>
+<p>Nationally a semi-private nursing home room has a median of <strong>{money(cost_nat['annual']['nursing_semi'])} a
+year</strong> and assisted living about <strong>{money(nat_a['assisted_living'])}</strong> — so home
+care is cheaper only while the number of hours is modest. As care needs grow past roughly 40–50
+hours a week, a residential setting can cost less per hour of coverage.</p>
+<h2>State medians</h2>
+<p>Caregiver rates and in-home costs vary by state — see the <a href="/costs/">state cost
+table</a> or the page for your state for local medians.</p>
+{notice("Source: CareScout (formerly Genworth) Cost of Care Survey 2025, median cost data tables, "
+        "retrieved 2026-10-24. Medians for private pay; not a quote.")}""",
+          crumbs=[("Guides", "/guides/"), ("Costs", None)])
+
+    # cost index
+    state_rows = "".join(
+        f'<tr><td><a href="{cost_url[st]}">{esc(STATE_NAMES[st])}</a></td>'
+        f'<td>{money((cost_states[STATE_NAMES[st]]["hourly"] or {}).get("caregiver"))}</td>'
+        f'<td>{money(cost_states[STATE_NAMES[st]]["annual"]["homemaker"])}</td>'
+        f'<td>{money(cost_states[STATE_NAMES[st]]["annual"]["adult_day"])}</td></tr>'
+        for st in sorted(cost_url, key=lambda x: STATE_NAMES[x]))
+    s.add("/costs/", "In-Home Care Costs by State (2025)",
+          f"Median caregiver hourly rates and annual in-home care costs in every state — CareScout "
+          f"2025 survey data — with links to each state's home health agencies.",
+          f"""<h1>In-home care costs by state</h1>
+<p class="lede">CareScout's 2025 Cost of Care Survey medians for non-medical home care. National
+median: <strong>{money(nat_h['caregiver'])} an hour</strong> for a caregiver, or
+<strong>{money(nat_a['homemaker'])} a year</strong> at 44 hours a week. Adult day care:
+<strong>{money(nat_a['adult_day'])} a year</strong>.</p>
+<table>
+<tr><th>State</th><th>Caregiver hourly</th><th>Homemaker (44 h/wk, annual)</th><th>Adult day care (annual)</th></tr>
+{state_rows}
+</table>
+<h2>How to use this table</h2>
+<p>Multiply the hourly rate by the hours you actually need — not by 44 hours. Eight hours a week of
+help with bathing and meals costs a small fraction of full-time care. The annual figure assumes the
+survey's 44-hour benchmark, which is full-time support. Rates are private-pay medians; Medicare home
+health (skilled, intermittent care) is covered separately when you qualify.</p>
+<h2>What changes the price</h2>
+<p>Hours needed, weekday/weekend and overnight premiums, the agency's minimum visit length, the type
+of aide (companion vs home health aide vs nurse) and local wage levels. Agency rates are usually
+higher than hiring an aide directly, but they include insurance, supervision and replacement
+cover.</p>
+{notice("Source: CareScout (formerly Genworth) Cost of Care Survey 2025, median cost data tables, "
+        "retrieved 2026-10-24. Not a quote.")}
+{related([("/guides/home-health-vs-home-care/", "Home health vs home care"),
+          ("/guides/how-much-does-home-care-cost/", "Cost by hours per week"),
+          ("/guides/medicare-home-health-coverage/", "Does Medicare cover home health?"),
+          ("/search/", "Find agencies by state")])}""",
+          crumbs=[("Costs", None)])
+
+    for st, curl in cost_url.items():
+        sname = STATE_NAMES[st]
+        ca = cost_states[sname]["annual"]
+        ch = cost_states[sname]["hourly"] or {}
+        rate = ch.get("caregiver")
+        nat_rate = nat_h["caregiver"]
+        diff = (rate - nat_rate) / nat_rate * 100 if rate and nat_rate else None
+        cmp_txt = (f"{abs(diff):.0f}% {'above' if diff >= 0 else 'below'} the national median"
+                   if diff is not None else "not comparable")
+        ag_link = state_url.get(st)
+        body = f"""
+<h1>In-home care costs in {esc(sname)} (2025)</h1>
+<p class="lede">The median non-medical caregiver rate in {esc(sname)} is
+<strong>{money(rate)} an hour</strong> — {cmp_txt} of {money(nat_rate)} — and homemaker services
+at 44 hours a week cost about <strong>{money(ca.get('homemaker'))} a year</strong>
+({monthly(ca.get('homemaker'))} a month).</p>
+<h2>Median costs in {esc(sname)} (2025)</h2>
+<table>
+<tr><th>Service</th><th>Median</th></tr>
+<tr><td>Non-medical caregiver</td><td>{money(rate)}/hour</td></tr>
+<tr><td>Homemaker services (44 h/week)</td><td>{money(ca.get('homemaker'))} a year ({monthly(ca.get('homemaker'))}/mo)</td></tr>
+<tr><td>Adult day health care (5 days/week)</td><td>{money(ca.get('adult_day'))} a year ({monthly(ca.get('adult_day'))}/mo)</td></tr>
+</table>
+<h2>Model the hours you actually need</h2>
+<table>
+<tr><th>Hours per week</th><th>Annual cost at {money(rate)}/hour</th></tr>
+<tr><td>8 hours</td><td>{money((rate or 0) * 8 * 52)}</td></tr>
+<tr><td>20 hours</td><td>{money((rate or 0) * 20 * 52)}</td></tr>
+<tr><td>30 hours</td><td>{money((rate or 0) * 30 * 52)}</td></tr>
+<tr><td>44 hours</td><td>{money(ca.get('homemaker'))}</td></tr>
+</table>
+<h2>What these figures cover</h2>
+<p>Private-pay medians for non-medical help at home — bathing, dressing, meals, mobility and
+companionship. Skilled nursing and therapy are covered separately by Medicare home health when you
+are homebound and a doctor orders them. Agency rates may be higher than direct-hire rates but include
+insurance and replacement cover.</p>
+{f'<h2>Home health agencies in {esc(sname)}</h2><p>Compare the local Medicare-certified agencies '
+ f'and their CMS ratings: <a href="{ag_link}">all home health agencies in {esc(sname)}</a>.</p>' if ag_link else ''}
+{related([("/guides/how-much-does-home-care-cost/", "How much does home care cost?"),
+          ("/guides/home-health-vs-home-care/", "Home health vs home care"),
+          ("/guides/choosing-a-home-health-agency/", "How to choose an agency"),
+          ("/costs/", "Costs by state")])}
+{faq([
+    (f"How much does home care cost in {sname}?",
+     f"The 2025 CareScout survey median for a non-medical caregiver in {sname} is "
+     f"{money(rate)} per hour; at 44 hours a week that is about {money(ca.get('homemaker'))} a year."),
+    (f"How much is adult day care in {sname}?",
+     f"The median adult day health care rate in {sname} is {money(ca.get('adult_day'))} a year "
+     f"({monthly(ca.get('adult_day'))} a month) based on five days a week."),
+    (f"Does Medicare pay for home care in {sname}?",
+     "Medicare covers skilled, intermittent home health care when you are homebound and a doctor "
+     "orders it - not non-medical custodial help. See the Medicare home health guide."),
+])}"""
+        s.add(curl, f"In-Home Care Costs in {sname} (2025) — Caregiver Rates & Annual Costs",
+              f"Median 2025 in-home care costs in {sname}: caregiver {money(rate)}/hour, homemaker "
+              f"services {money(ca.get('homemaker'))}/yr at 44 h/week, adult day care "
+              f"{money(ca.get('adult_day'))}/yr.",
+              body, crumbs=[("Costs", "/costs/"), (sname, None)])
+
     s.add("/guides/", "Guides — US Home Health",
-          "Explainers on home health care, Medicare coverage and choosing an agency — plus "
+          "Explainers on home health care, Medicare coverage, choosing an agency, costs and "
           "statistics computed from the CMS data behind this directory.",
           "<h1>Guides</h1><p class=\"lede\">Plain explainers for the questions families actually ask.</p>"
           + cards([("/guides/how-home-health-works/", "How home health works",
@@ -463,11 +616,16 @@ as context, not as agency verdicts.</p>
                     "Homebound rule, skilled need, what you pay and what is not covered."),
                    ("/guides/home-health-vs-home-care/", "Home health vs home care",
                     "Skilled Medicare-paid care versus private-pay help at home."),
+                   ("/guides/how-much-does-home-care-cost/", "How much does home care cost?",
+                    "2025 national medians by hours per week, plus adult day care."),
+                   ("/costs/", "In-home care costs by state",
+                    "Caregiver rates and annual costs for every state."),
                    ("/guides/choosing-a-home-health-agency/", "How to choose an agency",
                     "The checklist: ratings, measures, services and the questions to ask."),
                    ("/stats/", "US home health statistics",
                     "Agencies, services, ownership and state comparisons from CMS data.")]),
           crumbs=[("Guides", None)])
+
 
 
     # ---- rating pages
@@ -497,7 +655,8 @@ as context, not as agency verdicts.</p>
 <p>{esc(sname)} has {human(len(group))} home-health agencies in this directory. Agency quality varies
 widely: compare the star rating, the individual measures and the services offered (nursing, therapy,
 aide) before choosing.</p>
-{related([("/#ratings", "Browse by rating"), ("/search/", "Search agencies")])}
+{related([("/#ratings", "Browse by rating"), ("/search/", "Search agencies")]
+         + ([(cost_url[st], f"In-home care costs in {sname}")] if st in cost_url else []))}
 """
         s.add(state_url[st], f"Home Health Agencies in {sname} — Ratings & Services",
               f"{human(len(group))} home health agencies in {sname}: CMS star ratings, services, "
