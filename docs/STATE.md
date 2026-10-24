@@ -122,12 +122,24 @@ accepts anonymous submissions.
 > accepted 12,781 + 5,892 URLs. Commit `917239d`. Income unchanged at **$0.00**.
 > Next: `dialysis` cluster → health-insurance county vertical → affiliate applications.
 
+> **2026-10-24 20:55 IST — high-CPC content drive, round 3+4: dialysis cluster and the
+> health-insurance vertical launch.** Round 3 added the dialysis guides (`medicare-dialysis-coverage`,
+> `choosing-a-dialysis-facility`, `kidney-transplant-waitlist`) + `/stats/` page, and a
+> **Consumer guides** section on the indexed hub linking all new high-CPC pages. Round 4 built
+> **`healthinsurance.tekify.xyz`** — the highest-CPC vertical: CMS Exchange PUFs (2026 plan year)
+> condensed to 4,044 plan designs / 2,055 counties / 183 issuer filings across 30 FFM states;
+> 2,095 pages (county plan+premium pages, state pages, 4 guides), deployed to `myds-insurance`,
+> custom domain attached, all verified **200 live**. Hub property card + insurance guides added;
+> `scripts/health.py` now monitors the new host. Portfolio is now **13 properties / ~123,400 URLs**.
+> IndexNow for the new host pending verification (`SiteVerificationNotCompleted`) — retry next
+> session. Income still **$0.00**.
+
 ### Final verified numbers
 
 | Item | State |
 |---|---|
-| Properties | **12**, all returning 200 |
-| URLs | **121,287** across the twelve sites (sitemaps) |
+| Properties | **13**, all returning 200 (healthinsurance.tekify.xyz added 2026-10-24) |
+| URLs | **123,382** across the thirteen sites (121,287 + 2,095) |
 | Audit | **0 failures, 0 warnings** (homepages, robots, IndexNow keys, sitemaps, canonicals, titles/descriptions, JSON-LD, internal links, data endpoints, hub links) |
 | Hub | 18 pages, **12 original data analyses**, Organization + Dataset + ItemList + FAQPage + WebSite JSON-LD |
 | Calculators | 75 tools, every formula cross-checked (Python vs JavaScript) and live-tested |

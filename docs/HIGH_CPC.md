@@ -117,3 +117,24 @@ the marketplace track or a later month.
   - Next: health-insurance county vertical (highest CPC); then monetization applications
     (senior-care/insurance affiliate programs, Ezoic/AdSense prerequisite); daily index check.
 
+- **2026-10-24 (goal round 4) — health-insurance county vertical LAUNCHED.**
+  - `sites/insurance/fetch_data.py`: downloads the CMS Exchange Public Use Files (2026 plan year:
+    plan-attributes 30 MB, rate 268 MB, service-area) and condenses them to
+    `.cache/insurance/{plans,counties,meta}.json` — joins plan attributes → service areas →
+    counties and rating rates at ages 21/40/60 (tobacco-free). Result: **4,044 unique plan
+    designs, 2,055 counties, 183 issuer filings, 30 federally-facilitated-marketplace states**.
+  - `sites/insurance/build.py`: boots **healthinsurance.tekify.xyz** — county pages with cheapest
+    premium by metal, full plan table (insurer, plan, metal, type, deductible, out-of-pocket max,
+    age-40 premium), premium-by-age table, FAQ schema, plus 30 state pages and 4 guides (metal
+    tiers, ACA premium tax credits, choosing a plan, enrollment periods). 2,095 pages, clean
+    validation, deployed to `myds-insurance`, custom domain + DNS attached and verified 200 live.
+    Ads (Hilltop scripts) and the analytics beacon are present; IndexNow key file served at root
+    (submission pending verification cycle).
+  - Hub updated: new property card + three insurance guides in the Consumer guides section.
+    `scripts/health.py` host list now includes the new host for the daily action.
+  - Round scored **$0.00** as expected (no traffic yet); the vertical targets the highest-CPC
+    cluster (ACA health insurance) ahead of the next open-enrollment season.
+  - Next: monetization applications (senior-care/insurance affiliates that accept content sites;
+    affiliate program joins possible from approved networks); index-coverage check; when CMS
+    publishes the 2027 PUFs, re-run fetch+build for the "2027 premiums by county" refresh.
+

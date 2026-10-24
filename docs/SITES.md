@@ -2,6 +2,15 @@
 
 Updated 2026-10-22 (round 5). Cloudflare account `c01fe438c7960466670d312e55164037`, domain `tekify.xyz`.
 
+> **2026-10-24 update — the portfolio is now 13 properties / ~123,400 URLs.** Since the table below
+> was written: the four CMS health sites went live (hospitals, nursing homes, home health, dialysis)
+> and **healthinsurance.tekify.xyz** was added — ACA marketplace plans by county from the CMS
+> Exchange public use files (2,055 county pages + 30 state pages + 4 guides, project
+> `myds-insurance`, LIVE 2026-10-24). The health sites also gained hand-written consumer-guide
+> clusters and original-data `/stats/` pages (see `docs/HIGH_CPC.md`). IndexNow for the new
+> `healthinsurance` host returns `SiteVerificationNotCompleted` until its first verification cycle
+> completes — retry next session; the key file is already served at the host root.
+
 ## Ours (we build + deploy these)
 
 | Site | Pages project | pages.dev subdomain | Public URL | Pages | Ads | Analytics | Status |

@@ -37,6 +37,8 @@ PROPERTIES = [
      "CMS star ratings, services and quality measures for 12,400 home-health agencies."),
     ("https://dialysis.tekify.xyz/", "US Dialysis Centers",
      "CMS five-star ratings, quality measures and services for 7,400 dialysis facilities."),
+    ("https://healthinsurance.tekify.xyz/", "Health Insurance Marketplace",
+     "ACA marketplace plans by county: 2026 premiums by age, metal levels, deductibles and insurers."),
     ("https://calculators.tekify.xyz/", "Calculators",
      "Loan, mortgage, tax, salary, health and date calculators."),
 ]
@@ -160,6 +162,12 @@ free; there are no cookie walls, no accounts and no personal-data collection.</l
          "US home health statistics", "Agencies, services and ownership"),
         ("https://dialysis.tekify.xyz/stats/",
          "US dialysis statistics", "Facilities, treatments and chains"),
+        ("https://healthinsurance.tekify.xyz/guides/aca-premium-tax-credits/",
+         "How ACA premium tax credits work", "Benchmark silver, income and family size, advance vs. tax time"),
+        ("https://healthinsurance.tekify.xyz/guides/metal-tiers-explained/",
+         "Bronze, Silver, Gold and Platinum plans explained", "Actuarial value and why silver is the benchmark"),
+        ("https://healthinsurance.tekify.xyz/guides/how-to-choose-a-health-insurance-plan/",
+         "How to choose a health insurance plan", "Total cost, networks, drugs and out-of-pocket maximums"),
     ]
     guides_html = ('<h2 id="guides">Consumer guides</h2>'
                    '<p>Plain-language explainers for the money and care decisions behind the data — '
