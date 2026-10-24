@@ -75,3 +75,8 @@ live on hub + insurance + four health sites; no impressions until approval.
 |---|---|---|
 | 2026-10-22 | ~0 human / 326 crawler renders | 7 properties live, 72,776 sitemap URLs; Googlebot/Bingbot rendering pages (airport 139, zip 116, ifsc 69, places 2) |
 | 2026-10-22 (evening) | 0 | colleges.tekify.xyz launched (6,056 pages); IndexNow accepted |
+
+**Daily check 2026-10-24 21:30 IST — still $0.00.** Hilltop `0.00 USD`; Travelpayouts `0` /
+no actions. Infolinks: application **pending** (publisher panel, pid 3448908; integration complete
+on all 13 sites). No human sessions, no impressions, no clicks — traffic remains the binding
+constraint.

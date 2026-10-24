@@ -156,6 +156,16 @@ accepts anonymous submissions.
 > Google's index (2 days old; hub links + IndexNow submitted). Next: Infolinks approval check
 > 2026-10-26/27; insurance index check; 2027 PUF refresh when published.
 
+> **2026-10-24 21:30 IST — round 7: finance guide cluster; Infolinks panel says pending.**
+> Added five hand-written high-CPC finance guides to `calculators.tekify.xyz` (refinance break-even,
+> 28/36 affordability rule, life-insurance DIME sizing, debt snowball vs avalanche, student-loan
+> repayment plans) — calculators is now 80 pages with 6 guides, FAQ schema and links into the
+> matching calculators. Hub "Consumer guides" now links them too. Deployed + verified live;
+> IndexNow 200 (80 URLs). Logged into the Infolinks publisher panel: status is **"Pending
+> Application — still being processed"**, integration already complete on all 13 sites (they say
+> that expedites it); decision expected 2026-10-26/27. Daily check: **$0.00** (Hilltop 0.00 USD,
+> Travelpayouts 0). Commit for this round in `engine/guides.py` + hub.
+
 ### Final verified numbers
 
 | Item | State |

@@ -157,3 +157,20 @@ the marketplace track or a later month.
   - Next: check Infolinks approval (2026-10-26+); daily income/index checks; refresh insurance
     site when CMS publishes 2027 PUFs (open enrollment starts Nov 1).
 
+- **2026-10-24 (goal round 7) — finance guide cluster + Infolinks panel confirmed pending.**
+  - Added **5 high-CPC finance guides** to `calculators.tekify.xyz` via `engine/guides.py`
+    (calculators now has 6 guides / 80 pages, clean build):
+    refinance break-even (*when does refinancing pay off*), house affordability (28/36 rule),
+    life insurance sizing (DIME method, term vs whole), debt snowball vs avalanche (+ consolidation
+    and balance transfers), and student-loan repayment plans (standard/graduated/extended/IDR/PSLF,
+    with the refinancing-federal-loans warning). Every guide has FAQ schema and deep links to the
+    matching calculators.
+  - Deployed and verified all five guide URLs live; IndexNow 200 for all 80 calculators URLs.
+  - **Hub "Consumer guides" section extended** with the five finance guides, so the indexed hub
+    keeps feeding crawl/authority to the new pages.
+  - **Infolinks panel checked**: logged into `publishers.infolinks.com` (pid 3448908) — status is
+    **"Pending Application… still being processed, we will notify you by email when approved"**;
+    integration is already complete on all 13 sites, which is what they ask for to expedite.
+    Decision expected ~2026-10-26/27.
+  - Daily verification: Hilltop `0.00 USD`, Travelpayouts `0` — still **$0.00** (zero human traffic).
+

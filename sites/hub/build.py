@@ -173,6 +173,16 @@ free; there are no cookie walls, no accounts and no personal-data collection.</l
          "Bronze, Silver, Gold and Platinum plans explained", "Actuarial value and why silver is the benchmark"),
         ("https://healthinsurance.tekify.xyz/guides/how-to-choose-a-health-insurance-plan/",
          "How to choose a health insurance plan", "Total cost, networks, drugs and out-of-pocket maximums"),
+        ("https://calculators.tekify.xyz/guides/when-does-refinancing-pay-off/",
+         "When does refinancing pay off?", "Break-even maths: closing costs versus monthly savings"),
+        ("https://calculators.tekify.xyz/guides/how-much-house-can-i-afford/",
+         "How much house can you afford?", "The 28/36 rule and the costs buyers forget"),
+        ("https://calculators.tekify.xyz/guides/how-much-life-insurance-do-i-need/",
+         "How much life insurance do you need?", "The DIME method and term versus whole life"),
+        ("https://calculators.tekify.xyz/guides/debt-snowball-vs-avalanche/",
+         "Debt snowball vs avalanche", "Which debt-payoff order is cheaper - and which works"),
+        ("https://calculators.tekify.xyz/guides/student-loan-repayment-plans/",
+         "Student loan repayment plans explained", "Standard, graduated, extended and income-driven"),
     ]
     guides_html = ('<h2 id="guides">Consumer guides</h2>'
                    '<p>Plain-language explainers for the money and care decisions behind the data — '

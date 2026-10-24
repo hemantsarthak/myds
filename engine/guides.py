@@ -418,6 +418,244 @@ payment suggests.</p>
                    "unless you ask them to recast the payment.")],
              rel=[("Loan payment calculator", "/loan-payment/"),
                   ("Mortgage amortisation", "/mortgage-amortization/")]),
+        dict(slug="when-does-refinancing-pay-off",
+             title="When Does Refinancing Pay Off? The Break-Even Math",
+             desc="How to calculate the break-even point on a mortgage refinance: closing costs "
+                  "versus monthly savings, rate-and-term versus cash-out, and when refinancing is "
+                  "not worth it.",
+             h1="When does refinancing pay off?",
+             lede="A refinance costs money up front to save money each month. The only honest question "
+                  "is how long it takes to get the upfront cost back — and whether you will still be "
+                  "in the house or the loan by then.",
+             body="""
+<h2>The break-even calculation</h2>
+<p>Divide the <strong>total cost of refinancing</strong> by the <strong>monthly payment
+savings</strong>. If closing costs are $4,800 and the new payment is $160 lower, the break-even point
+is <strong>30 months</strong>. Stay in the home longer than that and the refinance is ahead; sell or
+refinance again sooner and you lose money on it. The break-even calculator here does the arithmetic
+including points you pay to buy the rate down.</p>
+<h2>What closing costs actually include</h2>
+<p>Expect roughly <strong>2–5% of the loan amount</strong>: lender origination, appraisal, title
+search and insurance, recording fees, and any discount points. Some costs can be rolled into the
+loan, but that raises the balance and the interest you pay — roll them in and the break-even moves
+out.</p>
+<h2>Rate-and-term versus cash-out</h2>
+<p><strong>Rate-and-term</strong> refinancing replaces the loan to get a lower rate, a shorter term,
+or to drop mortgage insurance. <strong>Cash-out</strong> refinancing borrows against equity, usually
+at a higher rate than rate-and-term; the monthly payment may go up even when the rate falls. Treat
+cash-out as a new loan decision, not a way to "save" on the old one.</p>
+<h2>When a refinance is usually worth it</h2>
+<ul>
+<li>The new rate is meaningfully lower — often cited as about 0.75–1 percentage point, though closing
+costs and loan size matter more than the rule of thumb.</li>
+<li>You will stay in the home past the break-even month.</li>
+<li>You can shorten the term without straining the budget, or remove mortgage insurance.</li>
+<li>Your credit and equity have improved enough to qualify for a better rate than the original loan.</li>
+</ul>
+<h2>When it is not</h2>
+<p>If you plan to move soon, if the rate drop is small relative to costs, if the new loan restarts a
+30-year term late in the current one, or if the refinance is only to lower the payment by extending
+the term — that trades real total interest for temporary cash-flow relief.</p>
+""",
+             faq=[("How do I calculate the break-even point on a refinance?",
+                   "Divide total closing costs by the monthly payment savings; the result is the "
+                   "number of months before the refinance pays for itself."),
+                  ("Is a cash-out refinance a good idea?",
+                   "It resets the whole loan at a new rate and typically a higher one. Compare the "
+                   "cash-out cost against a home-equity loan or line of credit, and treat it as a new "
+                   "borrowing decision."),
+                  ("How much does refinancing cost?",
+                   "Usually about 2-5% of the loan amount in lender, appraisal, title and recording "
+                   "costs, plus any discount points.")],
+             rel=[("Refinance break-even calculator", "/refinance-breakeven/"),
+                  ("Mortgage payment calculator", "/mortgage-payment/"),
+                  ("Mortgage amortisation", "/mortgage-amortization/")]),
+        dict(slug="how-much-house-can-i-afford",
+             title="How Much House Can You Afford? The 28/36 Rule Explained",
+             desc="The 28/36 rule, debt-to-income limits lenders use, how the down payment and PMI "
+                  "change the maths, and the costs buyers forget when setting a budget.",
+             h1="How much house can you afford?",
+             lede="Lenders will often approve more than is comfortable. The 28/36 rule is a "
+                  "conservative starting point; the real number depends on your other debts, savings "
+                  "and how stable your income is.",
+             body="""
+<h2>The 28/36 rule</h2>
+<p>Keep <strong>housing costs at or below 28%</strong> of gross monthly income and <strong>total
+debt payments at or below 36%</strong>. On $8,000 gross monthly income that means $2,240 for
+mortgage principal, interest, property tax and insurance, and no more than $2,880 in total monthly
+debt. Many lenders will go to a 43–50% debt-to-income ratio for qualified buyers — approval is not
+the same as affordability.</p>
+<h2>What counts in housing cost</h2>
+<p>Principal and interest, property taxes, homeowners insurance, mortgage insurance if the down
+payment is under 20%, and HOA dues. On a $400,000 loan at 6.5% for 30 years, principal and interest
+is about $2,528 a month; taxes and insurance can easily add several hundred more, and those costs
+rise over time even when the mortgage payment does not.</p>
+<h2>The down payment</h2>
+<p>Twenty percent avoids private mortgage insurance and gives the lowest payment, but it is not
+mandatory: many loan programmes allow 3–5% down for qualified buyers. A smaller down payment means
+mortgage insurance, a higher payment and less equity — model both with the down-payment calculator
+before deciding.</p>
+<h2>The costs buyers forget</h2>
+<ul>
+<li>Closing costs (2–5% of the loan) and moving costs</li>
+<li>Maintenance and repairs, often 1% of the home's value a year</li>
+<li>Higher utilities, HOA special assessments and property-tax reassessment</li>
+<li>An emergency fund that survives the purchase — do not spend it all on the down payment</li>
+</ul>
+<h2>Set the budget before the search</h2>
+<p>Decide the monthly payment you can carry through a job loss or a rate reset, subtract the
+taxes/insurance/HOA estimate, and work backwards to a purchase price. Then get pre-approved: it
+tells you what a lender will actually offer, which is useful information — not a spending target.</p>
+""",
+             faq=[("What is the 28/36 rule?",
+                   "Housing costs no more than 28% of gross monthly income and total debt payments no "
+                   "more than 36%. It is a conservative budget guide, not a lending rule."),
+                  ("How much down payment do I need?",
+                   "Twenty percent avoids mortgage insurance and lowers the payment, but many programmes "
+                   "allow 3-5% down for qualified buyers."),
+                  ("Do lenders approve more than I can afford?",
+                   "Sometimes. Approval is based on debt-to-income limits and credit; your own budget "
+                   "should also cover savings, maintenance and irregular expenses.")],
+             rel=[("Mortgage affordability calculator", "/mortgage-affordability/"),
+                  ("Down payment calculator", "/down-payment-calculator/"),
+                  ("Rent vs buy calculator", "/rent-vs-buy/")]),
+        dict(slug="how-much-life-insurance-do-i-need",
+             title="How Much Life Insurance Do You Need? The DIME Method",
+             desc="A simple way to size life insurance: debts, income replacement, mortgage and "
+                  "education, plus why term cover usually beats whole life for most families.",
+             h1="How much life insurance do you need?",
+             lede="The right amount is the number that lets the people who depend on your income keep "
+                  "their standard of living. Most families need more than an employer's group policy "
+                  "provides, and term insurance is usually the cheapest way to get it.",
+             body="""
+<h2>The DIME method</h2>
+<p>Add four numbers: <strong>D</strong>ebts (credit cards, car loans, personal loans),
+<strong>I</strong>ncome replacement (often 10× annual income, or enough years to cover the
+children's dependency), <strong>M</strong>ortgage balance, and <strong>E</strong>ducation costs for
+each child. Subtract existing savings and cover you already have. The result is a rough death
+benefit — a starting point, not a precise answer.</p>
+<h2>A worked example</h2>
+<p>Income $75,000 (10× = $750,000), mortgage $240,000, other debts $15,000, two children's
+education $120,000: about $1.13 million. With $100,000 saved and a $150,000 group policy from work,
+the gap is roughly $880,000. A 20-year level term policy for that amount is often surprisingly
+affordable for a healthy 30–40 year old.</p>
+<h2>Term versus whole life</h2>
+<p><strong>Term</strong> covers a set period (10, 20, 30 years) with no cash value — cheap per
+dollar of cover, ideal when the need is temporary (until the mortgage is paid, children finish
+school, retirement savings grow). <strong>Whole life and universal</strong> policies last for life,
+build cash value and cost far more; they can make sense for estate planning or permanent needs, but
+they are usually an expensive way to buy pure protection.</p>
+<h2>Do not rely on group cover alone</h2>
+<p>Employer group life is typically 1–2× salary, ends when the job ends, and is not portable. Use it
+as part of the total, not the plan.</p>
+<h2>Review it</h2>
+<p>Reassess when you marry, have children, buy a home, change income, or when a policy term ends.
+Cover that felt generous at 30 can be inadequate at 40.</p>
+""",
+             faq=[("How much life insurance do I need?",
+                   "A common starting point is 10-12 times income plus debts and the mortgage, minus "
+                   "savings and existing cover. The DIME method above shows the arithmetic."),
+                  ("Is term or whole life better?",
+                   "For most families with temporary needs, level term gives far more cover per dollar. "
+                   "Whole life suits permanent needs and estate planning but costs much more."),
+                  ("Is employer life insurance enough?",
+                   "Usually not. Group cover is often 1-2 times salary and ends with the job. Treat it as "
+                   "one part of the total.")],
+             rel=[("Net worth calculator", "/net-worth-calculator/"),
+                  ("Emergency fund calculator", "/emergency-fund-calculator/"),
+                  ("Savings goal calculator", "/savings-goal/")]),
+        dict(slug="debt-snowball-vs-avalanche",
+             title="Debt Snowball vs Avalanche: Which Pays Off Debt Faster?",
+             desc="The maths of avalanche (highest interest first) versus the motivation of snowball "
+                  "(smallest balance first), plus consolidation loans and balance transfers.",
+             h1="Debt snowball vs avalanche",
+             lede="Two methods, one goal: get out of debt. Avalanche is mathematically cheaper; "
+                  "snowball is often easier to stick with. The difference between them is usually "
+                  "smaller than the difference between either and doing nothing.",
+             body="""
+<h2>Avalanche: highest interest rate first</h2>
+<p>Pay minimums on everything, then throw every spare dollar at the <strong>highest-APR</strong>
+debt. It minimises total interest paid and is the fastest route mathematically. It can be
+discouraging when the target balance is large and the visible progress is slow.</p>
+<h2>Snowball: smallest balance first</h2>
+<p>Pay minimums everywhere, then attack the <strong>smallest balance</strong>, rolling each cleared
+payment into the next debt. It costs slightly more in interest but delivers quick wins, which
+research on behaviour suggests keeps people on plan.</p>
+<h2>Which is better?</h2>
+<p>If the rates are similar, snowball. If one card charges 29% and another 8%, avalanche — the
+interest gap is worth the patience. The debt-payoff and credit-card-payoff calculators here let you
+compare both orders with your real balances and see the interest difference in dollars.</p>
+<h2>Consolidation and balance transfers</h2>
+<p>A <strong>consolidation loan</strong> replaces several debts with one lower-rate payment. It
+lowers the interest cost only if the rate is genuinely lower and you do not run the cards back up.
+A <strong>0% balance-transfer card</strong> can pause interest for 12–21 months for a 3–5% fee, but
+only if you can clear the balance before the promo rate ends. Read the fee, the post-promo rate and
+the credit-limit terms before moving debt.</p>
+<h2>The step that matters most</h2>
+<p>Neither method works while new debt is being added. Fix the cash-flow gap first: a written budget,
+an emergency fund of even $500–$1,000, and automatic payments. Then pick a method and automate
+it.</p>
+""",
+             faq=[("Is avalanche or snowball better?",
+                   "Avalanche saves more interest; snowball builds momentum. Pick avalanche when rates "
+                   "differ a lot, snowball when the motivation gap is the real problem."),
+                  ("Does debt consolidation hurt my credit?",
+                   "A new loan adds a hard inquiry and can lower the average account age, but paying down "
+                   "revolving balances usually helps. Effects vary - check before applying."),
+                  ("Should I pay off debt or invest?",
+                   "Compare the after-tax interest rate on the debt with expected investment returns, and "
+                   "keep an emergency fund first. Paying a 25% credit card is a guaranteed 25% return.")],
+             rel=[("Debt payoff calculator", "/debt-payoff-calculator/"),
+                  ("Credit card payoff calculator", "/credit-card-payoff/"),
+                  ("Loan payment calculator", "/loan-payment/")]),
+        dict(slug="student-loan-repayment-plans",
+             title="Student Loan Repayment Plans Explained",
+             desc="Standard, graduated, extended and income-driven repayment: how each sets the "
+                  "payment, which qualifies for loan forgiveness, and how to compare them.",
+             h1="Student loan repayment plans explained",
+             lede="The plan you choose changes the monthly payment, the total interest, and whether you "
+                  "can qualify for forgiveness. Pick it deliberately — the default is not always the "
+                  "cheapest.",
+             body="""
+<h2>Standard repayment</h2>
+<p>Fixed payments over 10 years (up to $30,000 borrowed; longer if more). It is the fastest and
+usually cheapest path in total interest, and the only plan where the 10-year clock for Public
+Service Loan Forgiveness starts cleanly on federal Direct Loans.</p>
+<h2>Graduated and extended plans</h2>
+<p><strong>Graduated</strong> starts lower and rises every two years. <strong>Extended</strong>
+stretches payments to 25 years for borrowers with larger balances — lower monthly cost, much more
+interest over time. Both suit people early in a career who expect income growth, at the cost of
+total interest.</p>
+<h2>Income-driven repayment (IDR)</h2>
+<p>IDR plans cap the payment at a percentage of discretionary income and forgive the remaining
+balance after a set number of years (commonly 20–25, shorter in some cases). They are the safety net
+for borrowers whose debt exceeds their income. The rules and the specific plan names change
+frequently: check the official site (studentaid.gov) for the current plans, the income definition,
+and whether forgiveness is currently taxable in your situation.</p>
+<h2>Public Service Loan Forgiveness</h2>
+<p>Borrowers in qualifying public-service jobs (government, many non-profits) can have the remaining
+balance forgiven after <strong>120 qualifying monthly payments</strong> under a qualifying plan —
+which is why the choice of repayment plan matters. Certify employment every year and keep records.</p>
+<h2>How to decide</h2>
+<p>Start with the standard plan's payment and total interest, then ask whether the monthly payment
+fits your budget. If it does not, use the student-loan calculator to stress-test a longer term, and
+consider IDR only with the forgiveness terms in writing. Refinancing private loans can lower the
+rate — but refinanced federal loans lose federal protections, forgiveness eligibility and IDR
+options. Never refinance federal loans without understanding that trade-off.</p>
+""",
+             faq=[("What is the cheapest student loan repayment plan?",
+                   "Usually standard 10-year repayment, because it minimises total interest - if you can "
+                   "afford the payment. Income-driven plans can cost more in total but stop a default."),
+                  ("Does refinancing federal student loans lose benefits?",
+                   "Yes. Refinancing with a private lender replaces federal loans and removes access to "
+                   "income-driven repayment, deferment options and Public Service Loan Forgiveness."),
+                  ("How do I get Public Service Loan Forgiveness?",
+                   "120 qualifying monthly payments while working full time for a qualifying employer, "
+                   "under a qualifying repayment plan, with employment certified each year. Verify the "
+                   "current rules at studentaid.gov.")],
+             rel=[("Student loan calculator", "/student-loan/"),
+                  ("Loan payment calculator", "/loan-payment/"),
+                  ("Budget: hourly to salary", "/hourly-to-salary/")]),
     ],
     # ------------------------------------------------------------------ colleges
     "colleges": [
