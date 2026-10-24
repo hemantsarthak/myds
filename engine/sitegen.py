@@ -335,6 +335,34 @@ class Site:
             ds = self._dataset_ld()
             if ds:
                 blocks.append(ds)
+        # Editorial pages (hand-written guides, statistics, cost tables, rankings) get Article
+        # structured data with author/publisher and dates — an E-E-A-T signal Google can read.
+        if not page["jsonld"] and rel.startswith(("guides/", "stats/", "costs/", "rankings/", "insights/")):
+            blocks.append({
+                "@context": "https://schema.org", "@type": "Article",
+                "headline": page["title"],
+                "description": page["desc"],
+                "datePublished": page["lastmod"],
+                "dateModified": page["lastmod"],
+                "author": {"@type": "Organization", "name": self.brand, "url": self.base + "/"},
+                "publisher": {"@type": "Organization", "name": self.brand, "url": self.base + "/"},
+                "mainEntityOfPage": {"@type": "WebPage", "@id": canonical},
+                "isPartOf": {"@type": "WebSite", "name": self.brand, "url": self.base + "/"},
+            })
+        # Any page that renders the visible FAQ block also gets matching FAQPage JSON-LD
+        # (rich-result eligibility; questions and answers stay identical to the page text).
+        if not page["jsonld"] and '<section class="faq">' in page["body"]:
+            m = re.search(r'<section class="faq">(.*?)</section>', page["body"], re.S)
+            if m:
+                pairs = re.findall(r"<h3>(.*?)</h3>\s*<p>(.*?)</p>", m.group(1), re.S)
+                if pairs:
+                    def _plain(x):
+                        return html.unescape(re.sub(r"<[^>]+>", "", x)).strip()
+                    blocks.append({
+                        "@context": "https://schema.org", "@type": "FAQPage",
+                        "mainEntity": [{"@type": "Question", "name": _plain(q),
+                                        "acceptedAnswer": {"@type": "Answer", "text": _plain(a)}}
+                                       for q, a in pairs]})
         if page["crumbs"]:
             blocks.append({"@context": "https://schema.org", "@type": "BreadcrumbList",
                            "itemListElement": [

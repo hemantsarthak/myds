@@ -1129,3 +1129,10 @@ actually loaded** — browser-level tests belong in every content round.
 > national median /mo, cheapest NH counties ), deployed + verified + IndexNow 2,098; hub
 > link added. Daily check: **$0.00** (Hilltop 0.00 USD, Travelpayouts 0); Googlebot 957/day,
 > GoogleOther 762/day still crawling. Infolinks decision expected Mon-Tue (Oct 26-27).
+
+> **2026-10-24 23:20 IST — round 12: Article + FAQPage schema.** sitegen now automatically emits
+> Article JSON-LD on editorial pages (guides/stats/costs/rankings/insights) and FAQPage JSON-LD on
+> every page with a visible FAQ block. Rebuilt/deployed hub + calculators + insurance + nursing homes
+> + home health + hospitals + dialysis; verified live (Article on costs/rankings/insights, FAQPage on
+> facility pages). Daily check: **$0.00** (Hilltop 0.00 USD, Travelpayouts 0); insurance site still
+> not indexed; Infolinks expected Mon-Tue.

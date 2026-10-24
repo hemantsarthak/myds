@@ -225,3 +225,16 @@ the marketplace track or a later month.
   hub Consumer-guides links it. Site now 2,098 pages; deployed, verified 200, IndexNow 2,098.
   Daily verification: GoogleBot 957 req/day and GoogleOther 762 (crawling continues); Hilltop
   `0.00 USD`, Travelpayouts `0` — still **$0.00**.
+
+- **2026-10-24 (goal round 12) — structured-data upgrade across the editorial layer.**
+  `engine/sitegen.py` now emits two extra JSON-LD blocks automatically:
+  **Article** schema (headline, description, author/publisher Organization, datePublished/Modified,
+  mainEntityOfPage) on every editorial page — paths `guides/`, `stats/`, `costs/`,
+  `rankings/`, `insights/` — and **FAQPage** schema on every page that renders the visible FAQ
+  block (facility/agency pages and guides with FAQs), with question/answer text kept identical.
+  Rebuilt and deployed the 7 affected properties (hub, calculators, insurance, nursing homes, home
+  health, hospitals, dialysis); verified live: Article on cost/rankings/insights pages, FAQPage on
+  facility pages and calculator guides. This is an E-E-A-T/rich-result signal for exactly the pages
+  that carry the commercial value.
+  Index check: `healthinsurance.tekify.xyz` **still not indexed** (4 days old); income still
+  **$0.00`.
