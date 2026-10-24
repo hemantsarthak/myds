@@ -171,6 +171,55 @@ def build() -> Site:
         if h["lat"] is not None:
             grid[(int(h["lat"]), int(h["lon"]))].append(h)
 
+    # ---- national aggregates computed from the CMS file (used by the guides + /stats/ page)
+    def numf(v):
+        try:
+            return float(str(v).replace(",", "").strip())
+        except Exception:
+            return None
+
+    def med(xs):
+        xs = sorted(xs)
+        return xs[len(xs) // 2] if xs else 0.0
+
+    def mean(xs):
+        return sum(xs) / len(xs) if xs else 0.0
+
+    def pct(a, b):
+        return f"{100 * a / b:.0f}%" if b else "—"
+
+    rated = [h for h in homes if h["ratings"]["Overall rating"].isdigit()]
+    n_high = sum(1 for h in rated if int(h["ratings"]["Overall rating"]) >= 4)
+    n_abuse = sum(1 for h in homes if h["abuse"])
+    n_focus = sum(1 for h in homes if h["special_focus"])
+    beds_v = [x for x in (numf(h["beds"]) for h in homes) if x]
+    res_v = [x for x in (numf(h["residents"]) for h in homes) if x]
+    staff_v = [x for x in (numf(h["staff_total"]) for h in homes) if x]
+    rn_v = [x for x in (numf(h["staff_rn"]) for h in homes) if x]
+    wk_v = [x for x in (numf(h["staff_weekend"]) for h in homes) if x]
+    to_v = [x for x in (numf(h["turnover_total"]) for h in homes) if x]
+    rtn_v = [x for x in (numf(h["turnover_rn"]) for h in homes) if x]
+    own = collections.Counter((h["owner"] or "Unreported") for h in homes)
+    chain_homes = [h for h in homes if h["chain"]]
+    n_sprink = sum(1 for h in homes if h["sprinklers"])
+    n_council = sum(1 for h in homes if h["council"])
+    # state staffing/ratings extremes (>= 20 facilities so single facilities do not distort)
+    st_staff = collections.defaultdict(list)
+    st_rating = collections.defaultdict(list)
+    for h in homes:
+        v = numf(h["staff_total"])
+        if v:
+            st_staff[h["state"]].append(v)
+        if h["ratings"]["Overall rating"].isdigit():
+            st_rating[h["state"]].append(int(h["ratings"]["Overall rating"]))
+    st_staff = {s: mean(v) for s, v in st_staff.items() if len(v) >= 20}
+    st_rating = {s: mean(v) for s, v in st_rating.items() if len(v) >= 20}
+    top_staff = sorted(st_staff.items(), key=lambda kv: -kv[1])[:5]
+    low_staff = sorted(st_staff.items(), key=lambda kv: kv[1])[:5]
+    top_rating = sorted(st_rating.items(), key=lambda kv: -kv[1])[:5]
+    low_rating = sorted(st_rating.items(), key=lambda kv: kv[1])[:5]
+    top_chains = collections.Counter(h["chain"] for h in chain_homes).most_common(10)
+
     def nearby(h, limit=6):
         if h["lat"] is None:
             return []
@@ -281,14 +330,324 @@ the list; the visit and the care plan decide.</p>
 """,
           crumbs=[("Guides", "/guides/"), ("Choosing a home", None)])
 
+    # ---- high-intent guide cluster (payment / coverage / comparison / staffing / stats)
+    s.add("/guides/paying-for-nursing-home-care/", "How to Pay for Nursing Home Care",
+          "What nursing home care costs nationally, the payment sources that cover it "
+          "(Medicare, Medicaid, VA, long-term care insurance, private pay) and the order to "
+          "use them in.",
+          f"""<h1>How to pay for nursing home care</h1>
+<p class="lede">Nursing home care is the most expensive form of long-term care. Most families
+combine several payment sources over time — almost nobody pays the whole bill from one place.</p>
+<h2>What it costs</h2>
+<p>CareScout's 2025 Cost of Care Survey puts the <strong>national median</strong> at
+<strong>$315 a day</strong> for a semi-private room — about <strong>$9,581 a month</strong> or
+<strong>$114,975 a year</strong> — and <strong>$355 a day</strong> for a private room
+(<strong>$10,798 a month</strong>, <strong>$129,575 a year</strong>). Costs vary widely by state
+and city; the {human(len(homes))} facilities in this directory show the spread, and a facility's
+own admissions office is the only authoritative quote.</p>
+<h2>The payment sources, in the order families usually use them</h2>
+<p><strong>1. Private pay.</strong> Savings, pension income, the proceeds of selling a home, and
+family contributions. This is how most people start. A facility will ask for a financial
+disclosure and may require a deposit.</p>
+<p><strong>2. Medicare — short-term skilled care only.</strong> Part A can pay for up to
+<strong>100 days per benefit period</strong> of <em>skilled</em> nursing facility care after a
+qualifying hospital stay, with coinsurance after day 20. Medicare does <strong>not</strong> pay for
+custodial long-term care. See <a href="/guides/medicare-and-nursing-homes/">does Medicare cover
+nursing home care</a>.</p>
+<p><strong>3. Medicaid — the long-term-care payer of last resort.</strong> For people who meet
+their state's income and asset limits, Medicaid covers long-term custodial nursing home care in
+certified facilities. It is means-tested and state-specific; see
+<a href="/guides/medicaid-and-nursing-homes/">Medicaid and nursing homes</a>.</p>
+<p><strong>4. Long-term care insurance.</strong> If a policy was bought years ago, it may pay a
+daily or monthly benefit after an elimination period. Check the policy's benefit period,
+inflation protection and whether it pays for nursing home care only or also home care.</p>
+<p><strong>5. Veterans benefits.</strong> The VA has community living centres, state veterans
+homes and the Aid &amp; Attendance allowance for eligible wartime veterans and surviving spouses.
+Apply through the VA, not the facility.</p>
+<p><strong>6. Other assets.</strong> Life insurance with a long-term care rider, hybrid
+life/LTC policies, annuities with LTC benefits, a reverse mortgage, or the sale of a home. Get
+independent financial advice before cashing in policies — the tax and benefit consequences
+matter.</p>
+<h2>How to choose the order</h2>
+<p>Start with what the person needs clinically (skilled rehabilitation versus custodial care), then
+check Medicare eligibility for the short term, then plan the long term with Medicaid/insurance/VA
+in mind. Ask the facility's admissions director which payers they accept — most accept Medicaid,
+but bed availability for Medicaid patients can differ. Apply for Medicaid <em>before</em> the
+money runs out; retroactive coverage is limited.</p>
+<h2>Watch out for</h2>
+<p>Facilities are not allowed to require a "Medicaid bed" deposit in most states, but they can ask
+for a private-pay commitment for a period. Get every commitment in writing. Keep records of every
+payment, policy and application — appeals are common and documentation wins them.</p>
+{faq([
+    ("Does Medicare pay for long-term nursing home care?",
+     "No. Medicare covers short-term skilled nursing facility care (up to 100 days per benefit "
+     "period) after a qualifying hospital stay, not custodial long-term care."),
+    ("What is the national median cost of a semi-private nursing home room?",
+     "About $315 a day, or roughly $114,975 a year, according to CareScout's 2025 Cost of Care Survey."),
+    ("Can I pay for a nursing home with Medicaid?",
+     "Yes, if the person meets the state's income and asset limits and the facility is Medicaid-certified. "
+     "Rules vary by state."),
+])}""",
+          crumbs=[("Guides", "/guides/"), ("Paying for care", None)])
+
+    s.add("/guides/medicare-and-nursing-homes/", "Does Medicare Cover Nursing Home Care?",
+          "Medicare's skilled nursing facility benefit explained: the 100-day limit, the 3-day "
+          "hospital rule, 2026 coinsurance, skilled versus custodial care, and what happens when "
+          "coverage ends.",
+          """<h1>Does Medicare cover nursing home care?</h1>
+<p class="lede">Usually only for a short, skilled stay — and never for long-term custodial care.
+That distinction decides most of the money questions families bring to a nursing home.</p>
+<h2>The short answer</h2>
+<p>Medicare Part A pays for up to <strong>100 days of skilled nursing facility (SNF) care per
+benefit period</strong> if you had a qualifying inpatient hospital stay, but it covers
+<strong>custodial care — help with daily living — not at all</strong>. Long-term nursing home
+residents are typically covered by Medicaid or private funds instead.</p>
+<h2>What qualifies</h2>
+<ul>
+<li>An inpatient hospital stay of at least <strong>3 consecutive days</strong> (observation status
+does not count).</li>
+<li>Admission to a Medicare-certified SNF within <strong>30 days</strong> of discharge.</li>
+<li>A doctor orders <strong>skilled care</strong> (nursing, rehabilitation) on a daily basis, and
+the facility certifies it is medically necessary.</li>
+</ul>
+<h2>What Medicare pays</h2>
+<p>In 2026, days <strong>1–20</strong> are covered in full after the Part A hospital deductible.
+Days <strong>21–100</strong> carry coinsurance of about <strong>$217 a day</strong>. Coverage is
+per benefit period — it resets after 60 days out of hospital care. Check the current figures at
+Medicare.gov, and note that a Medicare Advantage plan can set its own SNF rules and network.</p>
+<h2>Skilled care versus custodial care</h2>
+<p><strong>Skilled care</strong> means services that only licensed nurses or therapists can
+provide: wound care, intravenous medication, physical or speech therapy after a stroke or
+fracture. <strong>Custodial care</strong> is help with eating, dressing, bathing, toileting and
+supervision. Custodial care is what most long-stay nursing home residents need — and it is the
+part Medicare does not pay for.</p>
+<h2>When Medicare stops paying</h2>
+<p>Coverage ends when the person's condition stops improving, when skilled services are no longer
+needed, or at 100 days. Options then: Medicaid if eligible, long-term care insurance, VA benefits,
+or private pay. Ask the facility's social worker to start the next application early.</p>
+{faq([
+    ("Does Medicare pay for nursing home care?",
+     "Only for short-term skilled care — up to 100 days per benefit period after a qualifying "
+     "hospital stay. Medicare does not pay for long-term custodial care."),
+    ("How many days will Medicare pay for a skilled nursing facility?",
+     "Up to 100 days per benefit period: days 1-20 are fully covered, days 21-100 have daily "
+     "coinsurance (about $217 a day in 2026)."),
+    ("What is the 3-day rule?",
+     "Medicare requires at least a 3-consecutive-day inpatient hospital stay before it will pay "
+     "for the SNF stay, and admission within 30 days of discharge."),
+])}""",
+          crumbs=[("Guides", "/guides/"), ("Medicare", None)])
+
+    s.add("/guides/medicaid-and-nursing-homes/", "Medicaid and Nursing Homes: How Coverage Works",
+          "How Medicaid pays for long-term nursing home care: eligibility limits, the look-back "
+          "period, spend-down, spousal protections, and how to apply in your state.",
+          """<h1>Medicaid and nursing homes: how coverage works</h1>
+<p class="lede">Medicaid is the largest payer of long-term nursing home care in the United States.
+It is available only to people who meet both a <em>medical eligibility</em> and a
+<em>financial eligibility</em> test — but it pays for custodial care that Medicare does not.</p>
+<h2>What Medicaid covers</h2>
+<p>For eligible residents, Medicaid covers nursing facility services in participating facilities,
+including custodial care (help with daily living), which is the part Medicare excludes. Most, but
+not all, nursing homes in this directory are certified to accept Medicaid.</p>
+<h2>Medical eligibility</h2>
+<p>States generally require that the person needs a nursing-facility level of care — assessed by
+the state's functional assessment, not by the facility. Contact your state Medicaid agency for the
+assessment.</p>
+<h2>Financial eligibility</h2>
+<p>Limits on income and countable assets are set by each state, within federal rules. A home is
+often not counted if a spouse still lives there, subject to an equity limit. Some income can be
+diverted to a community spouse; 2026 federal rules set the minimum and maximum monthly
+maintenance needs allowance for spouses. Because the numbers change yearly and vary by state,
+always check with that state's Medicaid office before planning.</p>
+<h2>The five-year look-back</h2>
+<p>When you apply, states review <strong>five years</strong> of asset transfers. Gifts and
+below-market sales made in that window can cause a period of ineligibility, calculated by
+dividing the transferred value by the state's average daily nursing home rate. Keep records of
+every large transaction. Some transfers are exempt (for example, to certain family members or for
+fair-market value).</p>
+<h2>Spend-down and planning</h2>
+<p>If income or assets are slightly above the limit, a "spend-down" (medical expense deduction)
+process may allow eligibility. An elder-law attorney can explain state options — but beware of
+advisors who suggest hiding assets, which can itself trigger penalties.</p>
+<h2>How to apply</h2>
+<p>Apply through the state Medicaid agency or the county office, not the nursing home (the facility
+can help with paperwork). Start before assets are exhausted; processing can take weeks. Once
+approved, a redetermination is usually required annually.</p>
+{faq([
+    ("Does Medicaid pay for nursing home care?",
+     "Yes, for people who meet their state's income and asset limits and need nursing-facility-level care. "
+     "Medicaid covers custodial care that Medicare does not."),
+    ("What is the 5-year look-back?",
+     "Medicaid reviews five years of asset transfers before approval. Undisclosed gifts or below-market "
+     "transfers can cause a period of ineligibility."),
+    ("Can I keep my home if my spouse enters a nursing home?",
+     "Often yes, when a spouse still lives there, subject to the state's equity limit and rules. Rules vary "
+     "by state."),
+])}""",
+          crumbs=[("Guides", "/guides/"), ("Medicaid", None)])
+
+    s.add("/guides/nursing-home-vs-home-care-vs-assisted-living/",
+          "Nursing Home vs Home Care vs Assisted Living: What Is the Difference?",
+          "A plain comparison of nursing homes, assisted living, memory care, home care and home "
+          "health — what each provides, who pays, and how to know which is needed.",
+          f"""<h1>Nursing home vs home care vs assisted living</h1>
+<p class="lede">People use these words interchangeably, but they describe very different levels of
+care and different payment rules. Getting the setting wrong is the most expensive mistake families
+make.</p>
+<h2>The settings, briefly</h2>
+<table>
+<tr><td><strong>Nursing home</strong></td><td>24/7 skilled nursing and custodial care; clinical
+supervision, medication management, therapy. Medicare-certified facilities are in this directory.</td></tr>
+<tr><td><strong>Assisted living</strong></td><td>Housing with help for daily activities — meals,
+housekeeping, bathing, medication reminders. Not skilled nursing; most residents do not need
+round-the-clock clinical care.</td></tr>
+<tr><td><strong>Memory care</strong></td><td>Specialised assisted living for dementia, with secured
+areas and dementia-trained staff. Often a unit inside a nursing home or assisted-living
+community.</td></tr>
+<tr><td><strong>Home care</strong></td><td>Non-medical help at home: companionship, bathing,
+dressing, meals. Paid privately or through long-term care insurance; usually hourly.</td></tr>
+<tr><td><strong>Home health</strong></td><td>Skilled services at home — nursing, physical therapy,
+wound care — covered short-term by Medicare when homebound and medically necessary.</td></tr>
+<tr><td><strong>CCRC / life plan</strong></td><td>Campus offering independent living through
+nursing care; entry fees and contracts vary.</td></tr>
+</table>
+<h2>Cost comparison</h2>
+<p>For national context, CareScout's 2025 Cost of Care Survey reports a median of about
+<strong>$114,975 a year</strong> for a semi-private nursing home room and about
+<strong>$6,200 a month</strong> for assisted living, with home care billed hourly and depending on
+the hours needed. The {human(len(homes))} facilities in this directory can be filtered by state and
+city to compare local options.</p>
+<h2>Who pays</h2>
+<p>Medicare pays only for <em>skilled</em> care — a short nursing home stay or home health — not
+for custodial care. Medicaid pays long-term nursing home care for people who qualify financially.
+Private pay, long-term care insurance and VA benefits fill the middle. Assisted living is almost
+always private pay unless a state offers a Medicaid waiver.</p>
+<h2>How to decide</h2>
+<p>Match the setting to the <strong>clinical need and the hours of supervision required</strong>,
+then to the money. If the person needs 24/7 nursing or can no longer be safely left alone, a
+nursing home may be the only safe setting. If the need is help with daily living and safety, home
+care or assisted living may be enough. Reassess regularly — needs change.</p>
+{related([("/guides/medicare-and-nursing-homes/", "Medicare versus custodial care"),
+          ("/guides/paying-for-nursing-home-care/", "How to pay for care"),
+          ("/guides/how-to-choose-a-nursing-home/", "How to choose a nursing home")])}""",
+          crumbs=[("Guides", "/guides/"), ("Care settings", None)])
+
+    s.add("/guides/nursing-home-staffing-and-turnover/",
+          "Nursing Home Staffing Hours and Turnover: How to Read Them",
+          f"What CMS staffing hours per resident per day mean, the national medians computed from "
+          f"{human(len(homes))} facilities, why RN hours and weekend hours matter, and how to read "
+          f"turnover numbers.",
+          f"""<h1>Nursing home staffing hours and turnover</h1>
+<p class="lede">Staffing is the part of the CMS data most directly linked to daily experience — and
+the easiest to misread. Here is what the numbers mean, with national medians computed from the
+{human(len(homes))} facilities in this directory.</p>
+<h2>Staffing hours per resident per day</h2>
+<p>CMS reports how many hours of care each facility's residents receive per day, split into nurse
+aides, licensed practical nurses (LPNs) and registered nurses (RNs). The <strong>total nurse
+staffing</strong> figure is the sum. In this data the median facility reports about
+<strong>{med(staff_v):.2f} total nurse hours per resident per day</strong>, including
+<strong>{med(rn_v):.2f} RN hours</strong>; on weekends the median is about
+<strong>{med(wk_v):.2f} total hours</strong>. Facilities below the median deserve extra questions
+about nights and weekends.</p>
+<h2>Why RN hours matter</h2>
+<p>RNs assess changes in condition, manage medications and supervise aides. A facility can have a
+high total hour count dominated by aide hours and still be thin on RN coverage. Compare the RN
+figure separately, and ask specifically who covers nights and weekends.</p>
+<h2>Turnover</h2>
+<p>CMS reports total nursing-staff turnover and RN turnover over the year. In this data the median
+total nursing-staff turnover is <strong>{med(to_v):.1f}%</strong> and median RN turnover is
+<strong>{med(rtn_v):.1f}%</strong>. Very high turnover suggests unstable staffing — which affects
+consistency of care, family communication and training. Low turnover is not automatically better
+if the facility is understaffed, but it is a good sign when staffing hours are also solid.</p>
+<h2>The abuse and special-focus flags</h2>
+<p>CMS flags facilities with abuse citations in the last three survey cycles —
+<strong>{pct(n_abuse, len(homes))}</strong> of facilities in this directory — and special-focus
+status for persistent quality problems (<strong>{pct(n_focus, len(homes))}</strong>). These are
+independent of star ratings and worth checking even for 4- and 5-star facilities.</p>
+<h2>How to check</h2>
+<p>Every facility page in this directory shows staffing hours, turnover, ownership and flags next
+to the CMS star ratings. Compare at least three facilities at the same level of care, and ask each
+one how the numbers translate into a typical day on the floor.</p>
+{related([("/guides/how-nursing-home-ratings-work/", "How CMS ratings work"),
+          ("/stats/", "National statistics from this CMS data")])}""",
+          crumbs=[("Guides", "/guides/"), ("Staffing", None)])
+
+    # ---- national statistics page (original data from the CMS file)
+    own_rows = "".join(f"<tr><td>{esc(k)}</td><td>{human(v)}</td><td>{pct(v, len(homes))}</td></tr>"
+                       for k, v in own.most_common())
+    chain_rows = "".join(f"<tr><td>{esc(k)}</td><td>{human(v)}</td></tr>" for k, v in top_chains)
+    h2 = lambda title, rows: f"<h2>{title}</h2><table><tr><th>State</th><th>Average</th></tr>{rows}</table>"
+    rows_staff_top = "".join(f'<tr><td><a href="{state_url[s]}">{esc(STATE_NAMES.get(s, s))}</a></td><td>{v:.2f} hours</td></tr>' for s, v in top_staff)
+    rows_staff_low = "".join(f'<tr><td><a href="{state_url[s]}">{esc(STATE_NAMES.get(s, s))}</a></td><td>{v:.2f} hours</td></tr>' for s, v in low_staff)
+    rows_rating_top = "".join(f'<tr><td><a href="{state_url[s]}">{esc(STATE_NAMES.get(s, s))}</a></td><td>{v:.2f} / 5</td></tr>' for s, v in top_rating)
+    rows_rating_low = "".join(f'<tr><td><a href="{state_url[s]}">{esc(STATE_NAMES.get(s, s))}</a></td><td>{v:.2f} / 5</td></tr>' for s, v in low_rating)
+    s.add("/stats/", "US Nursing Home Statistics — Beds, Staffing, Ratings, Ownership",
+          f"National statistics from the CMS nursing home file: {human(len(homes))} facilities, "
+          f"{human(int(sum(beds_v)))} certified beds, staffing hours, turnover, ownership, chains "
+          f"and state comparison tables.",
+          f"""<h1>US nursing home statistics</h1>
+<p class="lede">Original summary statistics computed from the CMS Provider Information file for the
+<strong>{human(len(homes))}</strong> Medicare/Medicaid-certified nursing homes listed in this
+directory.</p>
+<h2>National overview</h2>
+<table>
+<tr><td>Facilities</td><td>{human(len(homes))}</td></tr>
+<tr><td>States and territories</td><td>{human(len(by_state))}</td></tr>
+<tr><td>Certified beds</td><td>{human(int(sum(beds_v)))}</td></tr>
+<tr><td>Median beds per facility</td><td>{med(beds_v):.0f}</td></tr>
+<tr><td>Average residents per day (median)</td><td>{med(res_v):.0f}</td></tr>
+<tr><td>Facilities rated 4 or 5 stars (of rated)</td><td>{pct(n_high, len(rated))}</td></tr>
+<tr><td>Facilities with an abuse flag</td><td>{pct(n_abuse, len(homes))}</td></tr>
+<tr><td>Facilities with special-focus status</td><td>{pct(n_focus, len(homes))}</td></tr>
+<tr><td>Facilities with sprinklers in all required areas</td><td>{pct(n_sprink, len(homes))}</td></tr>
+<tr><td>Facilities with a resident and family council</td><td>{pct(n_council, len(homes))}</td></tr>
+</table>
+<h2>Staffing and turnover (national medians)</h2>
+<table>
+<tr><td>Total nurse staffing hours per resident per day</td><td>{med(staff_v):.2f}</td></tr>
+<tr><td>RN staffing hours per resident per day</td><td>{med(rn_v):.2f}</td></tr>
+<tr><td>Total nurse hours on weekends</td><td>{med(wk_v):.2f}</td></tr>
+<tr><td>Total nursing-staff turnover</td><td>{med(to_v):.1f}%</td></tr>
+<tr><td>RN turnover</td><td>{med(rtn_v):.1f}%</td></tr>
+</table>
+<h2>Ownership</h2>
+<table><tr><th>Ownership type</th><th>Facilities</th><th>Share</th></tr>{own_rows}</table>
+<h2>Chains with the most facilities</h2>
+<table><tr><th>Chain</th><th>Facilities</th></tr>{chain_rows}</table>
+<p>{pct(len(chain_homes), len(homes))} of facilities belong to a multi-facility chain.</p>
+{h2("States with the most nurse staffing hours (≥20 facilities)", rows_staff_top)}
+{h2("States with the fewest nurse staffing hours (≥20 facilities)", rows_staff_low)}
+{h2("States with the highest average CMS overall rating (≥20 facilities)", rows_rating_top)}
+{h2("States with the lowest average CMS overall rating (≥20 facilities)", rows_rating_low)}
+<p class="mut">Averages are computed from the CMS published file and are not risk-adjusted; use
+them as context, not as facility quality verdicts. Individual facility pages carry the CMS
+ratings.</p>
+{notice("Data: CMS Provider Data Catalog, nursing home Provider Information (public domain), "
+        "reproduced as published. Not medical or legal advice.")}""",
+          crumbs=[("Statistics", None)])
+
     s.add("/guides/", "Guides — US Nursing Homes",
-          "Explainers on CMS nursing home ratings and how to choose a facility.",
-          "<h1>Guides</h1><p class=\"lede\">Short explainers to help you read the data on each facility page.</p>"
+          "Explainers on CMS nursing home ratings, paying for care, Medicare and Medicaid "
+          "coverage, care settings, staffing and national statistics.",
+          "<h1>Guides</h1><p class=\"lede\">Plain explainers for the questions families actually ask — plus statistics computed from the CMS data behind this directory.</p>"
           + cards([("/guides/how-nursing-home-ratings-work/", "How CMS star ratings work",
                     "Inspections, staffing and quality measures — and the abuse/special-focus flags."),
                    ("/guides/how-to-choose-a-nursing-home/", "How to choose a nursing home",
-                    "A practical checklist for shortlisting and visiting facilities.")]),
+                    "A practical checklist for shortlisting and visiting facilities."),
+                   ("/guides/paying-for-nursing-home-care/", "How to pay for nursing home care",
+                    "Costs, and the payment sources in the order families use them."),
+                   ("/guides/medicare-and-nursing-homes/", "Does Medicare cover nursing home care?",
+                    "The 100-day SNF benefit, the 3-day rule and custodial care."),
+                   ("/guides/medicaid-and-nursing-homes/", "Medicaid and nursing homes",
+                    "Eligibility, the 5-year look-back and how to apply."),
+                   ("/guides/nursing-home-vs-home-care-vs-assisted-living/", "Nursing home vs other care",
+                    "What each setting provides and who pays for it."),
+                   ("/guides/nursing-home-staffing-and-turnover/", "Staffing hours and turnover",
+                    "What the staffing data means, with national medians."),
+                   ("/stats/", "US nursing home statistics",
+                    "Beds, staffing, ratings and ownership — computed from this CMS file.")]),
           crumbs=[("Guides", None)])
+
 
     # ---- rating pages
     for n in (5, 4, 3, 2, 1):

@@ -60,3 +60,27 @@ AdSense rejects "auto-generated content" sites, and Google's helpful-content sys
 
 Expected 30-day ad revenue under this plan: **$0–50** (traffic still ramping). The $1k target needs
 the marketplace track or a later month.
+
+## Progress log
+
+- **2026-10-24 (goal round 1) — elder-care cluster started on `nursinghomes.tekify.xyz`.**
+  Added 6 hand-written, data-backed pages (+362 lines in `sites/nursinghomes/build.py`):
+  - `/guides/paying-for-nursing-home-care/` — costs (CareScout 2025 medians: $315/day semi-private
+    ≈ $114,975/yr; $355/day private ≈ $129,575/yr) + payment sources in order (private pay,
+    Medicare SNF, Medicaid, LTC insurance, VA, other assets).
+  - `/guides/medicare-and-nursing-homes/` — 100-day SNF benefit, 3-day rule, 2026 ~$217/day
+    coinsurance, skilled vs custodial, what happens when coverage ends.
+  - `/guides/medicaid-and-nursing-homes/` — eligibility, 5-year look-back, spend-down, spousal
+    protections, how to apply.
+  - `/guides/nursing-home-vs-home-care-vs-assisted-living/` — setting comparison + who pays.
+  - `/guides/nursing-home-staffing-and-turnover/` — explains CMS staffing data with medians
+    computed from the dataset itself.
+  - `/stats/` — original national statistics page: 15k facilities, certified beds, staffing and
+    turnover medians, ownership split, top chains, state extremes (highest/lowest staffing and
+    ratings) — a link-worthy asset and a template for the other health sites.
+  Build clean (15,062 pages, 0 dup titles/descs, 0 broken), deployed to
+  `myds-nursinghomes`, IndexNow accepted all 15,062 URLs; all new pages verified HTTP 200 live.
+  Income re-checked same round: Hilltop `0.00 USD`, Travelpayouts `0` — still $0.
+- Next: replicate the pattern on `homehealth`, `hospitals`, `dialysis` (2–4 pages each + stats),
+  then the health-insurance county vertical.
+
