@@ -53,6 +53,13 @@ pages: *IFSC Codes in SURAT*, *ZIP Codes in North Dakota*, *Polokwane Airport (P
 0 indexed. No human sessions yet → no ad impressions/clicks → no revenue. Watch the self-hosted
 counter/hilltop balance daily from here: the first $0.01 needs one human impression on an indexed page.
 
+**Daily check 2026-10-24 21:00 IST — still $0.00.** Hilltop `0.00 USD` (no traffic delivered),
+Travelpayouts `0` / no actions / no payments. Index coverage (Google `site:` sample): deep pages
+indexed on **nursinghomes, homehealth, hospitals** (facility/agency pages), dialysis partial
+(about + one state page), **healthinsurance not yet** (launched 10-24). New monetization:
+**Infolinks applied** (publisher id 3448908, contextual text ads, review ≤2 business days) — tag
+live on hub + insurance + four health sites; no impressions until approval.
+
 ## Milestones
 
 - [ ] $1 first revenue
