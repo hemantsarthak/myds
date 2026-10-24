@@ -73,6 +73,19 @@ accepts anonymous submissions.
 > repo `hemantsarthak/hemantsarthak.github.io` exists but is empty (README only), 404;
 > the PAT still 403s on writes → optional, needs human token scope.
 
+> **2026-10-24 17:55 IST — 🟢 GOOGLE HAS STARTED INDEXING (first real indexing breakthrough).**
+> `site:` queries in the agent Chrome returned real results for **tekify.xyz, ifsccodes,
+> zipcodes, airportcodes** and more — e.g. *"About Airport Codes"*, *"IFSC Codes in SURAT,
+> Gujarat"*, *"ZIP Codes in North Dakota — Full List"*, *"IFSC codes for banks in MUMBAI
+> SUBURBAN"*, *"Polokwane International Airport (PTG)"*. So Google is no longer just crawling
+> — pages are entering the index. Bing still shows **no** indexed URLs (site: query returns
+> unrelated results; IndexNow URLs are accepted but not yet indexed). Income still **$0.00**
+> (Hilltop `0.00 USD`, Travelpayouts `0`). Next revenue gate = impressions/clicks on indexed
+> pages → watch self-hosted analytics for the first human views. Bing WMT signup: automated flow
+> reaches the **"press and hold" Human Security challenge** (`iframe.hsprotect.net`) and stops
+> there; an automated hold did not pass it — needs the human's 30 s or is left to IndexNow.
+> Reproduce the index check with `.moneyds/tmp/index_count.mjs` (Playwright attach to CDP 9222).
+
 ### Final verified numbers
 
 | Item | State |

@@ -47,6 +47,12 @@ Travelpayouts balance `0` / 0 actions / no payments. Edge logs now show **Google
 in 48 h** (was 6 on 10-23): Google has started crawling the sitemap URLs — discovery happening,
 no rankings or impressions yet. ClaudeBot 83,586 requests in 48 h is the dominant crawler.
 
+**2026-10-24 17:55 IST — Google indexing has started (still $0.00).** `site:` queries show real
+results on tekify.xyz, ifsccodes, zipcodes, airportcodes (about/guides/privacy pages plus real data
+pages: *IFSC Codes in SURAT*, *ZIP Codes in North Dakota*, *Polokwane Airport (PTG)*). Bing still
+0 indexed. No human sessions yet → no ad impressions/clicks → no revenue. Watch the self-hosted
+counter/hilltop balance daily from here: the first $0.01 needs one human impression on an indexed page.
+
 ## Milestones
 
 - [ ] $1 first revenue
