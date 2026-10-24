@@ -84,3 +84,6 @@ constraint.
 **Daily check 2026-10-24 22:00 IST — still $0.00.** Hilltop `0.00 USD`; Travelpayouts `0`.
 Infolinks pending review. Portfolio health: 13 sites, 123,405 URLs, all 200. Google index:
 calculators site now indexed; healthinsurance not yet.
+
+**Daily check 2026-10-24 22:30 IST — still $0.00.** Hilltop `0.00 USD`; Travelpayouts `0`.
+New this round: 50 state cost-of-care pages (CareScout 2025 medians) on nursinghomes + hub links.

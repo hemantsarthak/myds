@@ -1110,3 +1110,10 @@ actually loaded** — browser-level tests belong in every content round.
 > (eports/health-2026-10-24.md). Index status: **calculators now indexed**, healthinsurance not
 > yet (3 days old); no health-query rankings yet. Daily check: **$0.00** (Hilltop 0.00 USD,
 > Travelpayouts 0). Infolinks still pending.
+
+> **2026-10-24 22:30 IST — round 9: state cost-of-care pages.** Added a CareScout-2025 cost dataset
+> (`sites/nursinghomes/fetch_costs.py` → `.cache/carescout-costs.json`, 50 states + national)
+> and built **50 per-state cost pages + /costs/ index + national explainer** on nursinghomes
+> (site now 15,114 pages, clean build, deployed, IndexNow 15,114, hub links added). State facility
+> pages cross-link to their cost pages. Daily check: **$0.00** (Hilltop 0.00 USD,
+> Travelpayouts 0); Infolinks still pending review.

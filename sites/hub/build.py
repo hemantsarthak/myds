@@ -139,6 +139,10 @@ free; there are no cookie walls, no accounts and no personal-data collection.</l
     # Consumer guides: hand-written, data-backed explainers on the highest-cost care decisions.
     # Linked from the hub (which Google already indexes) so crawl/discovery flows to the new pages.
     consumer_guides = [
+        ("https://nursinghomes.tekify.xyz/guides/how-much-does-nursing-home-care-cost/",
+         "How much does nursing home care cost?", "2025 national medians and what the survey excludes"),
+        ("https://nursinghomes.tekify.xyz/costs/",
+         "Nursing home and long-term care costs by state", "CareScout 2025 medians for every state"),
         ("https://nursinghomes.tekify.xyz/guides/paying-for-nursing-home-care/",
          "How to pay for nursing home care", "Costs and payment sources in the order families use them"),
         ("https://nursinghomes.tekify.xyz/guides/medicare-and-nursing-homes/",

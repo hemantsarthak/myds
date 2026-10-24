@@ -220,6 +220,13 @@ def build() -> Site:
     low_rating = sorted(st_rating.items(), key=lambda kv: kv[1])[:5]
     top_chains = collections.Counter(h["chain"] for h in chain_homes).most_common(10)
 
+    # ---- CareScout 2025 cost-of-care medians by state (see sites/nursinghomes/fetch_costs.py)
+    COSTS = json.loads((CACHE / "carescout-costs.json").read_text(encoding="utf-8"))
+    cost_nat = COSTS["national"]
+    cost_states = COSTS["states"]
+    cost_url = {st: f"/costs/{slug(STATE_NAMES[st])}/" for st in by_state
+                if STATE_NAMES.get(st) in cost_states}
+
     def nearby(h, limit=6):
         if h["lat"] is None:
             return []
@@ -239,7 +246,8 @@ def build() -> Site:
              "US nursing homes: CMS star ratings, staffing, ownership, beds and location.",
              "Look up any US nursing home: CMS overall, inspection, quality and staffing ratings, "
              "staffing hours, turnover, ownership, certified beds, address and nearby facilities.",
-             nav=[("Search", "/search/"), ("States", "/#states"), ("Ratings", "/#ratings"), ("Guides", "/guides/")],
+             nav=[("Search", "/search/"), ("States", "/#states"), ("Ratings", "/#ratings"),
+                  ("Costs", "/costs/"), ("Guides", "/guides/")],
              source_note="Data: Centers for Medicare & Medicaid Services (CMS) Provider Data Catalog, "
                          "nursing home Provider Information (public domain). Ratings are CMS five-star "
                          "quality ratings based on health inspections, staffing and quality measures.")
@@ -626,14 +634,175 @@ ratings.</p>
         "reproduced as published. Not medical or legal advice.")}""",
           crumbs=[("Statistics", None)])
 
+    # ---- cost-of-care pages (CareScout 2025 survey, state medians)
+    def money(v):
+        return f"${v:,.0f}" if v else "—"
+
+    def monthly(v):
+        return f"${v / 12:,.0f}" if v else "—"
+
+    nat = cost_nat["annual"]
+    s.add("/guides/how-much-does-nursing-home-care-cost/",
+          "How Much Does Nursing Home Care Cost? (2025 Survey Data)",
+          f"National median costs for nursing home care, assisted living, adult day care and "
+          f"in-home help from the CareScout/Genworth 2025 survey — and how the numbers differ by "
+          f"state and by level of care.",
+          f"""<h1>How much does nursing home care cost?</h1>
+<p class="lede">CareScout's 2025 Cost of Care Survey puts the national median at
+<strong>{money(nat['nursing_semi'])} a year</strong> for a semi-private nursing home room and
+<strong>{money(nat['nursing_private'])}</strong> for a private room. Costs vary widely by state —
+use the <a href="/costs/">state cost tables</a> for local numbers.</p>
+<h2>National medians, 2025</h2>
+<table>
+<tr><th>Setting</th><th>Annual median</th><th>Monthly</th></tr>
+<tr><td>Nursing home — semi-private room</td><td>{money(nat['nursing_semi'])}</td><td>{monthly(nat['nursing_semi'])}</td></tr>
+<tr><td>Nursing home — private room</td><td>{money(nat['nursing_private'])}</td><td>{monthly(nat['nursing_private'])}</td></tr>
+<tr><td>Assisted living community</td><td>{money(nat['assisted_living'])}</td><td>{monthly(nat['assisted_living'])}</td></tr>
+<tr><td>Adult day health care</td><td>{money(nat['adult_day'])}</td><td>{monthly(nat['adult_day'])}</td></tr>
+<tr><td>Homemaker services (44 h/week)</td><td>{money(nat['homemaker'])}</td><td>{monthly(nat['homemaker'])}</td></tr>
+<tr><td>In-home caregiver (hourly median)</td><td>{money(cost_nat['hourly']['caregiver'])}/hour</td><td>—</td></tr>
+</table>
+<h2>What these numbers include — and what they do not</h2>
+<p>The survey reports <strong>median private-pay rates</strong> for the base service. Nursing home
+rates cover room, board and routine nursing care; they generally <strong>do not include</strong>
+medications, therapy add-ons, specialised care, transport or beauty/laundry services. Assisted
+living rates often exclude a la carte care charges. The median is not your price: a facility's own
+quote, the level of care, the room type and the state all move it.</p>
+<h2>How the cost changes with level of care</h2>
+<p>In-home help is billed hourly; nursing homes bill daily. The annual figures for homemaker
+services assume <strong>44 hours of help per week</strong>, and adult day health care assumes
+<strong>5 days a week</strong> — use the hourly rate to model the hours you actually need. Nursing
+home care is the most expensive setting, and a private room costs roughly
+<strong>{money(nat['nursing_private'] - nat['nursing_semi'])} a year more</strong> than a
+semi-private room nationally.</p>
+<h2>Who pays</h2>
+<p>Medicare covers only short-term skilled care (up to 100 days after a qualifying hospital stay)
+and does not pay for custodial care; Medicaid pays for long-term care for people who meet their
+state's income and asset limits; VA benefits, long-term care insurance and private funds cover the
+rest. See <a href="/guides/paying-for-nursing-home-care/">how to pay for nursing home care</a>.</p>
+<h2>State variation</h2>
+<p>State medians for a semi-private room range from well under $100,000 to more than $300,000 a
+year in the most expensive states. The <a href="/costs/">cost tables by state</a> show the survey
+medians next to each state's facility list, so you can compare local prices with the facilities
+actually certified there.</p>
+{notice("Source: CareScout (formerly Genworth) Cost of Care Survey 2025, median cost data tables, "
+        "retrieved 2026-10-24. Figures are national/state medians for private pay, not quotes.")}""",
+          crumbs=[("Guides", "/guides/"), ("Costs", None)])
+
+    # cost index
+    state_rows = "".join(
+        f'<tr><td><a href="{cost_url[st]}">{esc(STATE_NAMES[st])}</a></td>'
+        f'<td>{money(cost_states[STATE_NAMES[st]]["annual"]["nursing_semi"])}</td>'
+        f'<td>{money(cost_states[STATE_NAMES[st]]["annual"]["nursing_private"])}</td>'
+        f'<td>{money(cost_states[STATE_NAMES[st]]["annual"]["assisted_living"])}</td>'
+        f'<td>{money((cost_states[STATE_NAMES[st]]["hourly"] or {}).get("caregiver"))}</td></tr>'
+        for st in sorted(cost_url, key=lambda x: STATE_NAMES[x]))
+    s.add("/costs/", "Nursing Home and Long-Term Care Costs by State (2025)",
+          f"Median annual costs for nursing homes, assisted living and in-home care in every state "
+          f"— CareScout 2025 survey data — with links to each state's certified facilities.",
+          f"""<h1>Nursing home and long-term care costs by state</h1>
+<p class="lede">CareScout's 2025 Cost of Care Survey medians for private-pay care, state by state.
+National medians: <strong>{money(nat['nursing_semi'])}</strong> a year for a semi-private nursing
+home room, <strong>{money(nat['nursing_private'])}</strong> for a private room,
+<strong>{money(nat['assisted_living'])}</strong> for assisted living, and
+<strong>{money(cost_nat['hourly']['caregiver'])}/hour</strong> for a non-medical caregiver.</p>
+<table>
+<tr><th>State</th><th>Nursing home semi-private</th><th>Private room</th><th>Assisted living</th><th>Caregiver hourly</th></tr>
+{state_rows}
+</table>
+<h2>How to read this table</h2>
+<p>All figures are <strong>annual medians</strong> except the caregiver rate, which is hourly.
+Nursing home rates cover room, board and routine care but not medications, therapy add-ons or
+specialised services; assisted living rates often exclude a la carte care charges. These are
+survey medians, not quotes — the facility's own price depends on the room, level of care and
+contract.</p>
+<h2>What changes the bill</h2>
+<p>Room type (private rooms cost more), the level of care (memory care and skilled nursing cost
+more than basic assisted living), state wage levels (which drive staffing costs) and the contract
+terms (entrance fees, add-ons, rate increases). Compare at least three facilities in the same
+category and ask for the complete fee schedule, not just the base rate.</p>
+{notice("Source: CareScout (formerly Genworth) Cost of Care Survey 2025, median cost data tables, "
+        "retrieved 2026-10-24. Not a quote; not medical or legal advice.")}
+{related([("/guides/paying-for-nursing-home-care/", "How to pay for care"),
+          ("/guides/how-much-does-nursing-home-care-cost/", "What the national numbers mean"),
+          ("/guides/medicaid-and-nursing-homes/", "Medicaid and nursing homes"),
+          ("/search/", "Find facilities by state")])}""",
+          crumbs=[("Costs", None)])
+
+    # per-state cost pages
+    for st, curl in cost_url.items():
+        sname = STATE_NAMES[st]
+        cs = cost_states[sname]["annual"]
+        ch = cost_states[sname]["hourly"] or {}
+        nat_semi = nat["nursing_semi"]
+        diff = None
+        if cs.get("nursing_semi") and nat_semi:
+            diff = (cs["nursing_semi"] - nat_semi) / nat_semi * 100
+        cmp_txt = (f"{abs(diff):.0f}% {'above' if diff >= 0 else 'below'} the national median"
+                   if diff is not None else "not comparable")
+        facilities_link = state_url.get(st)
+        body = f"""
+<h1>Nursing home and long-term care costs in {esc(sname)}</h1>
+<p class="lede">CareScout's 2025 survey median for a semi-private nursing home room in
+{esc(sname)} is <strong>{money(cs.get('nursing_semi'))} a year</strong>
+({monthly(cs.get('nursing_semi'))} a month) — {cmp_txt} of {money(nat_semi)}.</p>
+<h2>Median costs in {esc(sname)} (2025)</h2>
+<table>
+<tr><th>Setting</th><th>Annual median</th><th>Monthly</th></tr>
+<tr><td>Nursing home — semi-private room</td><td>{money(cs.get('nursing_semi'))}</td><td>{monthly(cs.get('nursing_semi'))}</td></tr>
+<tr><td>Nursing home — private room</td><td>{money(cs.get('nursing_private'))}</td><td>{monthly(cs.get('nursing_private'))}</td></tr>
+<tr><td>Assisted living community</td><td>{money(cs.get('assisted_living'))}</td><td>{monthly(cs.get('assisted_living'))}</td></tr>
+<tr><td>Adult day health care</td><td>{money(cs.get('adult_day'))}</td><td>{monthly(cs.get('adult_day'))}</td></tr>
+<tr><td>Homemaker services (44 h/week)</td><td>{money(cs.get('homemaker'))}</td><td>{monthly(cs.get('homemaker'))}</td></tr>
+<tr><td>In-home caregiver (hourly median)</td><td>{money(ch.get('caregiver'))}/hour</td><td>—</td></tr>
+</table>
+<h2>What drives cost in {esc(sname)}</h2>
+<p>State medians reflect local wages, staffing requirements and demand. Within {esc(sname)}, urban
+facilities usually cost more than rural ones, private rooms cost more than semi-private, and memory
+care or skilled nursing costs more than basic assisted living. The median is a starting point: ask
+each facility for its complete fee schedule, including medication management, therapy, laundry,
+transport and any entrance or community fee.</p>
+<h2>What the survey does not include</h2>
+<p>The figures are private-pay medians for the base service. Nursing home rates generally exclude
+medications, specialised therapies and transport; assisted living rates often exclude a la carte
+care charges. Long-term insurance, Medicaid and VA benefits can change what a family actually pays
+— see the payment guides below.</p>
+{f'<h2>Nursing homes in {esc(sname)}</h2><p>Compare the local facilities and their CMS ratings: '
+ f'<a href="{facilities_link}">all certified nursing homes in {esc(sname)}</a>.</p>' if facilities_link else ''}
+{related([("/guides/paying-for-nursing-home-care/", "How to pay for care"),
+          ("/guides/medicaid-and-nursing-homes/", "Medicaid eligibility"),
+          ("/guides/how-much-does-nursing-home-care-cost/", "National cost explainer"),
+          ("/costs/", "Costs by state")])}
+{faq([
+    (f"How much does a nursing home cost in {sname}?",
+     f"The 2025 CareScout survey median for a semi-private room in {sname} is "
+     f"{money(cs.get('nursing_semi'))} a year ({monthly(cs.get('nursing_semi'))} a month); a private "
+     f"room is {money(cs.get('nursing_private'))}. Actual prices vary by facility and contract."),
+    (f"How much is assisted living in {sname}?",
+     f"The median assisted living rate in {sname} is {money(cs.get('assisted_living'))} a year "
+     f"({monthly(cs.get('assisted_living'))} a month), excluding a la carte care charges."),
+    (f"How much does in-home care cost in {sname}?",
+     f"The median non-medical caregiver rate in {sname} is {money(ch.get('caregiver'))} per hour; "
+     f"homemaker services at 44 hours a week cost {money(cs.get('homemaker'))} a year."),
+])}"""
+        s.add(curl, f"Nursing Home Costs in {sname} (2025) — Median Prices by Setting",
+              f"Median 2025 costs in {sname}: nursing home semi-private {money(cs.get('nursing_semi'))}/yr, "
+              f"private {money(cs.get('nursing_private'))}/yr, assisted living "
+              f"{money(cs.get('assisted_living'))}/yr, caregiver {money(ch.get('caregiver'))}/hr.",
+              body, crumbs=[("Costs", "/costs/"), (sname, None)])
+
     s.add("/guides/", "Guides — US Nursing Homes",
           "Explainers on CMS nursing home ratings, paying for care, Medicare and Medicaid "
-          "coverage, care settings, staffing and national statistics.",
+          "coverage, care settings, staffing, costs and national statistics.",
           "<h1>Guides</h1><p class=\"lede\">Plain explainers for the questions families actually ask — plus statistics computed from the CMS data behind this directory.</p>"
           + cards([("/guides/how-nursing-home-ratings-work/", "How CMS star ratings work",
                     "Inspections, staffing and quality measures — and the abuse/special-focus flags."),
                    ("/guides/how-to-choose-a-nursing-home/", "How to choose a nursing home",
                     "A practical checklist for shortlisting and visiting facilities."),
+                   ("/guides/how-much-does-nursing-home-care-cost/", "How much does care cost?",
+                    "2025 national medians and what the survey does and does not include."),
+                   ("/costs/", "Costs by state",
+                    "Nursing home, assisted living and in-home medians for every state."),
                    ("/guides/paying-for-nursing-home-care/", "How to pay for nursing home care",
                     "Costs, and the payment sources in the order families use them."),
                    ("/guides/medicare-and-nursing-homes/", "Does Medicare cover nursing home care?",
@@ -647,6 +816,7 @@ ratings.</p>
                    ("/stats/", "US nursing home statistics",
                     "Beds, staffing, ratings and ownership — computed from this CMS file.")]),
           crumbs=[("Guides", None)])
+
 
 
     # ---- rating pages
@@ -677,7 +847,8 @@ ratings.</p>
 Ratings vary by ownership and by region; compare the component ratings (inspections, staffing,
 quality measures) rather than the overall star alone, and check staffing turnover for signs of
 stability.</p>
-{related([("/#ratings", "Browse by rating"), ("/search/", "Search facilities")])}
+{related([("/#ratings", "Browse by rating"), ("/search/", "Search facilities")]
+         + ([(cost_url[st], f"Nursing home costs in {sname}")] if st in cost_url else []))}
 """
         s.add(state_url[st], f"Nursing Homes in {sname} — Ratings & Locations",
               f"{human(len(group))} nursing homes in {sname}: CMS star ratings, staffing, ownership, "

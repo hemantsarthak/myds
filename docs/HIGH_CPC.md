@@ -189,3 +189,19 @@ the marketplace track or a later month.
     site: results); **healthinsurance still not indexed** (3 days old); health query
     "does Medicare cover nursing home care" - ours not in top 20 yet (ranking needs weeks).
   - Daily verification: Hilltop `0.00 USD`, Travelpayouts `0` - still **$0.00**.
+
+- **2026-10-24 (goal round 9) — cost-of-care data pages (CareScout 2025 survey).**
+  New reusable dataset: `sites/nursinghomes/fetch_costs.py` downloads and parses the CareScout
+  (Genworth) 2025 Cost of Care Survey median tables (annual medians per state for homemaker
+  services, private duty nurse, adult day care, assisted living, nursing home semi-private and
+  private rooms, plus per-state caregiver hourly rates) into
+  `.cache/carescout-costs.json` (50 states + national).
+  Added to `nursinghomes.tekify.xyz`: national explainer
+  `/guides/how-much-does-nursing-home-care-cost/`, `/costs/` index with every state, and
+  **50 per-state cost pages** (`/costs/<state>/` — state medians, monthly equivalents, comparison
+  with the national median, payment links, FAQ). State facility pages now link to their cost page.
+  Nursing homes site is now **15,114 pages**, clean build; deployed; sample pages verified live;
+  IndexNow accepted all 15,114 URLs. Hub Consumer-guides section links the new pages.
+  This targets the highest-intent elder-care queries ("nursing home cost by state") with real
+  survey data that most competitors only summarise.
+  Daily verification: Hilltop `0.00 USD`, Travelpayouts `0` — still **$0.00**.
