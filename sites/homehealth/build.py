@@ -714,6 +714,7 @@ Call <strong>{esc(a["phone"])}</strong> for referrals and eligibility questions.
 {cards([(b["url"], esc(b["name"]), f'{d:,.1f} km · {esc(b["city"])} · {stars(b["rating"])}') for d, b in near]) or "<p>—</p>"}
 {related([(state_url[a["state"]], f"All agencies in {sname}"),
           (city_url.get((a["state"], a["city"])), f"Agencies in {a['city']}") if (a["state"], a["city"]) in city_pages else ("/search/", "Search agencies"),
+          (cost_url[a["state"]], f"In-home care costs in {sname}") if a["state"] in cost_url else ("/costs/", "Costs by state"),
           ("/guides/how-home-health-works/", "How home health works")])}
 {health_cross_links(a["state"], "homehealth")}
 {faq([

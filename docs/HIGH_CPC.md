@@ -238,3 +238,15 @@ the marketplace track or a later month.
   that carry the commercial value.
   Index check: `healthinsurance.tekify.xyz` **still not indexed** (4 days old); income still
   **$0.00`.
+
+- **2026-10-24 (goal round 13) — internal-link depth + E-E-A-T bylines.**
+  - Facility/agency pages now cross-link their state cost page: **15,114 nursing-home pages** link
+    to the 50 /costs/<state>/ pages and **12,833 home-health pages** link to theirs (exact-match
+    anchors such as "Nursing home costs in Texas"). This pushes crawl and internal authority into
+    the highest-commercial-intent pages from the pages Google already crawls and indexes.
+  - `engine/sitegen.py` now renders a **byline on every editorial page**: "Written and maintained
+    by the <brand> data team · last reviewed <date> · sources and methodology" (links to /about/).
+    This is a YMYL trust signal for the health/insurance/finance guides.
+  - Rebuilt and deployed all 7 editorial properties; verified live: byline on cost pages, cost
+    links present on a real facility page and agency page.
+  - Daily verification: Hilltop `0.00 USD`, Travelpayouts `0` — still **$0.00**.

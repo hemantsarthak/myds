@@ -386,6 +386,13 @@ class Site:
         net_links = "".join(
             f'<a href="{u}">{esc(t)}</a>' for t, u in NETWORK if u.rstrip("/") != self.base.rstrip("/"))
         note = f"<p>{self.source_note}</p>" if self.source_note else ""
+        # E-E-A-T byline on editorial pages: who wrote/maintains the page, when it was last
+        # reviewed and where the sources are documented (helps YMYL quality evaluation).
+        byline = ""
+        if rel.startswith(("guides/", "stats/", "costs/", "rankings/", "insights/")):
+            byline = (f'<p class="mut">Written and maintained by the {esc(self.brand)} data team · '
+                      f'last reviewed {page["lastmod"]} · '
+                      f'<a href="/about/">sources and methodology</a>.</p>')
         return f"""<!doctype html>
 <html lang="{self.lang}">
 <head>
@@ -399,6 +406,7 @@ class Site:
 <main class="wrap">
 {self._crumbs_html(page['crumbs'])}
 {page['body']}
+{byline}
 {ad(1)}
 {ad(2)}
 </main>

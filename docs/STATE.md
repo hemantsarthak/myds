@@ -1136,3 +1136,9 @@ actually loaded** — browser-level tests belong in every content round.
 > + home health + hospitals + dialysis; verified live (Article on costs/rankings/insights, FAQPage on
 > facility pages). Daily check: **$0.00** (Hilltop 0.00 USD, Travelpayouts 0); insurance site still
 > not indexed; Infolinks expected Mon-Tue.
+
+> **2026-10-24 23:35 IST — round 13: internal-link depth + bylines.** Facility pages now link to
+> their state cost pages (15,114 nursing-home + 12,833 home-health pages → 100 cost pages) and every
+> editorial page carries a "written and maintained by the data team / last reviewed / sources"
+> byline. Rebuilt/deployed 7 properties, verified live. Daily check: **$0.00** (Hilltop 0.00 USD,
+> Travelpayouts 0). Infolinks decision expected Mon-Tue; insurance site still not indexed.

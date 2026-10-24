@@ -942,6 +942,7 @@ admissions and visits.</p>
 {cards([(b["url"], esc(b["name"]), f'{d:,.1f} km · {esc(b["city"])} · {stars(b["ratings"]["Overall rating"])}') for d, b in near]) or "<p>—</p>"}
 {related([(state_url[h["state"]], f"All nursing homes in {sname}"),
           (city_url.get((h["state"], h["city"])), f"Nursing homes in {h['city']}") if (h["state"], h["city"]) in city_pages else ("/search/", "Search facilities"),
+          (cost_url[h["state"]], f"Nursing home costs in {sname}") if h["state"] in cost_url else ("/costs/", "Costs by state"),
           ("/guides/how-nursing-home-ratings-work/", "How the ratings work")])}
 {health_cross_links(h["state"], "nursinghomes")}
 {faq([
