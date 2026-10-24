@@ -1,14 +1,42 @@
 # STATE — current status
 
-> Last updated: 2026-10-24 ~03:30 IST (DeepSeek agent, repo `myds`). **PAUSED by the human at round 54 — portfolio in a complete, verified, resumable state.**
-> Next session: read this, then `docs/BACKLOG.md`; pick the top ready item. Do not re-plan.
+> Last updated: 2026-10-25 ~00:15 IST (DeepSeek agent, repo `myds`). **PAUSED by the human at
+> session wrap-up (14 goal rounds on 2026-10-24). Portfolio is deployed, verified and resumable;
+> revenue still `$0.00` because there is no human traffic yet.**
+> Next session: read this, then `docs/HIGH_CPC.md` (content plan/progress), `docs/ADS.md`
+> (monetization), `docs/HUMAN_TODO.md` (the one human action). Do not re-plan.
 
 ## One-line status
 
-**12 properties live (~121,300 pages) with HilltopAds display ads, Travelpayouts affiliate cards,
-self-hosted analytics and an autonomous inbox. IndexNow: every URL accepted; crawlers are
-rendering pages (99 bot hits on airport, 72 on zip, 59 on ifsc in 3 days). Revenue still $0 —
-the domain is 2 days old and ranking is the bottleneck, not infrastructure.**
+**13 properties live (~123,512 URLs). Ads are proven to serve: HilltopAds website APPROVED +
+Infolinks applied (pending), Travelpayouts affiliates live, analytics live. This session added the
+high-CPC health/insurance/finance layer — a 2,098-page ACA insurance vertical, 100 state
+cost-of-care pages, ~35 hand-written guides with Article/FAQ structured data, and 28k internal links.
+Google indexes the older data pages and crawls daily (GoogleBot ~1k req/day, ClaudeBot ~42k/day),
+but there are still **0 human sessions → `$0.00` revenue**. The remaining gate is index ranking time
+plus the one human action (AdSense account).**
+
+### Session wrap-up — 2026-10-24 → 25 (14 goal rounds, DeepSeek agent)
+
+| Area | Final state |
+|---|---|
+| Properties | **13** live: hub, ifsc, airport, zip, places, colleges, calculators, areacodes, hospitals, nursinghomes, homehealth, dialysis, **healthinsurance** (new) |
+| URLs | **123,512** in sitemaps (was 121,287); IndexNow accepted for every new URL; full health run 0 failures |
+| New content | **2,098-page insurance vertical** (county plan/premium pages, 30 states, rankings, 6 guides); **100 state cost-of-care pages** (50 nursing-home + 50 in-home, CareScout 2025 medians); nursing-home, home-health, hospital, dialysis guide clusters + 4 original-data `/stats/` pages; 5 finance guides on calculators; hub "Consumer guides" links all of it |
+| Monetization | **HilltopAds website APPROVED** (2026-10-24; was pending since 10-22) and ad stack verified live in-browser (8 requests, 2 ad iframes, 2 adslots); **Infolinks applied** (pid 3448908, script live on all 13 sites, application pending); Travelpayouts approved with 15 tracked links + Drive script on hub; Hostinger/Cuelinks pending |
+| Technical SEO | Article JSON-LD on all editorial pages; FAQPage JSON-LD wherever a FAQ renders (~28k facility/agency pages); E-E-A-T bylines; 28k internal links from facility/agency pages into cost pages |
+| Indexing | Google: deep pages indexed on nursinghomes, homehealth, hospitals, calculators; dialysis partial; **healthinsurance not yet indexed** (5 days old). Ranking: still not ranking for competitive queries (expected at this domain age) |
+| Income | **`$0.00`** — Hilltop `0.00 USD` balance, 0 impressions; Travelpayouts `0` / 0 actions / 0 payments |
+| Pending on human | **AdSense account (10 min — highest-value)**, optional Hilltop payout wallet once balance nears $20, optional Microsoft account for Bing WMT |
+| Commits | Latest `a7402ed`; docs `docs/HIGH_CPC.md`, `docs/ADS.md`, `docs/REVENUE.md` hold the full log |
+
+**Honest outlook:** the 30-day `$1,000` target (by ~2026-11-21) is not on track — the portfolio is
+built but traffic needs weeks to arrive, and the highest-CPC monetization (AdSense) is blocked on a
+10-minute human signup. On resume: check Infolinks approval, refresh the insurance site when CMS
+publishes the 2027 PUFs (open enrollment Nov 1), keep daily income/index checks, and report the first
+impressions/cents immediately.
+
+## Legacy status (2026-10-24 ~03:30 IST, pre-session)
 
 ## Live properties (ours — Cloudflare Pages, free tier)
 
