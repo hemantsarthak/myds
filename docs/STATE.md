@@ -114,6 +114,14 @@ accepts anonymous submissions.
 > still **$0.00** (Hilltop `0.00 USD`, Travelpayouts `0`). Next rounds: same pattern on
 > homehealth / hospitals / dialysis, then the health-insurance county vertical.
 
+> **2026-10-24 20:15 IST — high-CPC content drive, round 2.** Replicated the cluster on
+> **`homehealth`** (Medicare home-health coverage, home health vs home care, choosing an agency,
+> `/stats/`) and **`hospitals`** (hospital financial assistance / 501(r) charity care — the
+> highest-intent medical-bill page, ER vs urgent care, choosing a hospital, `/stats/`). Both builds
+> clean (0 dup titles/descs, 0 broken links); deployed; all new pages verified 200 live; IndexNow
+> accepted 12,781 + 5,892 URLs. Commit `917239d`. Income unchanged at **$0.00**.
+> Next: `dialysis` cluster → health-insurance county vertical → affiliate applications.
+
 ### Final verified numbers
 
 | Item | State |
