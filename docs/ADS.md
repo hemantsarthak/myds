@@ -218,3 +218,13 @@ Next: after 2026-10-26 check https://www.infolinks.com/ (publisher login) for ap
 script serves on a live page, and record earnings in docs/REVENUE.md. Note Infolinks text ads
 appear only when the page has enough text — the guide/stats pages on the health sites and the hub
 are the intended targets; data-directory pages were rebuilt only for the sites deployed 2026-10-24.
+
+**2026-10-24 21:15 IST — rollout complete.** After Infolinks approval review started, the script was
+built into **all 13 properties** and verified live on each homepage (hub, ifsc, airport, zip,
+places, colleges, calculators, areacodes, hospitals, nursing homes, home health, dialysis, insurance).
+Two other networks were re-probed the same day and remain blocked without human data:
+**Adsterra** (publishers signup returns 403 / Cloudflare) and **Monetag** (signup form demands first
+name, last name, email, phone number and messenger ID, and warns that ID/passport scans may be
+required for payouts — not doable autonomously without the human's phone/ID). Ezoic was evaluated
+and deferred: it requires a full DNS/traffic integration and approval, so it cannot pay anything
+before traffic exists.

@@ -144,6 +144,18 @@ accepts anonymous submissions.
 > homehealth, hospitals; dialysis has about + one state page; insurance not yet (1 day old).
 > Income still **$0.00** (Hilltop 0.00 USD, Travelpayouts 0).
 
+> **2026-10-24 21:20 IST — round 6: Infolinks live on all 13 properties; other networks blocked.**
+> Rebuilt and redeployed **all remaining seven sites** with the Infolinks tag (ifsc, airport, zip,
+> places, colleges, calculators, areacodes) — verified present on every live homepage, so the
+> second ad network now covers the whole portfolio. Re-probed the alternatives: **Adsterra**
+> → 403/Cloudflare on publisher signup; **Monetag** → signup demands first/last name, email,
+> phone number, messenger ID and warns ID/passport scans may be needed for payouts (blocked
+> without human data); **Ezoic** deferred (needs full DNS integration + approval, cannot pay
+> pre-traffic). Verizon Media/Yahoo and Mediavine-class networks need traffic — not applicable yet.
+> Daily check: **$0.00** (Hilltop 0.00 USD, Travelpayouts 0); `healthinsurance` still not in
+> Google's index (2 days old; hub links + IndexNow submitted). Next: Infolinks approval check
+> 2026-10-26/27; insurance index check; 2027 PUF refresh when published.
+
 ### Final verified numbers
 
 | Item | State |
