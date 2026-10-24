@@ -129,6 +129,44 @@ free; there are no cookie walls, no accounts and no personal-data collection.</l
 </ul>
 """
     body += affiliate_block_for_site("hub", kinds=["hosting", "travel"], limit_per_block=3)
+    # Consumer guides: hand-written, data-backed explainers on the highest-cost care decisions.
+    # Linked from the hub (which Google already indexes) so crawl/discovery flows to the new pages.
+    consumer_guides = [
+        ("https://nursinghomes.tekify.xyz/guides/paying-for-nursing-home-care/",
+         "How to pay for nursing home care", "Costs and payment sources in the order families use them"),
+        ("https://nursinghomes.tekify.xyz/guides/medicare-and-nursing-homes/",
+         "Does Medicare cover nursing home care?", "The 100-day rule, 3-day rule and custodial care"),
+        ("https://nursinghomes.tekify.xyz/guides/medicaid-and-nursing-homes/",
+         "Medicaid and nursing homes", "Eligibility, the 5-year look-back and how to apply"),
+        ("https://nursinghomes.tekify.xyz/guides/nursing-home-vs-home-care-vs-assisted-living/",
+         "Nursing home vs home care vs assisted living", "What each setting provides and who pays"),
+        ("https://homehealth.tekify.xyz/guides/medicare-home-health-coverage/",
+         "Does Medicare cover home health care?", "Homebound rule, skilled need and what you pay"),
+        ("https://homehealth.tekify.xyz/guides/home-health-vs-home-care/",
+         "Home health vs home care", "Skilled Medicare-paid care versus private-pay help"),
+        ("https://hospitals.tekify.xyz/guides/hospital-financial-assistance/",
+         "Hospital financial assistance and charity care", "501(r) rules, how to apply and negotiate"),
+        ("https://hospitals.tekify.xyz/guides/emergency-room-vs-urgent-care/",
+         "Emergency room vs urgent care", "Where to go, when to call 911 and the cost gap"),
+        ("https://dialysis.tekify.xyz/guides/medicare-dialysis-coverage/",
+         "Does Medicare cover dialysis?", "ESRD eligibility, the 30-month rule and the 20% share"),
+        ("https://dialysis.tekify.xyz/guides/kidney-transplant-waitlist/",
+         "The kidney transplant waitlist", "Referral, listing and living donation"),
+        ("https://nursinghomes.tekify.xyz/stats/",
+         "US nursing home statistics", "Beds, staffing, ratings and ownership — from CMS data"),
+        ("https://hospitals.tekify.xyz/stats/",
+         "US hospital statistics", "Hospital types, ownership and state ratings"),
+        ("https://homehealth.tekify.xyz/stats/",
+         "US home health statistics", "Agencies, services and ownership"),
+        ("https://dialysis.tekify.xyz/stats/",
+         "US dialysis statistics", "Facilities, treatments and chains"),
+    ]
+    guides_html = ('<h2 id="guides">Consumer guides</h2>'
+                   '<p>Plain-language explainers for the money and care decisions behind the data — '
+                   'written by the same team and sourced from the datasets on each site.</p>'
+                   + cards([(u, t, d) for u, t, d in consumer_guides]))
+    body = body.replace('<h2 id="faq">Questions</h2>', guides_html + '<h2 id="faq">Questions</h2>')
+
     faq_ld = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
         {"@type": "Question", "name": "Is the data free to use?",
          "acceptedAnswer": {"@type": "Answer", "text": "Yes. The source datasets are public domain or "

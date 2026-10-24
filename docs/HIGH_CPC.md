@@ -101,3 +101,19 @@ the marketplace track or a later month.
   - Next: `dialysis` cluster, then the health-insurance county vertical; re-check income next
     round.
 
+- **2026-10-24 (goal round 3) — `dialysis` cluster + hub cross-links.**
+  - `dialysis.tekify.xyz`: added `medicare-dialysis-coverage` (ESRD Medicare at any age, 30-month
+    employer-plan coordination period, 80/20 Part B split, home-training coverage, travel),
+    `choosing-a-dialysis-facility` (measures, treatments, travel, transplant referral, questions),
+    `kidney-transplant-waitlist` (referral → listing → living donation, what the CMS waitlist
+    figure means), and `/stats/` (7,813 facilities: ratings, treatments offered, chain ownership,
+    stations, state rankings).
+  - **Hub (`tekify.xyz`, already Google-indexed) now links all 14 new consumer guides/statistics
+    pages** in a "Consumer guides" section — crawl/authority flows from the indexed hub to the new
+    high-CPC pages. Build clean (18 pages), deployed, IndexNow 200.
+  - Dialysis build clean (7,813 pages, 0 dup/broken), deployed, all four new URLs verified 200,
+    IndexNow 200 for all 7,813 URLs.
+  - Income re-verified this round: Hilltop `0.00 USD`, Travelpayouts `0` — still **$0.00**.
+  - Next: health-insurance county vertical (highest CPC); then monetization applications
+    (senior-care/insurance affiliate programs, Ezoic/AdSense prerequisite); daily index check.
+
