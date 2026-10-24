@@ -215,3 +215,13 @@ the marketplace track or a later month.
   pages**, clean build, deployed, sample pages verified 200 (e.g. California /hr = 14% above
   national), IndexNow accepted all 12,833 URLs; hub Consumer-guides links added.
   Daily verification: Hilltop `0.00 USD`, Travelpayouts `0` — still **$0.00**.
+
+- **2026-10-24 (goal round 11) — data-driven insurance rankings page.**
+  Added `healthinsurance.tekify.xyz/rankings/`: **50 cheapest and 50 most expensive counties** by
+  2026 benchmark silver premium, plus a state-by-state cheapest-silver range table — all computed
+  from the CMS rate file. Headline finding: national median cheapest silver is **\/mo** and
+  the spread runs from \ (NH counties) to several thousand dollars in the priciest counties.
+  The page is uniquely data-backed, linkable, and cross-links the subsidy guides; nav item added and
+  hub Consumer-guides links it. Site now 2,098 pages; deployed, verified 200, IndexNow 2,098.
+  Daily verification: GoogleBot 957 req/day and GoogleOther 762 (crawling continues); Hilltop
+  `0.00 USD`, Travelpayouts `0` — still **$0.00**.

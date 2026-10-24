@@ -102,7 +102,8 @@ def build() -> Site:
         "Compare individual-market health insurance plans by county: monthly premiums for ages "
         "21, 40 and 60, metal levels, deductibles, out-of-pocket maximums and the insurers "
         "offering coverage. Data from the CMS Exchange public use files.",
-        nav=[("Search", "/search/"), ("States", "/#states"), ("Guides", "/guides/")],
+        nav=[("Search", "/search/"), ("States", "/#states"), ("Rankings", "/rankings/"),
+             ("Guides", "/guides/")],
         source_note="Data: Centers for Medicare & Medicaid Services (CMS) Exchange Public Use Files "
                     f"(plan attributes, rates, service areas) for the {YEAR} plan year, public domain. "
                     "Premiums are listed rates for a single non-smoking adult before any premium tax "
@@ -133,6 +134,7 @@ every age. The figures here are <strong>listed premiums before tax credits</stro
 non-smoking adult — most buyers qualify for a premium tax credit that lowers the cost, based on
 household income. Use the county pages to see what is actually sold where you live, then get an
 official subsidy estimate and enrol at HealthCare.gov.</p>
+<p>See also: <a href="/rankings/">the cheapest and most expensive counties in the country</a>.</p>
 <h2>Typical cost</h2>
 <p>Across the counties in this file the <strong>median cheapest silver plan</strong> for a
 40-year-old is <strong>{money(med_bench)} a month</strong>; the cheapest bronze plans are lower,
@@ -155,6 +157,67 @@ counties.</p>
 <div id="res" class="res"></div>
 <p class="mut" id="status">Loading index…</p>""",
           crumbs=[("Search", None)])
+
+    # ---------- rankings: cheapest and most expensive counties (data-driven, linkable)
+    ranked = [x for x in stats.values() if x["benchmark"]]
+    ranked.sort(key=lambda x: x["benchmark"])
+    cheapest = ranked[:50]
+    priciest = list(reversed(ranked[-50:]))
+    all_vals = [x["benchmark"] for x in ranked]
+    med_nat = statistics.median(all_vals) if all_vals else None
+
+    def row(x):
+        best = x["best"]
+        return (f'<tr><td><a href="{x["url"]}">{esc(x["name"])}, {x["state"]}</a></td>'
+                f'<td>{money(x["benchmark"])}</td><td>{money(best.get("Bronze"))}</td>'
+                f'<td>{len(x["plans"])}</td></tr>')
+
+    state_rows = []
+    for st, lst in sorted(by_state.items(), key=lambda kv: STATE_NAMES.get(kv[0], kv[0])):
+        benches = [x["benchmark"] for x in lst if x["benchmark"]]
+        if not benches:
+            continue
+        state_rows.append(
+            f'<tr><td><a href="/state/{st.lower()}/">{esc(STATE_NAMES.get(st, st))}</a></td>'
+            f'<td>{money(statistics.median(benches))}</td><td>{money(min(benches))}</td>'
+            f'<td>{money(max(benches))}</td><td>{human(len(lst))}</td></tr>')
+    s.add("/rankings/", f"Cheapest Health Insurance Counties in the US ({YEAR})",
+          f"Which US counties have the cheapest ACA marketplace plans? {YEAR} benchmark silver "
+          f"premiums ranked nationally and by state, from CMS public rate data.",
+          f"""<h1>Cheapest health insurance counties in the US ({YEAR})</h1>
+<p class="lede">The cheapest silver plan for a 40-year-old varies by more than 10× across the
+counties in this file. National median cheapest-silver premium:
+<strong>{money(med_nat)} a month</strong>. Below are the 50 cheapest and 50 most expensive counties,
+then every state's range.</p>
+<h2>The 50 cheapest counties</h2>
+<table><tr><th>County</th><th>Cheapest silver (age 40)</th><th>Cheapest bronze</th><th>Plans</th></tr>
+{"".join(row(x) for x in cheapest)}
+</table>
+<h2>The 50 most expensive counties</h2>
+<table><tr><th>County</th><th>Cheapest silver (age 40)</th><th>Cheapest bronze</th><th>Plans</th></tr>
+{"".join(row(x) for x in priciest)}
+</table>
+<h2>Cheapest silver premium by state</h2>
+<table><tr><th>State</th><th>Median cheapest silver</th><th>Lowest county</th><th>Highest county</th><th>Counties</th></tr>
+{"".join(state_rows)}
+</table>
+<h2>Why premiums differ so much</h2>
+<p>Marketplace premiums depend on the insurers competing in each rating area, the local cost of
+care, the size of the risk pool and state regulation. Rural counties often have one or two
+insurers and higher prices; some urban counties have many plans and lower benchmark premiums. The
+figure shown is the <strong>cheapest silver plan</strong> — the one used to calculate premium tax
+credits — for a 40-year-old non-smoker, before any subsidy.</p>
+<p>If you qualify for a premium tax credit, what you actually pay is capped as a share of income,
+so a high-premium county can cost you the same as a cheap one. Check your county page and get an
+official estimate at HealthCare.gov.</p>
+{notice(f"Source: CMS Exchange Public Use Files, {YEAR} plan year (plan attributes, rates, service "
+        f"areas), public domain, retrieved 2026-10-24. Listed rates before tax credits; single "
+        f"non-smoker aged 40.")}
+{related([("/guides/aca-premium-tax-credits/", "How premium tax credits work"),
+          ("/guides/metal-tiers-explained/", "Metal tiers explained"),
+          ("/search/", "Find your county")])}""",
+          crumbs=[("Rankings", None)])
+
 
     # ---------- state pages
     state_url = {st: f"/state/{st.lower()}/" for st in by_state}

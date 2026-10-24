@@ -175,6 +175,8 @@ free; there are no cookie walls, no accounts and no personal-data collection.</l
          "US home health statistics", "Agencies, services and ownership"),
         ("https://dialysis.tekify.xyz/stats/",
          "US dialysis statistics", "Facilities, treatments and chains"),
+        ("https://healthinsurance.tekify.xyz/rankings/",
+         "Cheapest health insurance counties in the US", f"2026 benchmark silver premiums ranked nationally"),
         ("https://healthinsurance.tekify.xyz/guides/aca-premium-tax-credits/",
          "How ACA premium tax credits work", "Benchmark silver, income and family size, advance vs. tax time"),
         ("https://healthinsurance.tekify.xyz/guides/metal-tiers-explained/",

@@ -1123,3 +1123,9 @@ actually loaded** — browser-level tests belong in every content round.
 > index and 50 per-state in-home-care cost pages (12,781 → 12,833 pages), deployed + IndexNow
 > 12,833, hub links added. State agency pages cross-link to cost pages. Daily check: **$0.00**
 > (Hilltop 0.00 USD, Travelpayouts 0); Infolinks still pending.
+
+> **2026-10-24 23:05 IST — round 11: insurance rankings page.** Added /rankings/ to
+> healthinsurance (50 cheapest + 50 priciest counties by 2026 benchmark silver, state ranges;
+> national median /mo, cheapest NH counties ), deployed + verified + IndexNow 2,098; hub
+> link added. Daily check: **$0.00** (Hilltop 0.00 USD, Travelpayouts 0); Googlebot 957/day,
+> GoogleOther 762/day still crawling. Infolinks decision expected Mon-Tue (Oct 26-27).

@@ -90,3 +90,6 @@ New this round: 50 state cost-of-care pages (CareScout 2025 medians) on nursingh
 
 **Daily check 2026-10-24 22:55 IST — still $0.00.** Hilltop `0.00 USD`; Travelpayouts `0`.
 New this round: 50 state in-home-care cost pages on homehealth + national guide; hub links.
+
+**Daily check 2026-10-24 23:05 IST — still $0.00.** Hilltop `0.00 USD`; Travelpayouts `0`.
+New: insurance rankings page (50 cheapest/priciest counties by 2026 benchmark silver).
